@@ -86,7 +86,7 @@ function Codex.CheckNamePlate()
             frame.icon:SetHeight(25)
 
             local texture = frame.icon:CreateTexture(nil, "HIGH")
-            texture:SetTexture("Interface\\Addons\\placeholder\\img\\pickup.tga")
+            texture:SetTexture("Interface\\Addons\\ClassicCodex\\img\\pickup.tga")
             texture:SetAllPoints(frame.icon)
             frame.icon.texture = texture
             frame.icon:SetPoint("BOTTOM", frame, "TOP", 0, 0)
@@ -123,7 +123,7 @@ Codex.Quest.EventFrame:SetScript("OnEvent", function(self, event, ...)
         local arg1, arg2, arg3, arg4, arg5 = ...;
 
         if (arg1 == "ClassicCodex") then
-            Codex.Quest.UpdateQuestList()
+            C_Timer.After(0.5, Codex.Quest.UpdateQuestList)
         end
 
     elseif (event == "ZONE_CHANGED") then
@@ -133,10 +133,14 @@ Codex.Quest.EventFrame:SetScript("OnEvent", function(self, event, ...)
         Codex.Quest.UpdateQuestList()
 
     elseif (event == "QUEST_REMOVED") then
-        Codex.Quest.UpdateQuestList()
+        C_Timer.After(0.5, Codex.Quest.UpdateQuestList)
 
     elseif (event == "QUEST_ACCEPTED") then
-        Codex.Quest.UpdateQuestList()
+        local arg1, arg2 = ...;
+
+        AddQuestWatch(arg1)
+
+        C_Timer.After(0.5, Codex.Quest.UpdateQuestList)
 
     elseif (event == "UNIT_QUEST_LOG_CHANGED") then
         local arg1, arg2, arg3, arg4 = ...;

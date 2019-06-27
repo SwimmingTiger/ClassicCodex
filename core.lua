@@ -33,6 +33,3 @@ function Codex.GetContinent()
         end
     end
 end
-
-Codex.EventFrame = CreateFrame("Frame")
-Codex.EventFrame:RegisterEvent("ADDON_LOADED")
