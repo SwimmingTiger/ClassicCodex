@@ -1,4 +1,4 @@
-pfDB["quests"] = {
+CodexDB["quests"] = {
   [2] = {
     ["min"] = 20,
     ["lvl"] = 30,

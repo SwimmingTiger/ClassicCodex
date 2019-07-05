@@ -1,4 +1,4 @@
-pfDB["units"] = {
+CodexDB["units"] = {
   [1] = { -- Waypoint (Only GM can see it)
     ["lvl"] = "63",
     ["rnk"] = 3,

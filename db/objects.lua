@@ -1,4 +1,4 @@
-pfDB["objects"] = {
+CodexDB["objects"] = {
   [31] = { -- Old Lion Statue
     ["fac"] = "A",
     ["coords"] = {

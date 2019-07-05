@@ -1,22 +1,87 @@
+-- local items = pfDB["items"]
+-- local units = pfDB["units"]
+-- local objects = pfDB["objects"]
+-- local quests = pfDB["quests"]
+
+local function unitsFunction(someVar) 
+    if table.getn(someVar) == 1 then
+        if tooltip and pfDB["unitNames"][someVar[1]] then
+            dbIndex = 1
+        end
+    else
+        for key, value in pairs(someVar) do
+            if tooltip and pfDB["unitNames"][value] and string.find(tooltip, pfDB["unitNames"][value]) then
+                dbIndex = key
+            end
+        end
+    end
+
+    local unitID = someVar[dbIndex]
+    local unit = Codex.units[unitID]
+    if unit and unit["coords"] and unit["lvl"] then
+        local coords = unit["coords"]
+        local level = unit["lvl"]
+        if pfDB["unitNames"][unitID] then
+            local name = pfDB["unitNames"][unitID]
+            local coordList = {}
+            for k, v in pairs(coords) do
+                local x = v[1] / 100
+                local y = v[2] / 100
+                local zoneID = v[3]
+
+                tinsert(coordList, {x, y, zoneID})
+            end
+            tinsert(Codex.QuestLog[questID]["objectives"][objectiveIndex]["targets"], {["name"]=name, ["level"]=level, ["coords"]=coordList})
+        end
+    end
+end
+
+local function objectsFunction(someVar)
+    for key, value in pairs(someVar) do
+        if tooltip and pfDB["objectNames"][value] and string.find(tooltip, pfDB["objectNames"][value]) then
+            dbIndex = key
+        end
+    end
+
+    local objectID = someVar[dbIndex]
+    local object = Codex.objects[objectID]
+    if object and object["coords"] then
+        local coords = object["coords"]
+        if pfDB["objectNames"][objectID] then
+            local name = pfDB["objectNames"][objectID]
+            local coordList = {}
+            for k, v in pairs(coords) do
+                local x = v[1] / 100
+                local y = v[2] / 100
+                local zoneID = v[3]
+
+                tinsert(coordList, {x, y, zoneID})
+            end
+            tinsert(Codex.QuestLog[questID]["objectives"][objectiveIndex]["targets"], {["name"]=name, ["coords"]=coordList})
+        end
+    end
+end
 function Codex.GetObjectives(questID, objectiveIndex, tooltip, fillers)
     local dbIndex = 0
-    if pfDB["quests"][questID] then
-        if pfDB["quests"][questID]["obj"] then
-            if pfDB["quests"][questID]["obj"]["I"] then
-                if pfDB["quests"][questID]["obj"]["I"][objectiveIndex] then
-                    for key, value in pairs(pfDB["quests"][questID]["obj"]["I"]) do
+    local quest = Codex.quests[questID]
+    if quest then
+        if quest["obj"] then
+            if quest["obj"]["I"] then
+                if quest["obj"]["I"][objectiveIndex] then
+                    for key, value in pairs(quest["obj"]["I"]) do
                         if tooltip and pfDB["itemNames"][value] and string.find(tooltip, pfDB["itemNames"][value]) then
                             dbIndex = key
                         end
                     end
                 end
 
-                local itemID = pfDB["quests"][questID]["obj"]["I"][dbIndex]
-                if pfDB["items"][itemID] then
-                    if pfDB["items"][itemID]["O"] then
-                        for key, value in pairs(pfDB["items"][itemID]["O"]) do
-                            if pfDB["objects"][key] and pfDB["objects"][key]["coords"] then
-                                local coords = pfDB["objects"][key]["coords"]
+                local itemID = quest["obj"]["I"][dbIndex]
+                local item = Codex.items[itemID]
+                if item then
+                    if item["O"] then
+                        for key, value in pairs(item["O"]) do
+                            if Codex.objects[key] and Codex.objects[key]["coords"] then
+                                local coords = Codex.objects[key]["coords"]
                                 if pfDB["objectNames"][key] then
                                     local name = pfDB["objectNames"][key]
                                     local coordList = {}
@@ -32,11 +97,11 @@ function Codex.GetObjectives(questID, objectiveIndex, tooltip, fillers)
                             end
                         end
                     end
-                    if pfDB["items"][itemID]["U"] then
-                        for key, value in pairs(pfDB["items"][itemID]["U"]) do
-                            if pfDB["units"][key] and pfDB["units"][key]["coords"] and pfDB["units"][key]["lvl"] then
-                                local coords = pfDB["units"][key]["coords"]
-                                local level = pfDB["units"][key]["lvl"]
+                    if item["U"] then
+                        for key, value in pairs(item["U"]) do
+                            if Codex.units[key] and Codex.units[key]["coords"] and Codex.units[key]["lvl"] then
+                                local coords = Codex.units[key]["coords"]
+                                local level = Codex.units[key]["lvl"]
                                 if pfDB["unitNames"][key] then
                                     local name = pfDB["unitNames"][key]
                                     local coordList = {}
@@ -54,66 +119,26 @@ function Codex.GetObjectives(questID, objectiveIndex, tooltip, fillers)
                     end
                 end
             end
-            if pfDB["quests"][questID]["obj"]["U"] then
-                for key, value in pairs(pfDB["quests"][questID]["obj"]["U"]) do
-                    if tooltip and pfDB["unitNames"][value] and string.find(tooltip, pfDB["unitNames"][value]) then
-                        dbIndex = key
-                    end
-                end
-
-                local unitID = pfDB["quests"][questID]["obj"]["U"][dbIndex]
-                if pfDB["units"][unitID] and pfDB["units"][unitID]["coords"] and pfDB["units"][unitID]["lvl"] then
-                    local coords = pfDB["units"][unitID]["coords"]
-                    local level = pfDB["units"][unitID]["lvl"]
-                    if pfDB["unitNames"][unitID] then
-                        local name = pfDB["unitNames"][unitID]
-                        local coordList = {}
-                        for k, v in pairs(coords) do
-                            local x = v[1] / 100
-                            local y = v[2] / 100
-                            local zoneID = v[3]
-
-                            tinsert(coordList, {x, y, zoneID})
-                        end
-                        tinsert(Codex.QuestLog[questID]["objectives"][objectiveIndex]["targets"], {["name"]=name, ["level"]=level, ["coords"]=coordList})
-                    end
-                end
+            if quest["obj"]["U"] then
+                unitsFunction(quest["obj"]["U"])
             end
-            if pfDB["quests"][questID]["obj"]["O"] then
-                for key, value in pairs(pfDB["quests"][questID]["obj"]["O"]) do
-                    if tooltip and pfDB["objectNames"][value] and string.find(tooltip, pfDB["objectNames"][value]) then
-                        dbIndex = key
-                    end
-                end
-
-                local objectID = pfDB["quests"][questID]["obj"]["O"][dbIndex]
-                if pfDB["objects"][objectID] and pfDB["objects"][objectID]["coords"] then
-                    local coords = pfDB["objects"][objectID]["coords"]
-                    if pfDB["objectNames"][objectID] then
-                        local name = pfDB["objectNames"][objectID]
-                        local coordList = {}
-                        for k, v in pairs(coords) do
-                            local x = v[1] / 100
-                            local y = v[2] / 100
-                            local zoneID = v[3]
-
-                            tinsert(coordList, {x, y, zoneID})
-                        end
-                        tinsert(Codex.QuestLog[questID]["objectives"][objectiveIndex]["targets"], {["name"]=name, ["coords"]=coordList})
-                    end
-                end
+            if quest["obj"]["O"] then
+                objectsFunction(quest["obj"]["O"])
             end
         end
     end
 end
 
+
 function Codex.GetTurnIn(questID)
-    if pfDB["quests"][questID] then
-        if pfDB["quests"][questID]["end"] then
-            if pfDB["quests"][questID]["end"]["U"] then
-                local unitID = pfDB["quests"][questID]["end"]["U"][1]
-                if pfDB["units"][unitID] and pfDB["units"][unitID]["coords"] then
-                    local coords = pfDB["units"][unitID]["coords"]
+    local quest = Codex.quests[questID]
+    if quest then
+        if quest["end"] then
+            if quest["end"]["U"] then
+                local unitID = quest["end"]["U"][1]
+                local unit = Codex.units[unitID]
+                if unit and unit["coords"] then
+                    local coords = unit["coords"]
                     local x = coords[1][1] / 100
                     local y = coords[1][2] / 100
                     local zoneID = coords[1][3]

@@ -5,20 +5,34 @@
 ## Notes: Classic Codex
 ## Author: Pgarneau
 ## Version: 0.0.1
+## SavedVariablesPerCharacter: CodexConfig, CodexHistory
+
+# Libraries
 lib\LibStub\LibStub.lua
 lib\CallbackHandler-1.0\CallbackHandler-1.0.xml
 lib\HereBeDragons\HereBeDragons-2.0.lua
 lib\HereBeDragons\HereBeDragons-Pins-2.0.lua
-core.lua
-quest.lua
-map.lua
-db.lua
+
+# Database 
 db\init.lua
 db\items.lua
-db\itemNames.lua
-db\objects.lua
-db\objectNames.lua
-db\quests.lua
-db\questNames.lua
 db\units.lua
-db\unitNames.lua
+db\objects.lua
+db\quests.lua
+
+# Database enUS
+db\enUS\items.lua
+db\enUS\units.lua
+db\enUS\objects.lua
+db\enUS\quests.lua
+
+ui.lua
+config.lua
+command.lua
+database.lua
+map.lua
+quest.lua
+# core.lua
+# quest.lua
+# map.lua
+# db.lua

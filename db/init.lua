@@ -1,4 +1,4 @@
-pfDB = {
+CodexDB = {
   ["units"] = {},
   ["objects"] = {},
   ["quests"] = {},
