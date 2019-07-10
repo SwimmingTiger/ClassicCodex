@@ -2,12 +2,14 @@ CodexMap = CreateFrame("Frame")
 CodexMap.HBDP = LibStub("HereBeDragons-Pins-2.0")
 CodexMap.HBD = LibStub("HereBeDragons-2.0")
 CodexMap.nodes = {}
+CodexMap.tooltips = {}
 CodexMap.markers = {}
 CodexMap.minimapMarkers = {}
 
-CodexMap.targetList = {}
+CodexMap.objectiveList = {}
+CodexMap.colorListIndex = 1
 CodexMap.colorList = {
-	[1] = {0.901, 0.098, 0.294}, --redish
+	[1] = {0.901, 0.098, 0.294},--redish
 	[2] = {0.235, 0.705, 0.294}, --Light Green
 	[3] = {1, 0.882, 0.098}, --yellow
 	[4] = {0, 0.509, 0.784}, --blue
@@ -84,6 +86,36 @@ CodexMap.zones = {
 	[1461] = 3358, --Arathi Basin
 }
 
+CodexMap.tooltip = CreateFrame("Frame", "CodexMapTooltip", GameTooltip)
+CodexMap.tooltip:SetScript("OnShow", function()
+	local focus = GetMouseFocus()
+	
+	if focus and focus.title then return end
+
+	if focus and focus.GetName and strsub((focus:GetName() or ""), 0, 10) == "QuestTimer" then return end
+
+	local name = getglobal("GameTooltipTextLeft1") and getglobal("GameTooltipTextLeft1"):GetText()
+
+	if name and CodexMap.tooltips[name] then
+		for title, meta in pairs(CodexMap.tooltips[name]) do
+			CodexMap:ShowTooltip(meta, GameTooltip)
+			GameTooltip:Show()
+		end
+	end
+end)
+
+local layers = {
+	["Interface\\Addons\\ClassicCodex\\img\\available.tga"] = 1,
+	["Interface\\Addons\\ClassicCodex\\img\\available_c.tga"] = 2,
+	["Interface\\Addons\\ClassicCodex\\img\\complete.tga"] = 3,
+	["Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"] = 4,
+	["Interface\\Addons\\ClassicCodex\\img\\icon_vendor.tga"] = 5,
+}
+
+local function GetLayerByTexture(texture)
+	if layers[texture] then return layers[texture] else return 1 end
+end
+
 local function isEmpty(tabl)
 	for key, value in pairs(tabl) do
 		return false
@@ -91,12 +123,20 @@ local function isEmpty(tabl)
 	return true
 end
 
+local function buildObjectiveList(node)
+	for _, meta in pairs(node) do
+		if meta.uuid and not CodexMap.objectiveList[meta.uuid] then
+			CodexMap.objectiveList[meta.uuid] = 1
+		end
+	end
+end
+
 function CodexMap:GetTooltipColor(min, max)
 	local perc = min / max
 	local r1, g1, b1, r2, g2, b2
 	if perc <= 0.5 then
 		perc = perc * 2
-		r1, g1, b2 = 1, 0, 0
+		r1, g1, b1 = 1, 0, 0
 		r2, g2, b2 = 1, 1, 0
 	else
 		perc = perc * 2 - 1
@@ -109,6 +149,27 @@ function CodexMap:GetTooltipColor(min, max)
 	
 	return r, g, b
 end
+
+function CodexMap:ShowMapId(map)
+	if map then
+		if not UISpecialFrames["WorldMapFrame"] then
+			table.insert(UISpecialFrames, "WorldMapFrame")
+		end
+
+		-- CodexMap:UpdateNodes()
+		WorldMapFrame:Show()
+		for mapId, value in pairs(CodexMap.zones) do
+			if value == map then
+				WorldMapFrame:SetMapID(mapId)
+				CodexMap:UpdateNodes({["worldMapId"] = mapId, ["mapId"] = map})
+				return true
+			end
+		end
+	end
+
+	return nil
+end
+
 
 function CodexMap:ShowTooltip(meta, tooltip)
 	local catch = nil
@@ -144,7 +205,7 @@ function CodexMap:ShowTooltip(meta, tooltip)
 							-- Loot
 							local _, _, itemName, objNum, objNeeded = strfind(text, CodexUI:SanitizePattern(QUEST_OBJECTS_FOUND))
 
-							for _, item in pairs(meta["item"]) do
+							for mid, item in pairs(meta["item"]) do
 								if item == itemName then
 									foundObjective = true
 									local r, g, b = CodexMap:GetTooltipColor(objNum, objNeeded)
@@ -235,6 +296,7 @@ function CodexMap:AddNode(meta)
 	local y = meta["y"]
 	local coords = x .. "|" .. y
 	local title = meta["title"]
+	local layer = GetLayerByTexture(meta["texture"])
 	local spawn = meta["spawn"]
 	local item = meta["item"]
 
@@ -242,7 +304,7 @@ function CodexMap:AddNode(meta)
 	if not CodexMap.nodes[addon][map] then CodexMap.nodes[addon][map] = {} end
 	if not CodexMap.nodes[addon][map][coords] then CodexMap.nodes[addon][map][coords] = {} end
 
-	if item and CodexMap.nodes[addon][map][coords][title] and table.getn(CodexMap.nodes[addon][map][coords][title].item) > 0 then
+	if item and CodexMap.nodes[addon][map][coords][title] and getn(CodexMap.nodes[addon][map][coords][title].item) > 0 then
 		-- Check if item exists
 		for id, name in pairs(CodexMap.nodes[addon][map][coords][title].item) do
 			if name == item then
@@ -252,24 +314,37 @@ function CodexMap:AddNode(meta)
 		table.insert(CodexMap.nodes[addon][map][coords][title].item, item)
 	end
 
+	if CodexMap.nodes[addon][map][coords][title] and CodexMap.nodes[addon][map][coords][title].layer and layer and CodexMap.nodes[addon][map][coords][title].layer >= layer then
+		return
+	end
+
 	local node = {}
 	for key, value in pairs(meta) do
 		node[key] = value
 	end
 	node.item = {[1] = item}
-	node["mapMarker"] = CreateMapMarker(node.spawn, node.level, {}, CodexMap.colorList[2])
-
 
 	CodexMap.nodes[addon][map][coords][title] = node
 
-	-- add to gametooltips
-	-- if spawn and title then
-	-- 	pfMap.tooltips[spawn]        = pfMap.tooltips[spawn]        or {}
-	-- 	pfMap.tooltips[spawn][title] = pfMap.tooltips[spawn][title] or node
-	-- end
+	if spawn and title then
+		CodexMap.tooltips[spawn] = CodexMap.tooltips[spawn] or {}
+		CodexMap.tooltips[spawn][title] = CodexMap.tooltips[spawn][title] or node
+	end
 end
 
 function CodexMap:DeleteNode(addon, title)
+	if not addon then
+		CodexMap.tooltips = {}
+	else
+		for key, value in pairs(CodexMap.tooltips) do
+			for k, v in pairs(value) do
+				if (title and k == title) or (not title and v.addon == addon) then
+					CodexMap.tooltips[key][k] = nil
+				end
+			end
+		end
+	end 
+
 	if not addon then
 		CodexMap.nodes = {}
 	elseif not title then
@@ -283,204 +358,188 @@ function CodexMap:DeleteNode(addon, title)
 						CodexMap.nodes[addon][map][coords] = nil
 					end
 				end
-				if CodexMap.markers[coords] then
-					CodexMap.HBDP:RemoveWorldMapIcon("Map", CodexMap.markers[coords])
-				end
 			end
 		end
 	end
 end
 
-function CodexMap:UpdateNodes()
+function CodexMap:CreateMapMarker(node)
+	local marker = CreateFrame("Button", nil, UIParent)
+	marker:SetFrameStrata("HIGH")
+	marker:SetWidth(10)
+	marker:SetHeight(10)
+	marker:SetParent(WorldMapFrame)
+	
+	local texture = marker:CreateTexture(nil, "HIGH")
+	texture:SetAllPoints(marker)
+	marker.tex = texture
+	marker:SetPoint("CENTER", 0, 0)
+	marker:Hide()
+
+	marker:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR_LEFT")
+		GameTooltip:SetText(marker.spawn, .3, 1, .8)
+		GameTooltip:AddDoubleLine("Level: ", (marker.level or UNKNOWN), .8, .8, .8, 1, 1, 1)
+
+		for title, meta in pairs(marker.node) do
+			CodexMap:ShowTooltip(meta, GameTooltip)
+		end
+	end)
+
+	marker:SetScript("OnLeave", function(self)
+		GameTooltip:Hide()
+	end)
+
+
+	return marker
+end
+
+function CodexMap:CreateMinimapMarker(node)
+	local marker = CreateFrame("Button", nil, UIParent)
+	marker:SetFrameStrata("HIGH")
+	marker:SetWidth(10)
+	marker:SetHeight(10)
+	
+	local texture = marker:CreateTexture(nil, "HIGH")
+	texture:SetAllPoints(marker)
+	marker.tex = texture
+	marker:SetPoint("CENTER", 0, 0)
+	marker:Hide()
+
+	marker:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR_LEFT")
+		GameTooltip:SetText(marker.spawn, .3, 1, .8)
+		GameTooltip:AddDoubleLine("Level: ", (marker.level or UNKNOWN), .8, .8, .8, 1, 1, 1)
+
+		for title, meta in pairs(marker.node) do
+			CodexMap:ShowTooltip(meta, GameTooltip)
+		end
+	end)
+
+	marker:SetScript("OnLeave", function(self)
+		GameTooltip:Hide()
+	end)
+
+	return marker
+end
+
+function CodexMap:UpdateNode(frame, node)
+	frame.layer = 0
+
+	for title, meta in pairs(node) do
+		meta.layer = GetLayerByTexture(meta.texture)
+
+		if meta.spawn and (meta.layer > frame.layer or not frame.spawn) then
+			-- set title and texture to the entry with highest layer
+			-- and add core information
+			frame.layer = meta.layer
+			frame.spawn = meta.spawn
+			frame.spawnId = meta.spawnId
+			frame.spawnType = meta.spawnType
+			frame.respawn = meta.respawn
+			frame.level = meta.level
+			frame.questId = meta.questId
+			frame.texture = meta.texture
+			frame.color = meta.color
+			frame.title = meta.title
+			frame.uuid = meta.uuid
+		end
+	end
+
+	frame.tex:SetVertexColor(1, 1, 1)
+
+	if not frame.texture then
+		frame:SetWidth(10)
+		frame:SetHeight(10)
+		frame.tex:SetTexture("Interface\\Addons\\ClassicCodex\\img\\icon.tga")
+
+		frame:SetScript("OnClick", function(self)
+			if IsShiftKeyDown() then
+				CodexMap:DeleteNode(frame.node[frame.title].addon, frame.title)
+				CodexMap:UpdateNodes()
+			end
+		end)
+	else
+		frame:SetWidth(14)
+		frame:SetHeight(14)
+		frame.tex:SetTexture(frame.texture)
+	end
+
+	if not frame.color then 
+		if frame.uuid and CodexMap.objectiveList[frame.uuid] and CodexMap.objectiveList[frame.uuid] == 1 and frame.layer ~= 5 then
+			local r, g, b = unpack(CodexMap.colorList[CodexMap.colorListIndex])
+			frame.tex:SetVertexColor(r, g, b, 1)
+			CodexMap.objectiveList[frame.uuid] = CodexMap.colorList[CodexMap.colorListIndex]
+			CodexMap.colorListIndex = CodexMap.colorListIndex + 1
+			if CodexMap.colorListIndex > getn(CodexMap.colorList) then
+				CodexMap.colorListIndex = 1
+			end
+		elseif frame.uuid and CodexMap.objectiveList[frame.uuid] and frame.layer ~= 5 then
+			local color = CodexMap.objectiveList[frame.uuid]
+			frame.tex:SetVertexColor(color[1], color[2], color[3])
+		end
+	else
+		local r, g, b = unpack(frame.color)
+		if r > 0 or g > 0 or b > 0 then
+			frame.tex:SetVertexColor(r, g, b, 1)
+		end
+	end
+
+
+	frame.node = node
+end
+
+
+function CodexMap:UpdateNodes(extraMap)
 	print("Updating Nodes")
-	local mapId = C_Map.GetBestMapForUnit("player")
-	local map = CodexMap.zones[mapId]
+	local mapList = {}
+
+	local worldMapId = C_Map.GetBestMapForUnit("player")
+	local mapId = CodexMap.zones[worldMapId]
+	tinsert(mapList, {["worldMapId"] = worldMapId, ["mapId"] = mapId})
+
+	-- If you want to load nodes from other map
+	if extraMap then tinsert(mapList, extraMap) end
+
 	local i = 0
+
+	CodexMap.objectiveList = {}
+	CodexMap.colorListIndex = 1
 
 	CodexMap.HBDP:RemoveAllWorldMapIcons("Map")
 	CodexMap.HBDP:RemoveAllMinimapIcons("Map")
 
 	-- refresh all nodes
-	for addon, v in pairs(CodexMap.nodes) do
-		if CodexMap.nodes[addon][map] then
-			for coords, node in pairs(CodexMap.nodes[addon][map]) do
-				for k, v in pairs(node) do
-					CodexMap.HBDP:AddWorldMapIconMap("Map", v.mapMarker, mapId, v.x / 100, v.y / 100, HBD_PINS_WORLDMAP_SHOW_PARENT)
-					CodexMap.HBDP:AddMinimapIconMap("Map", CreateMinimapMarker(v.spawn, v.level, {}, CodexMap.colorList[4]), mapId, v.x / 100, v.y / 100, true, false)
+	for addon in pairs(CodexMap.nodes) do
+		for j = 1, getn(mapList) do
+			local worldMapId = mapList[j]["worldMapId"]
+			local mapId = mapList[j]["mapId"]
+
+			if CodexMap.nodes[addon][mapId] then
+				for coords, node in pairs(CodexMap.nodes[addon][mapId]) do
+
+					buildObjectiveList(node)
+
+					if not CodexMap.markers[i] or not CodexMap.minimapMarkers[i] then
+						CodexMap.markers[i] = CodexMap:CreateMapMarker(node)
+						CodexMap.minimapMarkers[i] = CodexMap:CreateMinimapMarker(node)
+					end
+
+					CodexMap:UpdateNode(CodexMap.markers[i], node)
+					CodexMap:UpdateNode(CodexMap.minimapMarkers[i], node)
+
+					local _, _, x, y = strfind(coords, "(.*)|(.*)")
+					x = x / 100
+					y = y / 100
+				
+					CodexMap.HBDP:AddWorldMapIconMap("Map", CodexMap.markers[i], worldMapId, x, y, HBD_PINS_WORLDMAP_SHOW_PARENT)
+					CodexMap.HBDP:AddMinimapIconMap("Map", CodexMap.minimapMarkers[i], worldMapId, x, y, true, false)
+
+					i = i + 1
 				end
 			end
 		end
 	end
-end
-
-
-
--- function Codex.UpdateMap()
---     local index = 1
--- 	local colorIndex = 1
--- 	Codex.targetList = {}
---     Codex.HBDP:RemoveAllWorldMapIcons("Map")
--- 	Codex.HBDP:RemoveAllMinimapIcons("Map")
---     for questID, questValue in pairs(Codex.QuestLog) do
---         if not questValue["isComplete"] then
---             for objectiveKey, objective in pairs(questValue["objectives"]) do
--- 				if not objective["isComplete"] then
--- 					for targetKey, target in pairs(objective["targets"]) do
--- 						if Codex.targetList[target["name"]] == nil then
--- 							Codex.targetList[target["name"]] = {["coords"] = {}, ["level"] = nil, ["objectives"] = {}, ["color"] = Codex["DotColorList"][colorIndex]}
--- 							if target["level"] then
--- 								Codex.targetList[target["name"]]["level"] = target["level"]
--- 							end
-
--- 							tinsert(Codex.targetList[target["name"]]["objectives"], objective["text"])
--- 							for _, coord in pairs(target["coords"]) do
--- 								tinsert(Codex.targetList[target["name"]]["coords"], coord)                     
--- 							end
--- 						else
--- 							tinsert(Codex.targetList[target["name"]]["objectives"], objective["text"])
---                         end
--- 					end
---                     colorIndex = colorIndex + 1
---                 end
--- 			end
--- 		else
--- 			local mapMarker = CreateMapTurnInMarker(questValue["name"])
--- 			local minimapMarker = CreateMinimapTurnInMarker(questValue["name"])
--- 			local x = questValue["turnin"]["coords"][1]
--- 			local y = questValue["turnin"]["coords"][2]
--- 			local zoneID = questValue["turnin"]["coords"][3]
--- 			Codex.HBDP:AddWorldMapIconMap("Map", mapMarker, Codex["Zones"][zoneID], x, y, HBD_PINS_WORLDMAP_SHOW_PARENT)
--- 			Codex.HBDP:AddMinimapIconMap("Map", minimapMarker, Codex["Zones"][zoneID], x, y, true, false)
--- 		end
--- 	end
--- 	for name, target in pairs(Codex.targetList) do
--- 		for _, coord in pairs(target["coords"]) do
--- 			local mapMarker = CreateMapMarker(name, target["level"], target["objectives"], target["color"])
--- 			local minimapMarker = CreateMinimapMarker(name, target["level"], target["objectives"], target["color"])
--- 			Codex.HBDP:AddWorldMapIconMap("Map", mapMarker, Codex["Zones"][coord[3]], coord[1], coord[2], HBD_PINS_WORLDMAP_SHOW_PARENT)
--- 			Codex.HBDP:AddMinimapIconMap("Map", minimapMarker, Codex["Zones"][coord[3]], coord[1], coord[2], true, false)			
--- 		end
--- 	end
-
--- end
-
-
-function CreateMapMarker(target, level, objectives, color)
-    local marker = CreateFrame("Frame", nil, UIParent)
-    marker:SetFrameStrata("HIGH")
-    marker:SetWidth(10)
-    marker:SetHeight(10)
-    marker:SetParent(WorldMapFrame)
-
-    local texture = marker:CreateTexture(nil, "HIGH")
-    texture:SetTexture("Interface\\Addons\\ClassicCodex\\img\\Icon.blp")
-    texture:SetAllPoints(marker)
-    texture:SetVertexColor(color[1], color[2], color[3], 1)
-
-    marker.texture = texture
-    marker:SetPoint("CENTER", 0, 0)
-    marker:Hide()
-    marker:SetScript("OnEnter", function(self, button)
-		GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR_LEFT")
-		if level then
-			GameTooltip:SetText(target.." ["..level.."]", 1, 1, 1, 1, true)
-		else
-			GameTooltip:SetText(target, 1, 1, 1, 1, true)
-		end
-		for _, name in pairs(objectives) do
-			GameTooltip:AddLine(name, 1, 1, 1)
-		end
-        GameTooltip:Show()
-    end)
-    marker:SetScript("OnLeave", function(self, button)
-        GameTooltip:Hide()
-    end)
-
-    return marker
-end
-
-function CreateMinimapMarker(target, level, objectives, color)
-    local marker = CreateFrame("Frame", nil, UIParent)
-    marker:SetFrameStrata("HIGH")
-    marker:SetWidth(10)
-    marker:SetHeight(10)
-
-    local texture = marker:CreateTexture(nil, "HIGH")
-    texture:SetTexture("Interface\\Addons\\ClassicCodex\\img\\Icon.blp")
-    texture:SetAllPoints(marker)
-    texture:SetVertexColor(color[1], color[2], color[3], 1)
-
-    marker.texture = texture
-    marker:SetPoint("CENTER", 0, 0)
-    marker:Hide()
-    marker:SetScript("OnEnter", function(self, button)
-        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR_LEFT")
-		if level then
-			GameTooltip:SetText(target.." ["..level.."]", 1, 1, 1, 1, true)
-		else
-			GameTooltip:SetText(target, 1, 1, 1, 1, true)
-		end
-		for _, name in pairs(objectives) do
-			GameTooltip:AddLine(name, 1, 1, 1)
-		end
-        GameTooltip:Show()
-    end)
-    marker:SetScript("OnLeave", function(self, button)
-        GameTooltip:Hide()
-    end)
-
-    return marker
-end
-
-function CreateMapTurnInMarker(name)
-	local marker = CreateFrame("Frame", nil, UIParent)
-	marker:SetFrameStrata("HIGH")
-	marker:SetWidth(14)
-	marker:SetHeight(14)
-	marker:SetParent(WorldMapFrame)
-
-	local texture = marker:CreateTexture(nil, "HIGH")
-	texture:SetTexture("Interface\\Addons\\ClassicCodex\\img\\handin.tga")
-	texture:SetAllPoints(marker)
-
-	marker.texture = texture
-	marker:SetPoint("CENTER", 0, 0)
-	marker:Hide()
-    marker:SetScript("OnEnter", function(self, button)
-        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR_LEFT")
-        GameTooltip:SetText(name, 1, 1, 1, 1, true)
-        GameTooltip:Show()
-    end)
-    marker:SetScript("OnLeave", function(self, button)
-        GameTooltip:Hide()
-    end)
-
-	return marker
-end
-
-function CreateMinimapTurnInMarker(name)
-	local marker = CreateFrame("Frame", nil, UIParent)
-	marker:SetFrameStrata("HIGH")
-	marker:SetWidth(14)
-	marker:SetHeight(14)
-
-	local texture = marker:CreateTexture(nil, "HIGH")
-	texture:SetTexture("Interface\\Addons\\ClassicCodex\\img\\handin.tga")
-	texture:SetAllPoints(marker)
-
-	marker.texture = texture
-	marker:SetPoint("CENTER", 0, 0)
-	marker:Hide()
-    marker:SetScript("OnEnter", function(self, button)
-        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR_LEFT")
-        GameTooltip:SetText(name, 1, 1, 1, 1, true)
-        GameTooltip:Show()
-    end)
-    marker:SetScript("OnLeave", function(self, button)
-        GameTooltip:Hide()
-    end)
-
-	return marker
 end
 
 CodexMap:RegisterEvent("ZONE_CHANGED")

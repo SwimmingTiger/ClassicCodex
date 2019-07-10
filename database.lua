@@ -50,6 +50,14 @@ function CodexDatabase:GetBitByClass(model)
     end
 end
 
+local function uuid()
+    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and random(0, 0xf) or random(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
+
 local function stringCompare(old, new)
     local prv = {}
     for o = 0, string.len(old) do
@@ -330,7 +338,7 @@ function CodexDatabase:SearchItemById(id, meta, maps, allowedTypes)
 
     if items[id]["V"] and ((not allowedTypes) or allowedTypes["V"]) then
         for unit, dropChance in pairs(items[id]["V"]) do
-            meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\\icon_vendor"
+            meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\icon_vendor.tga"
             meta["dropRate"] = nil
             meta["sellCount"] = dropChance
             maps = CodexDatabase:SearchUnitById(unit, meta, maps)
@@ -360,7 +368,7 @@ function CodexDatabase:SearchVendorByItemName(item, meta)
 
         if items[id] and items[id]["V"] then
             for unit, dropChance in pairs(items[id]["V"]) do
-                meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\\icon_vendor"
+                meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\icon_vendor.tga"
                 meta["dropRate"] = nil
                 meta["sellCount"] = dropChance
                 maps = CodexDatabase:SearchUnitById(unit, meta, maps)
@@ -388,7 +396,7 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
             for _, unit in pairs(quests[id]["start"]["U"]) do
                 meta = meta or {}
                 meta["layer"] = meta["layer"] or 4
-                meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\\available_c"
+                meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available_c.tga"
                 maps = CodexDatabase:SearchUnitById(unit, meta, maps)
             end
         end
@@ -397,7 +405,7 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
         if quests[id]["start"]["O"] then
             for _, object in pairs(quests[id]["start"]["O"]) do
                 meta = meta or {}
-                meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\\available_c"
+                meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available_c.tga"
                 maps = CodexDatabase:SearchObjectById(object, meta, maps)
             end
         end
@@ -414,12 +422,12 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
                     local _, _, _, _, _, complete = GetQuestLogTitle(meta["questLogId"])
                     complete = complete or GetNumQuestLeaderBoards(meta["questLogId"]) == 0 and true or nil
                     if complete then
-                        meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\\complete_c"
+                        meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
                     else
-                        meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\\complete"
+                        meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete.tga"
                     end
                 else
-                    meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\\complete_c"
+                    meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
                 end
                 maps = CodexDatabase:SearchUnitById(unit, meta, maps)
             end
@@ -434,12 +442,12 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
                     local _, _, _, _, _, complete = GetQuestLogTitle(meta["questLogId"])
                     complete = complete or GetNumQuestLeaderBoards(meta["questLogId"]) == 0 and true or nil
                     if complete then
-                        meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\\complete_c"
+                        meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
                     else
-                        meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\\complete"
+                        meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete.tga"
                     end
                 else
-                    meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\\complete_c"
+                    meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
                 end
                 maps = CodexDatabase:SearchObjectById(object, meta, maps)
             end
@@ -495,6 +503,7 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
                 if not objectiveBlacklist["U"][unit] or objectiveBlacklist["U"][unit] ~= "DONE" then
                     meta = meta or {}
                     meta["texture"] = nil
+                    meta["uuid"] = uuid()
                     maps = CodexDatabase:SearchUnitById(unit, meta, maps)
                 end
             end
@@ -507,6 +516,7 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
                     meta = meta or {}
                     meta["texture"] = nil
                     meta["layer"] = 2
+                    meta["uuid"] = uuid()
                     maps = CodexDatabase:SearchObjectById(object, meta, maps)
                 end
             end
@@ -519,6 +529,7 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
                     meta = meta or {}
                     meta["texture"] = nil
                     meta["layer"] = 2
+                    meta["uuid"] = uuid()
                     maps = CodexDatabase:SearchItemById(item, meta, maps)
                 end
             end
@@ -596,25 +607,25 @@ function CodexDatabase:SearchQuests(meta, maps)
             -- set metadata
             meta["quest"] = (CodexDB.quests.enUS[id] and CodexDB.quests.enUS[id].T) or UNKNOWN
             meta["questId"] = id
-            meta["texture"] = "Interface\\AddOns\\pfQuest\\img\\available_c"
+            meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available_c.tga"
 
             meta["questLevel"] = quests[id]["lvl"]
             meta["questMinimumLevel"] = quests[id]["min"]
 
-            meta["vertex"] = {0, 0, 0}
+            meta["color"] = {0, 0, 0}
             meta["layer"] = 3
 
             -- Tint high level quests red
             if minLevel > playerLevel then
-                meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\available"
-                meta["vertex"] = {1, 0.6, 0.6}
+                meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available.tga"
+                meta["color"] = {1, 0.6, 0.6}
                 meta["layer"] = 2
             end
 
             -- Tint low level quests grey
             if maxLevel + 9 < playerLevel then
-                meta["texture"] = "Interface\\AddOns\\ClassicCodex\\img\available"
-                meta["vertex"] = {1, 1, 1}
+                meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available.tga"
+                meta["color"] = {1, 1, 1}
                 meta["layer"] = 2
             end
 
@@ -656,7 +667,7 @@ end
 -- Returns possible quest ID
 function CodexDatabase:GetQuestIds(questId, deep)
     local oldId = GetQuestLogSelection()
-    SelectQuestLogEntry(oldId)
+    SelectQuestLogEntry(questId)
     local text, objective = GetQuestLogQuestText()
     local title, level, _, header = GetQuestLogTitle(questId)
     SelectQuestLogEntry(oldId)
