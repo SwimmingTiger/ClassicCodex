@@ -4,8 +4,8 @@
 ## Title: Classic Codex
 ## Notes: Classic Codex
 ## Author: Pgarneau
-## Version: 0.0.1
-## SavedVariablesPerCharacter: CodexConfig, CodexHistory
+## Version: 1.0.0
+## SavedVariablesPerCharacter: CodexHistory
 
 # Libraries
 lib\LibStub\LibStub.lua
@@ -19,6 +19,7 @@ db\items.lua
 db\units.lua
 db\objects.lua
 db\quests.lua
+db\refloot.lua
 
 # Database enUS
 db\enUS\items.lua
@@ -26,13 +27,9 @@ db\enUS\units.lua
 db\enUS\objects.lua
 db\enUS\quests.lua
 
-ui.lua
-config.lua
+core.lua
+# config.lua
 command.lua
 database.lua
 map.lua
 quest.lua
-# core.lua
-# quest.lua
-# map.lua
-# db.lua

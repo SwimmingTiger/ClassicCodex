@@ -221,11 +221,12 @@ function CodexDatabase:SearchUnitById(id, meta, maps)
     return maps
 end
 
-function CodexDatabase:SearchUnitByName(name, meta, partial)
+function CodexDatabase:SearchUnitByName(name, meta, partial, search)
     local maps = {}
 
     for id in pairs(CodexDatabase:GetIdByName(name, "units", partial)) do
         if units[id] and units[id]["coords"] then
+            meta["search"] = search
             maps = CodexDatabase:SearchUnitById(id, meta, maps)
         end
     end
@@ -263,11 +264,12 @@ function CodexDatabase:SearchObjectById(id, meta, maps)
     return maps
 end
 
-function CodexDatabase:SearchObjectByName(name, meta, partial)
+function CodexDatabase:SearchObjectByName(name, meta, partial, search)
     local maps = {}
 
     for id in pairs(CodexDatabase:GetIdByName(name, "objects", partial)) do
         if objects[id] and object[id]["coords"] then
+            meta["search"] = search
             maps = CodexDatabase:SearchObjectById(id, meta, maps)
         end
     end
@@ -348,23 +350,25 @@ function CodexDatabase:SearchItemById(id, meta, maps, allowedTypes)
     return maps
 end
 
-function CodexDatabase:SearchItemByName(name, meta, partial)
+function CodexDatabase:SearchItemByName(name, meta, partial, search)
     local maps = {}
 
     for id in pairs(CodexDatabase:GetIdByName(name, "items", partial)) do
+        meta["search"] = search
         maps = CodexDatabase:SearchItemById(id, meta, maps)
     end
 
     return maps
 end
 
-function CodexDatabase:SearchVendorByItemName(item, meta)
+function CodexDatabase:SearchVendorByItemName(item, meta, search)
     local maps = {}
     local meta = meta or {}
 
     for id in pairs(CodexDatabase:GetIdByName(item, "items")) do
         meta["itemId"] = id
         meta["item"] = CodexDB.items.enUS[id]
+        meta["search"] = search
 
         if items[id] and items[id]["V"] then
             for unit, dropChance in pairs(items[id]["V"]) do
@@ -470,7 +474,7 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
 
                 -- spawn data
                 if type == "monster" then
-                    local _, _, monsterName, objNum, objNeeded = strfind(text, CodexUI:SanitizePattern(QUEST_MONSTERS_KILLED))
+                    local _, _, monsterName, objNum, objNeeded = strfind(text, Codex:SanitizePattern(QUEST_MONSTERS_KILLED))
                     for id in pairs(CodexDatabase:GetIdByName(monsterName, "units")) do
                         objectiveBlacklist["U"][id] = (objNum + 0 >= objNeeded + 0 or done) and "DONE" or "PROG"
                     end
@@ -482,7 +486,7 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
 
                 -- item data
                 if type == "item" then
-                    local _, _, itemName, objNum, objNeeded = strfind(text, CodexUI:SanitizePattern(QUEST_OBJECTS_FOUND))
+                    local _, _, itemName, objNum, objNeeded = strfind(text, Codex:SanitizePattern(QUEST_OBJECTS_FOUND))
                     for id in pairs(CodexDatabase:GetIdByName(itemName, "items")) do
                         objectiveBlacklist["I"][id] = (objNum + 0 >= objNeeded + 0 or done) and "DONE" or "PROG"
                     end
@@ -539,10 +543,11 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
     return maps
 end
 
-function CodexDatabase:SearchQuestByName(quest, meta, partial)
+function CodexDatabase:SearchQuestByName(quest, meta, partial, search)
     local maps = {}
 
     for id in pairs(CodexDatabase:GetIdByName(quest, "quests", partial)) do
+        meta["search"] = search
         maps = CodexDatabase:SearchQuestById(id, meta, maps)
     end
 

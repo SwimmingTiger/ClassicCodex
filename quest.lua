@@ -41,23 +41,26 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
         local availableQuests = {GetGossipAvailableQuests()}
         local availableQuestCount = GetNumGossipAvailableQuests()
 
-        local index
-
         -- Turn in everything
-        if (activeQuests and not IsControlKeyDown()) then
+        if activeQuests and not IsControlKeyDown() then
             for index = 1, activeQuestCount do
                 if (activeQuests[(((index - 1) * 6) + 4)] == true) then -- Check if quest complete
                     SelectGossipActiveQuest(index)
+                    return
                 end
             end
         end
 
         if (availableQuestCount > 0 and not IsControlKeyDown()) then
             SelectGossipAvailableQuest(1)
+            return
         end
 
         -- Auto Gossip Feature
-        -- SelectGossipOption(1)
+        -- if not IsControlKeyDown() then
+        --     SelectGossipOption(1)
+        --     return
+        -- end
 
     elseif (event == "QUEST_DETAIL") then
         if (IsControlKeyDown()) then
@@ -171,7 +174,8 @@ CodexQuest:SetScript("OnUpdate", function()
     for id, entry in pairs(CodexQuest.queue) do
         match = true
 
-        if CodexConfig["trackingmethod"] ~= 3 and (CodexConfig["trackingmethod"] ~= 2 or IsQuestWatched(entry[3])) then
+        -- if CodexConfig["trackingmethod"] ~= 3 and (CodexConfig["trackingmethod"] ~= 2 or IsQuestWatched(entry[3])) then
+        if true and (true or IsQuestWatched(entry[3])) then
             CodexMap:DeleteNode("CODEX", entry[1])
             local meta = {["addon"] = "CODEX", ["questLogId"] = entry[3]}
             for _, id in pairs(entry[2]) do
@@ -363,10 +367,13 @@ function CodexQuest:CheckNamePlate()
         end
         if frame["UnitFrame"] and frame["UnitFrame"]["displayedUnit"] then
             local name = frame["UnitFrame"]["name"]:GetText()
-            if name and CodexMap.tooltips[name] then
-                frame.icon:Show()
-            else
-                frame.icon:Hide()
+            for title in pairs(CodexQuest.questLog) do
+                if name and CodexMap.tooltips[name] and CodexMap.tooltips[name][title] then
+                    frame.icon:Show()
+                    break
+                else
+                    frame.icon:Hide()
+                end
             end
         end
     end

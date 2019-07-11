@@ -1,35 +1,32 @@
 Codex = {}
-Codex.Build = GetBuildInfo()
-if (tonumber(string.sub(Codex.Build, 1, 1)) > 2) then
-    print("Codex - Error - This is not Classic WoW")
-    return
+CodexHistory = {}
+
+function Codex:strsplit(delimiter, data)
+    if not data then return nil end
+    local delimiter, fields = delimiter or ":", {}
+    local pattern = string.format("([^%s]+)", delimiter)
+    string.gsub(data, pattern, function(c) fields[table.getn(fields) + 1] = c end)
+    return unpack(fields)
 end
 
-Codex.Name = UnitName("player")
-Codex.Realm = string.gsub(GetRealmName(), " ", "")
-Codex.Faction = UnitFactionGroup("player")
-Codex.Level = UnitLevel("player")
-Codex.Experience = UnitXP("player")
-Codex.Version = tonumber(GetAddOnMetadata("Classic Codex", "Version"))
-Codex.Class = {}
-Codex.RaceLocale, Codex.Race = UnitRace("player")
-Codex.Class[1], Codex.Class[2], Codex.Class[3] = UnitClass("player")
-Codex.QuestHelperEnable = "off"
-Codex.HBDP = LibStub("HereBeDragons-Pins-2.0")
-Codex.HBD = LibStub("HereBeDragons-2.0")
-Codex.Locale = GetLocale()
+local sanitizeCache = {}
+function Codex:SanitizePattern(pattern)
+    if not sanitizeCache[pattern] then
+        local result = pattern
 
-function Codex.GetContinent()
-    local mapID = C_Map.GetBestMapForUnit("player")
-    if (mapID) then
-        local info = C_Map.GetMapInfo(mapID)
-        if (info) then
-            while (info['mapType'] and info['mapType'] > 2) do
-                info = C_Map.GetMapInfo(info['parentMapID'])
-            end
-            if (info['mapType'] == 2) then
-                return info['mapID']
-            end
-        end
+        -- escape magic characters
+        result = gsub(result, "([%+%-%*%(%)%?%[%]%^])", "%%%1")
+        -- remove capture indexes
+        result = gsub(result, "%d%$","")
+        -- catch all characters
+        result = gsub(result, "(%%%a)","%(%1+%)")
+        -- convert all %s to .+
+        result = gsub(result, "%%s%+",".+")
+        -- set priority to number over strings
+        result = gsub(result, "%(.%+%)%(%%d%+%)","%(.-%)%(%%d%+%)")
+
+        sanitizeCache[pattern] = result
     end
+
+    return sanitizeCache[pattern]
 end

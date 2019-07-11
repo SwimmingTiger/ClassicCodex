@@ -30,8 +30,10 @@ CodexMap.colorList = {
 	[19] = {0, 0, 0.501}, --navy
 	[20] = {0.501, 0.501, 0.501}, --grey
 	[21] = {1, 1, 1}, --white
-	[22] = {0, 0, 0}, --black
+	-- [22] = {0, 0, 0}, --black
 }
+
+CodexMap.searchColor = {0, 0, 0}
 
 CodexMap.zones = {
     [1426] = 1, --Dun Morogh
@@ -195,7 +197,7 @@ function CodexMap:ShowTooltip(meta, tooltip)
 
 						if type == "monster" then
 							-- kill
-							local _, _, monsterName, objNum, objNeeded = strfind(text, CodexUI:SanitizePattern(QUEST_MONSTERS_KILLED))
+							local _, _, monsterName, objNum, objNeeded = strfind(text, Codex:SanitizePattern(QUEST_MONSTERS_KILLED))
 							if meta["spawn"] == monsterName then
 								foundObjective = true
 								local r, g, b = CodexMap:GetTooltipColor(objNum, objNeeded)
@@ -203,7 +205,7 @@ function CodexMap:ShowTooltip(meta, tooltip)
 							end
 						elseif table.getn(meta["item"]) > 0 and type == "item" and meta["dropRate"] then
 							-- Loot
-							local _, _, itemName, objNum, objNeeded = strfind(text, CodexUI:SanitizePattern(QUEST_OBJECTS_FOUND))
+							local _, _, itemName, objNum, objNeeded = strfind(text, Codex:SanitizePattern(QUEST_OBJECTS_FOUND))
 
 							for mid, item in pairs(meta["item"]) do
 								if item == itemName then
@@ -216,7 +218,7 @@ function CodexMap:ShowTooltip(meta, tooltip)
 							end
 						elseif table.getn(meta["item"]) > 0 and type == "item" and meta["sellCount"] then
 							-- Vendor
-							local _, _, itemName, objNum, objNeeded = strfind(text, CodexUI:SanitizePattern(QUEST_OBJECTS_FOUND))
+							local _, _, itemName, objNum, objNeeded = strfind(text, Codex:SanitizePattern(QUEST_OBJECTS_FOUND))
 
 							for _, item in pairs(meta["item"]) do
 								if item == itemName then
@@ -271,7 +273,7 @@ function CodexMap:ShowTooltip(meta, tooltip)
 				ITEM_QUALITY_COLORS[itemQuality].g * 255,
 				ITEM_QUALITY_COLORS[itemQuality].b * 255)
 
-			meta["itemLink"] = itemColor .. "|Hitem:" .. meta["itemId"] .. ":0:0:0|h[" .. meta["item"][1] .. "]h|r"
+			meta["itemLink"] = itemColor .. "|Hitem:" .. meta["itemId"] .. ":0:0:0|h[" .. meta["item"][1] .. "]|h|r"
 			end
 		end
 
@@ -443,6 +445,7 @@ function CodexMap:UpdateNode(frame, node)
 			frame.color = meta.color
 			frame.title = meta.title
 			frame.uuid = meta.uuid
+			frame.search = meta.search
 		end
 	end
 
@@ -477,6 +480,8 @@ function CodexMap:UpdateNode(frame, node)
 		elseif frame.uuid and CodexMap.objectiveList[frame.uuid] and frame.layer ~= 5 then
 			local color = CodexMap.objectiveList[frame.uuid]
 			frame.tex:SetVertexColor(color[1], color[2], color[3])
+		elseif frame.search then
+			frame.tex:SetVertexColor(CodexMap.searchColor[1], CodexMap.searchColor[2], CodexMap.searchColor[3], 1)
 		end
 	else
 		local r, g, b = unpack(frame.color)
@@ -491,7 +496,6 @@ end
 
 
 function CodexMap:UpdateNodes(extraMap)
-	print("Updating Nodes")
 	local mapList = {}
 
 	local worldMapId = C_Map.GetBestMapForUnit("player")

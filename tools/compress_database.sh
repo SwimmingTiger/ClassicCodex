@@ -24,9 +24,9 @@ compress db/items.lua ws
 compress db/objects.lua ws
 compress db/units.lua ws
 compress db/quests.lua ws
-compress db/meta.lua ws
+compress db/refloot.lua ws
 
-compress db/itemNames.lua
-compress db/objectNames.lua
-compress db/questNames.lua nc
-compress db/unitNames.lua
+compress db/enUS/items.lua
+compress db/enUS/objects.lua
+compress db/enUS/quests.lua nc
+compress db/enUS/units.lua

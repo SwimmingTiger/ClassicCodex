@@ -93,8 +93,8 @@ function createConfigPanel(parent)
     config.titleText:SetTextColor(1, 0.9, 0, 1)
     
     -- All Quest Givers
-    config.allQuestGiversCheckbox = checkboxFactory(config, " All Quest Givers", "Display Available Questgivers", allQuestGiversOnClick)
-    config.allQuestGiversCheckbox:SetPoint("TOPLEFT", 10, -35)
+    -- config.allQuestGiversCheckbox = checkboxFactory(config, " All Quest Givers", "Display Available Questgivers", allQuestGiversOnClick)
+    -- config.allQuestGiversCheckbox:SetPoint("TOPLEFT", 10, -35)
 
     return config
 end
