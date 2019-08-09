@@ -15,6 +15,7 @@ CodexQuest:RegisterEvent("QUEST_DETAIL")
 CodexQuest:RegisterEvent("QUEST_PROGRESS")
 CodexQuest:RegisterEvent("QUEST_COMPLETE")
 CodexQuest:RegisterEvent("QUEST_GREETING")
+CodexQuest:RegisterEvent("QUEST_REMOVED")
 CodexQuest:RegisterEvent("GOSSIP_SHOW")
 CodexQuest:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 CodexQuest:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
@@ -367,6 +368,7 @@ function CodexQuest:CheckNamePlate()
         end
         if frame["UnitFrame"] and frame["UnitFrame"]["displayedUnit"] then
             local name = frame["UnitFrame"]["name"]:GetText()
+            frame.icon:Hide()
             for title in pairs(CodexQuest.questLog) do
                 if name and CodexMap.tooltips[name] and CodexMap.tooltips[name][title] then
                     frame.icon:Show()

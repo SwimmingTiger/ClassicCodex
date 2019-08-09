@@ -1,5 +1,5 @@
-## Interface: 123456
-## X-Min-Interface: 123456
+## Interface: 11302
+## X-Min-Interface: 11302
 
 ## Title: Classic Codex
 ## Notes: Classic Codex

@@ -36,56 +36,56 @@ CodexMap.colorList = {
 CodexMap.searchColor = {0, 0, 0}
 
 CodexMap.zones = {
-    [1426] = 1, --Dun Morogh
-	[1418] = 3, --Badlands
-	[1419] = 4, --Blasted Lands
-	[1435] = 8, --Swamp of Sorrows
-	[1431] = 10, --Duskwood
-	[1437] = 11, --Wetlands
-	[1429] = 12, --Elwynn Forest
-	[1411] = 14, --Durotar
-	[1445] = 15, --Dustwallow Marsh
-	[1447] = 16, --Azshara
-	[1413] = 17, --The Barrens
-	[1422] = 28, --Western Plaguelands
-	[1434] = 33, --Stranglethorn Vale
-	[1416] = 36, --Alterac Mountains
-	[1432] = 38, --Loch Modan
-	[1436] = 40, --Westfall
-	[1430] = 41, --Deadwind Pass
-	[1433] = 44, --Redridge Mountains
-	[1417] = 45, --Arathi Highlands
-	[1428] = 46, --Burning Steppes
-	[1425] = 47, --The Hinterlands
-	[1427] = 51, --Searing Gorge
-	[1433] = 69, --Lakeshire
-	[1420] = 85, --Tirisfal Glades
-	[1421] = 130, --Silverpine Forest
-	[1423] = 139, --Eastern Plaguelands
-	[1438] = 141, --Teldrassil
-	[1439] = 148, --Darkshore
-	[1412] = 215, --Mulgore
-	[1424] = 267, --Hillsbrad Foothills
-	[1440] = 331, --Ashenval
-	[1444] = 357, --Feralas
-	[1448] = 361, --Felwood
-	[1441] = 400, --Thousand Needles
-	[1443] = 405, --Desolace
-	[1442] = 406, --Stonetalon Mountains
-	[1446] = 440, --Tanaris
-	[1449] = 490, --Un'Goro Crater
-	[1450] = 493, --Moonglade
-	[1452] = 618, --Winterspring
-	[1451] = 1377, --Silithus
-	[1458] = 1497, --Undercity
-	[1453] = 1519, --Stormwind City
-	[1455] = 1537, --Ironforge
-	[1454] = 1637, --Orgrimmar
-	[1456] = 1638, --Thunder Bluff
-	[1457] = 1657, --Darnassus
-	[1459] = 2597, --Alterac Valley
-	[1460] = 3277, --Warsong Gulch
-	[1461] = 3358, --Arathi Basin
+    [1] = 1426, --Dun Morogh
+	[3] = 1418, --Badlands
+	[4] = 1419, --Blasted Lands
+	[8] = 1435, --Swamp of Sorrows
+	[10] = 1431, --Duskwood
+	[11] = 1437, --Wetlands
+	[12] = 1429, --Elwynn Forest
+	[14] = 1411, --Durotar
+	[15] = 1445, --Dustwallow Marsh
+	[16] = 1447, --Azshara
+	[17] = 1413, --The Barrens
+	[28] = 1422, --Western Plaguelands
+	[33] = 1434, --Stranglethorn Vale
+	[36] = 1416, --Alterac Mountains
+	[38] = 1432, --Loch Modan
+	[40] = 1436, --Westfall
+	[41] = 1430, --Deadwind Pass
+	[44] = 1433, --Redridge Mountains
+	[45] = 1417, --Arathi Highlands
+	[46] = 1428, --Burning Steppes
+	[47] = 1425, --The Hinterlands
+	[51] = 1427, --Searing Gorge
+	[69] = 1433, --Lakeshire
+	[85] = 1420, --Tirisfal Glades
+	[130] = 1421, --Silverpine Forest
+	[139] = 1423, --Eastern Plaguelands
+	[141] = 1438, --Teldrassil
+	[148] = 1439, --Darkshore
+	[215] = 1412, --Mulgore
+	[267] = 1424, --Hillsbrad Foothills
+	[331] = 1440, --Ashenval
+	[357] = 1444, --Feralas
+	[361] = 1448, --Felwood
+	[400] = 1441, --Thousand Needles
+	[405] = 1443, --Desolace
+	[406] = 1442, --Stonetalon Mountains
+	[440] = 1446, --Tanaris
+	[490] = 1449, --Un'Goro Crater
+	[493] = 1450, --Moonglade
+	[618] = 1452, --Winterspring
+	[1377] = 1451, --Silithus
+	[1497] = 1458, --Undercity
+	[1519] = 1453, --Stormwind City
+	[1537] = 1455, --Ironforge
+	[1637] = 1454, --Orgrimmar
+	[1638] = 1456, --Thunder Bluff
+	[1657] = 1457, --Darnassus
+	[2597] = 1459, --Alterac Valley
+	[3277] = 1460, --Warsong Gulch
+	[3358] = 1461, --Arathi Basin
 }
 
 CodexMap.tooltip = CreateFrame("Frame", "CodexMapTooltip", GameTooltip)
@@ -160,10 +160,10 @@ function CodexMap:ShowMapId(map)
 
 		-- CodexMap:UpdateNodes()
 		WorldMapFrame:Show()
-		for mapId, value in pairs(CodexMap.zones) do
-			if value == map then
+		for worldMapId, mapId in pairs(CodexMap.zones) do
+			if worldMapId == map then
 				WorldMapFrame:SetMapID(mapId)
-				CodexMap:UpdateNodes({["worldMapId"] = mapId, ["mapId"] = map})
+				CodexMap:UpdateNodes()
 				return true
 			end
 		end
@@ -495,15 +495,8 @@ function CodexMap:UpdateNode(frame, node)
 end
 
 
-function CodexMap:UpdateNodes(extraMap)
-	local mapList = {}
-
-	local worldMapId = C_Map.GetBestMapForUnit("player")
-	local mapId = CodexMap.zones[worldMapId]
-	tinsert(mapList, {["worldMapId"] = worldMapId, ["mapId"] = mapId})
-
-	-- If you want to load nodes from other map
-	if extraMap then tinsert(mapList, extraMap) end
+function CodexMap:UpdateNodes()
+	-- local worldMapId = C_Map.GetBestMapForUnit("player")
 
 	local i = 0
 
@@ -515,35 +508,32 @@ function CodexMap:UpdateNodes(extraMap)
 
 	-- refresh all nodes
 	for addon in pairs(CodexMap.nodes) do
-		for j = 1, getn(mapList) do
-			local worldMapId = mapList[j]["worldMapId"]
-			local mapId = mapList[j]["mapId"]
+		for mapId in pairs(CodexMap.nodes[addon]) do
+			worldMapId = CodexMap.zones[mapId]
+			for coords, node in pairs(CodexMap.nodes[addon][mapId]) do
 
-			if CodexMap.nodes[addon][mapId] then
-				for coords, node in pairs(CodexMap.nodes[addon][mapId]) do
+				buildObjectiveList(node)
 
-					buildObjectiveList(node)
-
-					if not CodexMap.markers[i] or not CodexMap.minimapMarkers[i] then
-						CodexMap.markers[i] = CodexMap:CreateMapMarker(node)
-						CodexMap.minimapMarkers[i] = CodexMap:CreateMinimapMarker(node)
-					end
-
-					CodexMap:UpdateNode(CodexMap.markers[i], node)
-					CodexMap:UpdateNode(CodexMap.minimapMarkers[i], node)
-
-					local _, _, x, y = strfind(coords, "(.*)|(.*)")
-					x = x / 100
-					y = y / 100
-				
-					CodexMap.HBDP:AddWorldMapIconMap("Map", CodexMap.markers[i], worldMapId, x, y, HBD_PINS_WORLDMAP_SHOW_PARENT)
-					CodexMap.HBDP:AddMinimapIconMap("Map", CodexMap.minimapMarkers[i], worldMapId, x, y, true, false)
-
-					i = i + 1
+				if not CodexMap.markers[i] or not CodexMap.minimapMarkers[i] then
+					CodexMap.markers[i] = CodexMap:CreateMapMarker(node)
+					CodexMap.minimapMarkers[i] = CodexMap:CreateMinimapMarker(node)
 				end
+
+				CodexMap:UpdateNode(CodexMap.markers[i], node)
+				CodexMap:UpdateNode(CodexMap.minimapMarkers[i], node)
+
+				local _, _, x, y = strfind(coords, "(.*)|(.*)")
+				x = x / 100
+				y = y / 100
+			
+				CodexMap.HBDP:AddWorldMapIconMap("Map", CodexMap.markers[i], worldMapId, x, y, HBD_PINS_WORLDMAP_SHOW_PARENT)
+				CodexMap.HBDP:AddMinimapIconMap("Map", CodexMap.minimapMarkers[i], worldMapId, x, y, true, false)
+
+				i = i + 1
 			end
 		end
 	end
+
 end
 
 CodexMap:RegisterEvent("ZONE_CHANGED")
