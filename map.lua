@@ -510,26 +510,28 @@ function CodexMap:UpdateNodes()
 	for addon in pairs(CodexMap.nodes) do
 		for mapId in pairs(CodexMap.nodes[addon]) do
 			worldMapId = CodexMap.zones[mapId]
-			for coords, node in pairs(CodexMap.nodes[addon][mapId]) do
+			if worldMapId then
+				for coords, node in pairs(CodexMap.nodes[addon][mapId]) do
 
-				buildObjectiveList(node)
+					buildObjectiveList(node)
 
-				if not CodexMap.markers[i] or not CodexMap.minimapMarkers[i] then
-					CodexMap.markers[i] = CodexMap:CreateMapMarker(node)
-					CodexMap.minimapMarkers[i] = CodexMap:CreateMinimapMarker(node)
+					if not CodexMap.markers[i] or not CodexMap.minimapMarkers[i] then
+						CodexMap.markers[i] = CodexMap:CreateMapMarker(node)
+						CodexMap.minimapMarkers[i] = CodexMap:CreateMinimapMarker(node)
+					end
+
+					CodexMap:UpdateNode(CodexMap.markers[i], node)
+					CodexMap:UpdateNode(CodexMap.minimapMarkers[i], node)
+
+					local _, _, x, y = strfind(coords, "(.*)|(.*)")
+					x = x / 100
+					y = y / 100
+				
+					CodexMap.HBDP:AddWorldMapIconMap("Map", CodexMap.markers[i], worldMapId, x, y, HBD_PINS_WORLDMAP_SHOW_PARENT)
+					CodexMap.HBDP:AddMinimapIconMap("Map", CodexMap.minimapMarkers[i], worldMapId, x, y, true, false)
+
+					i = i + 1
 				end
-
-				CodexMap:UpdateNode(CodexMap.markers[i], node)
-				CodexMap:UpdateNode(CodexMap.minimapMarkers[i], node)
-
-				local _, _, x, y = strfind(coords, "(.*)|(.*)")
-				x = x / 100
-				y = y / 100
-			
-				CodexMap.HBDP:AddWorldMapIconMap("Map", CodexMap.markers[i], worldMapId, x, y, HBD_PINS_WORLDMAP_SHOW_PARENT)
-				CodexMap.HBDP:AddMinimapIconMap("Map", CodexMap.minimapMarkers[i], worldMapId, x, y, true, false)
-
-				i = i + 1
 			end
 		end
 	end
