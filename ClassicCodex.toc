@@ -3,7 +3,7 @@
 
 ## Title: Classic Codex
 ## Notes: Classic Codex
-## Author: Pgarneau
+## Author: Pgarneau, Shagu
 ## Version: 1.0.0
 ## SavedVariablesPerCharacter: CodexHistory
 
