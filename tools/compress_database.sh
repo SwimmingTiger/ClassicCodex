@@ -26,6 +26,7 @@ compress decompressed_db/objects.lua ws db
 compress decompressed_db/units.lua ws db
 compress decompressed_db/quests.lua ws db
 compress decompressed_db/meta.lua ws db
+cp decompressed_db/init.lua db
 
 echo "-> locales"
 for loc in decompressed_db/*/; do
