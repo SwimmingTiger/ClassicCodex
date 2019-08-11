@@ -33,7 +33,7 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
         CodexQuest.updateQuestGivers = true
 
     elseif (event == "GOSSIP_SHOW") then
-        if (IsControlKeyDown()) then
+        if not CodexConfig.autoAccept or IsControlKeyDown() then
             return 
         end
 
@@ -64,21 +64,21 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
         -- end
 
     elseif (event == "QUEST_DETAIL") then
-        if (IsControlKeyDown()) then
+        if not CodexConfig.autoAccept or IsControlKeyDown() then
             return
         end
 
         AcceptQuest()
 
     elseif (event == "QUEST_PROGRESS") then
-        if (IsControlKeyDown()) then
+        if not CodexConfig.autoTurnin or IsControlKeyDown() then
             return
         end
 
         CompleteQuest()
         
     elseif (event == "QUEST_COMPLETE") then
-        if (IsControlKeyDown()) then
+        if not CodexConfig.autoTurnin or IsControlKeyDown() then
             return
         end
 
@@ -87,7 +87,7 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
         end
 
     elseif (event == "QUEST_GREETING") then
-        if (IsControlKeyDown()) then
+        if not CodexConfig.autoAccept or IsControlKeyDown() then
             return
         end
 
@@ -95,25 +95,6 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
         local lastAvailableQuest = 0
         local activeQuestCount = GetNumActiveQuests()
         local lastActiveQuest = 0
-        for id, entry in pairs(CodexQuest.queue) do
-            match = true
-    
-            if CodexConfig["trackingmethod"] ~= 3 and (CodexConfig["trackingmethod"] ~= 2 or IsQuestWatched(entry[3])) then
-                CodexMap:DeleteNode("CODEX", entry[1])
-                local meta = {["addon"] = "CODEX", ["questLogId"] = entry[3]}
-                for _, id in pairs(entry[2]) do
-                    CodexDatabase:SearchQuestById(id, meta)
-                end
-            end
-    
-            CodexQuest.queue[id] = nil
-    
-            if table.getn(CodexQuest.queue) == 0 then
-                CodexQuest.queueEmptied = true
-            end
-    
-            return
-        end
         
         if activeQuestCount > 0 then
             for index = 1, activeQuestCount do
@@ -136,7 +117,9 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
         end
 
     elseif (event == "NAME_PLATE_UNIT_ADDED") then
-        CodexQuest:CheckNamePlate()
+        if CodexConfig.nameplateIcon then
+            CodexQuest:CheckNamePlate()
+        end
 
     else
         CodexQuest.updateQuestLog = true

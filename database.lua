@@ -1,19 +1,21 @@
 CodexDatabase = {}
 
-local loc = "enUS"
+local loc = GetLocale()
 local dbs = {"items", "quests", "objects", "units"}
 
 -- build name databases
 for key, value in pairs(dbs) do
-    CodexDB[value]["loc"] = CodexDB[value]["enUS"]
+    CodexDB[value]["loc"] = CodexDB[value][loc] or CodexDB[value]["enUS"]
 end
 
 -- Create DB Shortcuts
-local items = CodexDB["items"]
-local units = CodexDB["units"]
-local objects = CodexDB["objects"]
-local quests = CodexDB["quests"]
-local refloot = CodexDB["refloot"]
+local items = CodexDB["items"]["data"]
+local units = CodexDB["units"]["data"]
+local objects = CodexDB["objects"]["data"]
+local quests = CodexDB["quests"]["data"]
+local refloot = CodexDB["refloot"]["data"]
+local zones = CodexDB["zones"]["loc"]
+local professions = CodexDB["professions"]["loc"]
 
 local bitraces = {
     [1] = "Human",
@@ -141,7 +143,7 @@ function CodexDatabase:GetIdByName(name, db, partial)
     if not CodexDB[db] then return nil end
     local result = {}
 
-    for key, value in pairs(CodexDB[db]["enUS"]) do
+    for key, value in pairs(CodexDB[db]["loc"]) do
         if db == "quests" then value = value["T"] end
 
         if value and name then
@@ -162,7 +164,7 @@ function CodexDatabase:GetIdByPartialId(partialId, db)
     if not CodexDB[db] then return nil end
     local result = {}
 
-    for key, value in pairs(CodexDB[db]["enUS"]) do
+    for key, value in pairs(CodexDB[db]["loc"]) do
         if db == "quests" then value = value["T"] end
 
         if partialId and value and strfind(tostring(key), partialId) then
@@ -201,7 +203,7 @@ function CodexDatabase:SearchUnitById(id, meta, maps)
 
         if zone > 0 then
             meta = meta or {}
-            meta["spawn"] = CodexDB.units.enUS[id]
+            meta["spawn"] = CodexDB.units.loc[id]
             meta["spawnId"] = id
 
             meta["title"] = meta["quest"] or meta["item"] or meta["spawn"]
@@ -244,7 +246,7 @@ function CodexDatabase:SearchObjectById(id, meta, maps)
 
         if zone > 0 then
             meta = meta or {}
-            meta["spawn"] = CodexDB.objects.enUS[id]
+            meta["spawn"] = CodexDB.objects.loc[id]
             meta["spawnId"] = id
 
             meta["title"] = meta["quest"] or meta["item"] or meta["spawn"]
@@ -268,7 +270,7 @@ function CodexDatabase:SearchObjectByName(name, meta, partial, search)
     local maps = {}
 
     for id in pairs(CodexDatabase:GetIdByName(name, "objects", partial)) do
-        if objects[id] and object[id]["coords"] then
+        if objects[id] and objects[id]["coords"] then
             meta["search"] = search
             maps = CodexDatabase:SearchObjectById(id, meta, maps)
         end
@@ -284,7 +286,7 @@ function CodexDatabase:SearchItemById(id, meta, maps, allowedTypes)
     local meta = meta or {}
 
     meta["itemId"] = id
-    meta["item"] = CodexDB.items.enUS[id]
+    meta["item"] = CodexDB.items.loc[id]
 
     local minimumDropChance = 0 -- This could be configured in the future
 
@@ -367,7 +369,7 @@ function CodexDatabase:SearchVendorByItemName(item, meta, search)
 
     for id in pairs(CodexDatabase:GetIdByName(item, "items")) do
         meta["itemId"] = id
-        meta["item"] = CodexDB.items.enUS[id]
+        meta["item"] = CodexDB.items.loc[id]
         meta["search"] = search
 
         if items[id] and items[id]["V"] then
@@ -388,7 +390,7 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
     local meta = meta or {}
 
     meta["questId"] = id
-    meta["quest"] = CodexDB.quests.enUS[id].T
+    meta["quest"] = CodexDB.quests.loc[id].T
     meta["questLevel"] = quests[id]["lvl"]
     meta["questMinimumLevel"] = quests[id]["min"]
 
@@ -560,6 +562,7 @@ function CodexDatabase:SearchQuests(meta, maps)
     local level, minLevel, maxLevel, race, class
     local maps = maps or {}
     local meta = meta or {}
+    local completedQuests = GetQuestsCompleted()
 
     local playerLevel = UnitLevel("player")
     local playerFaction = UnitFactionGroup("player")
@@ -586,9 +589,10 @@ function CodexDatabase:SearchQuests(meta, maps)
         minLevel = quests[id]["min"] or quests[id]["lvl"] or playerLevel
         maxLevel = quests[id]["lvl"] or quests[id]["min"] or playerLevel
 
-        if CodexDB.quests.enUS[id] and currentQuests[CodexDB.quests.enUS[id].T] then
+        if CodexDB.quests.loc[id] and currentQuests[CodexDB.quests.loc[id].T] then
             -- hide active quest
-        elseif CodexHistory[id] then
+        elseif completedQuests[id] then
+        -- elseif CodexHistory[id] then
             -- hide completed quests
         elseif quests[id]["pre"] and not CodexHistory[quests[id]["pre"]] then
             -- hide missing pre-quest
@@ -608,9 +612,11 @@ function CodexDatabase:SearchQuests(meta, maps)
             -- hide level+3 quests
         elseif quests[id]["skill"] and true then
             -- hide non-available quests for your profession??
+        elseif id == 3861 then
+            -- Hide the CLUCK! quest
         else
             -- set metadata
-            meta["quest"] = (CodexDB.quests.enUS[id] and CodexDB.quests.enUS[id].T) or UNKNOWN
+            meta["quest"] = (CodexDB.quests.loc[id] and CodexDB.quests.loc[id].T) or UNKNOWN
             meta["questId"] = id
             meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available_c.tga"
 
@@ -623,7 +629,7 @@ function CodexDatabase:SearchQuests(meta, maps)
             -- Tint high level quests red
             if minLevel > playerLevel then
                 meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available.tga"
-                meta["color"] = {1, 0.6, 0.6}
+                meta["color"] = {1, 0.4, 0.4}
                 meta["layer"] = 2
             end
 
@@ -658,6 +664,28 @@ function CodexDatabase:SearchQuests(meta, maps)
     end
 end
 
+function CodexDatabase:SearchMetaRelation(query, meta, show)
+    local maps = {}
+
+    local relName = query[1] -- search name (chests / ores)
+    local relMin = query[2] -- Min skill level
+    local relMax = query[3] -- Max skill level
+
+    if CodexDB["meta"] and CodexDB["meta"][relName] then
+        for id, skill in pairs(CodexDB["meta"][relName]) do
+            if (not relMin or tonumber(relMin) <= skill) and (not relMax or tonumber(relMax) >= skill) then
+                if id < 0 then
+                    CodexDatabase:SearchObjectById(math.abs(id), meta, maps)
+                else
+                    CodexDatabase:SearchUnitById(id, meta, maps)
+                end
+            end
+        end
+    end
+    
+    return maps
+end
+
 function CodexDatabase:FormatQuestText(text)
     text = string.gsub(text, "$[Nn]", UnitName("player"))
     text = string.gsub(text, "$[Cc]", strlower(UnitClass("player")))
@@ -685,15 +713,15 @@ function CodexDatabase:GetQuestIds(questId, deep)
     local best = 0
     local results = {}
 
-    for id, data in pairs(CodexDB.quests.enUS) do
+    for id, data in pairs(CodexDB.quests.loc) do
         local score = 0
 
-        if quests[id] and (data.T == title or (deep and strsub(CodexDatabase:FormatQuestText(CodexDB.quests.enUS[id]["O"]), 0, 10) == strsub(objective, 0 ,10))) then
+        if quests[id] and (data.T == title or (deep and strsub(CodexDatabase:FormatQuestText(CodexDB.quests.loc[id]["O"]), 0, 10) == strsub(objective, 0 ,10))) then
             if quests[id]["lvl"] == level then
                 score = score + 1
             end
 
-            if CodexDB.quests.enUS[id]["O"] == objective then
+            if CodexDB.quests.loc[id]["O"] == objective then
                 score = score + 2
             end
 
@@ -705,7 +733,7 @@ function CodexDatabase:GetQuestIds(questId, deep)
                 score = score + 4
             end
 
-            local dbText = strsub(CodexDatabase:FormatQuestText(CodexDB.quests.enUS[id]["D"]), 0, 10)
+            local dbText = strsub(CodexDatabase:FormatQuestText(CodexDB.quests.loc[id]["D"]), 0, 10)
             local questText = strsub(text, 0 , 10)
 
             if CodexDatabase:CompareString(dbText, questText) < 0.1 then
@@ -755,7 +783,7 @@ function CodexDatabase:BrowserSearch(query, searchType)
         then
             local searchDatabase = CodexDatabase.lastSearchResults[searchType]
             for id in pairs(searchDatabase) do
-                local db = CodexDB[searchType]["enUS"][id]
+                local db = CodexDB[searchType]["loc"][id]
                 if db then
                     local compared
                     local search = query

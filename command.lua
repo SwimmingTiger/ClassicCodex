@@ -11,6 +11,7 @@ SlashCmdList["CODEX"] = function(input, editBox)
         print("|cff33ffcc/codex|cffffffff vendor <item> |cffcccccc - Search vendors for item")
         print("|cff33ffcc/codex|cffffffff quest <questName> |cffcccccc - Show specific quest giver")
         print("|cff33ffcc/codex|cffffffff quests |cffcccccc - Show all quests on the map")
+        print("|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - Show related objects on the map")
         print("|cff33ffcc/codex|cffffffff clean |cffcccccc - Clean map")
         print("|cff33ffcc/codex|cffffffff reset |cffcccccc - Reset map")
         return
@@ -67,6 +68,13 @@ SlashCmdList["CODEX"] = function(input, editBox)
     if arg1 == "quests" then
         local maps = CodexDatabase:SearchQuests(meta)
         CodexMap:UpdateNodes()
+        return
+    end
+
+    if arg1 == "meta" then
+        meta["search"] = true
+        local maps = CodexDatabase:SearchMetaRelation({commandList[2], commandList[3], commandList[4]}, meta)
+        CodexMap:ShowMapId(CodexDatabase:GetBestMap(maps))
         return
     end
 

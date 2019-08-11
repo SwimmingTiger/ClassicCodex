@@ -66,7 +66,7 @@ CodexMap.zones = {
 	[148] = 1439, --Darkshore
 	[215] = 1412, --Mulgore
 	[267] = 1424, --Hillsbrad Foothills
-	[331] = 1440, --Ashenval
+	[331] = 1440, --Ashenvale
 	[357] = 1444, --Feralas
 	[361] = 1448, --Felwood
 	[400] = 1441, --Thousand Needles
@@ -87,22 +87,33 @@ CodexMap.zones = {
 	[3277] = 1460, --Warsong Gulch
 	[3358] = 1461, --Arathi Basin
 }
-
-CodexMap.tooltip = CreateFrame("Frame", "CodexMapTooltip", GameTooltip)
-CodexMap.tooltip:SetScript("OnShow", function()
+function showTooltip()
 	local focus = GetMouseFocus()
 	
-	if focus and focus.title then return end
+	if focus:GetName() ~= "TargetFrame" and not UnitExists("mouseover") then
+		GameTooltip:Hide()
+		return
+	end
+	
+	if focus and focus.title then 
+		return
+	end
 
-	if focus and focus.GetName and strsub((focus:GetName() or ""), 0, 10) == "QuestTimer" then return end
+	if focus and focus:GetName() and strsub((focus:GetName() or ""), 0, 10) == "QuestTimer" then return end
 
 	local name = getglobal("GameTooltipTextLeft1") and getglobal("GameTooltipTextLeft1"):GetText()
-
 	if name and CodexMap.tooltips[name] then
 		for title, meta in pairs(CodexMap.tooltips[name]) do
 			CodexMap:ShowTooltip(meta, GameTooltip)
 			GameTooltip:Show()
 		end
+	end
+end
+CodexMap.tooltip = CreateFrame("Frame", "CodexMapTooltip", GameTooltip)
+CodexMap.tooltip:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+CodexMap.tooltip:SetScript("OnEvent", function(self, event, ...)
+	if event == "UPDATE_MOUSEOVER_UNIT" then
+		showTooltip()
 	end
 end)
 
