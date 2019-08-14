@@ -25,7 +25,7 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
         arg1 = ...
         if arg1 == "ClassicCodex" then
             CodexQuest:AddQuestLogIntegration()
-            -- CodexQuest:AddWorldMapIntegration()
+            CodexQuest:AddWorldMapIntegration()
         else
             return
         end
@@ -135,15 +135,16 @@ CodexQuest:SetScript("OnUpdate", function()
     end
 
     if CodexQuest.updateQuestGivers == true then
-        -- If config trackingmethod == 4 then return end
-        local meta = {["addon"] = "CODEX"}
-        CodexDatabase:SearchQuests(meta)
-        CodexMap:UpdateNodes()
-        CodexQuest.updateQuestGivers = false
+        if CodexConfig.trackingMethod == 4 then return end
+        if CodexConfig.allQuestGivers then
+            local meta = {["addon"] = "CODEX"}
+            CodexDatabase:SearchQuests(meta)
+            CodexMap:UpdateNodes()
+            CodexQuest.updateQuestGivers = false
+        end
     end
 
-    -- if config trackingmethod == 4 then return end
-
+    if CodexConfig.trackingMethod == 4 then return end
     if table.getn(CodexQuest.queue) == 0 and not CodexQuest.queueEmptied then
         return
     elseif table.getn(CodexQuest.queue) == 0 and CodexQuest.queueEmptied then
@@ -158,8 +159,7 @@ CodexQuest:SetScript("OnUpdate", function()
     for id, entry in pairs(CodexQuest.queue) do
         match = true
 
-        -- if CodexConfig["trackingmethod"] ~= 3 and (CodexConfig["trackingmethod"] ~= 2 or IsQuestWatched(entry[3])) then
-        if true and (true or IsQuestWatched(entry[3])) then
+        if CodexConfig.trackingMethod ~= 3 and (CodexConfig.trackingMethod ~= 2 or IsQuestWatched(entry[3])) then
             CodexMap:DeleteNode("CODEX", entry[1])
             local meta = {["addon"] = "CODEX", ["questLogId"] = entry[3]}
             for _, id in pairs(entry[2]) do
@@ -329,6 +329,72 @@ function CodexQuest:AddQuestLogIntegration()
         CodexQuest:ResetAll()
     end)
 end
+
+function CodexQuest:AddWorldMapIntegration()
+    CodexQuest.mapButton = CreateFrame("Frame", "CodexQuestMapDropdown", WorldMapFrame, "UIDropDownMenuTemplate")
+    CodexQuest.mapButton:ClearAllPoints()
+    CodexQuest.mapButton:SetPoint("TOPRIGHT", 0, -35)
+    CodexQuest.mapButton:SetScript("OnShow", function()
+        CodexQuest.mapButton.current = tonumber(CodexConfig.trackingMethod)
+        CodexQuest.mapButton:updateMenu()
+    end)
+
+    CodexQuest.mapButton.point = "TOPLEFT"
+    CodexQuest.mapButton.relativePoint = "BOTTOMLEFT"
+
+    function CodexQuest.mapButton:updateMenu()
+        local function CreateEntries()
+            local info = {}
+            info.text = "All Quests"
+            info.checked = false
+            info.func = function(self)
+                UIDropDownMenu_SetSelectedID(CodexQuest.mapButton, self:GetID(), 0)
+                CodexConfig.trackingMethod = self:GetID()
+                CodexQuest:ResetAll()
+            end
+            UIDropDownMenu_AddButton(info)
+
+            local info = {}
+            info.text = "Tracked Quests"
+            info.checked = false
+            info.func = function(self)
+                UIDropDownMenu_SetSelectedID(CodexQuest.mapButton, self:GetID(), 0)
+                CodexConfig.trackingMethod = self:GetID()
+                CodexQuest:ResetAll()
+            end
+            UIDropDownMenu_AddButton(info)
+
+            local info = {}
+            info.text = "Manual Selection"
+            info.checked = false
+            info.func = function(self)
+                UIDropDownMenu_SetSelectedID(CodexQuest.mapButton, self:GetID(), 0)
+                CodexConfig.trackingMethod = self:GetID()
+                CodexQuest:ResetAll()
+            end
+            UIDropDownMenu_AddButton(info)
+
+            local info = {}
+            info.text = "Hide Quests"
+            info.checked = false
+            info.func = function(self)
+                UIDropDownMenu_SetSelectedID(CodexQuest.mapButton, self:GetID(), 0)
+                CodexConfig.trackingMethod = self:GetID()
+                CodexQuest:ResetAll()
+            end
+            UIDropDownMenu_AddButton(info)
+        end
+
+        UIDropDownMenu_Initialize(CodexQuest.mapButton, CreateEntries)
+        UIDropDownMenu_SetWidth(CodexQuest.mapButton, 120)
+        UIDropDownMenu_SetButtonWidth(CodexQuest.mapButton, 125)
+        UIDropDownMenu_JustifyText(CodexQuest.mapButton, "RIGHT")
+        UIDropDownMenu_SetSelectedID(CodexQuest.mapButton, CodexQuest.mapButton.current)
+    end
+end
+
+
+
 
 function CodexQuest:CheckNamePlate()
     local something = WorldFrame:GetNumChildren()

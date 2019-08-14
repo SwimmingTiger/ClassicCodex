@@ -1,7 +1,7 @@
 CodexDatabase = {}
 
 local loc = GetLocale()
-local dbs = {"items", "quests", "objects", "units"}
+local dbs = {"items", "quests", "objects", "units", "zones", "professions"}
 
 -- build name databases
 for key, value in pairs(dbs) do
@@ -39,6 +39,18 @@ local bitclasses = {
     [256] = "WARLOCK",
     [1024] = "DRUID"
 }
+
+function CodexDatabase:PlayerHasSkill(skill)
+    if not professions[skill] then return false end
+
+    for i = 0, GetNumSkillLines() do
+        if GetSkillLineInfo(i) == professions[skill] then
+            return true
+        end
+    end
+
+    return false
+end
 
 function CodexDatabase:GetBitByRace(model)
     for bit, v in pairs(bitraces) do
@@ -394,68 +406,69 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
     meta["questLevel"] = quests[id]["lvl"]
     meta["questMinimumLevel"] = quests[id]["min"]
 
-    -- If currentQuestGivers is true
-    -- Find quest starter
-    if quests[id]["start"] and not meta["questLogId"] then
-        -- units
-        if quests[id]["start"]["U"] then
-            for _, unit in pairs(quests[id]["start"]["U"]) do
-                meta = meta or {}
-                meta["layer"] = meta["layer"] or 4
-                meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available_c.tga"
-                maps = CodexDatabase:SearchUnitById(unit, meta, maps)
-            end
-        end
-
-        -- objects
-        if quests[id]["start"]["O"] then
-            for _, object in pairs(quests[id]["start"]["O"]) do
-                meta = meta or {}
-                meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available_c.tga"
-                maps = CodexDatabase:SearchObjectById(object, meta, maps)
-            end
-        end
-    end
-
-    -- Find quest ender
-    if quests[id]["end"] then
-        -- units
-        if quests[id]["end"]["U"] then
-            for _, unit in pairs(quests[id]["end"]["U"]) do
-                meta = meta or {}
-
-                if meta["questLogId"] then
-                    local _, _, _, _, _, complete = GetQuestLogTitle(meta["questLogId"])
-                    complete = complete or GetNumQuestLeaderBoards(meta["questLogId"]) == 0 and true or nil
-                    if complete then
-                        meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
-                    else
-                        meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete.tga"
-                    end
-                else
-                    meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
+    if CodexConfig.currentQuestGivers then
+        -- Find quest starter
+        if quests[id]["start"] and not meta["questLogId"] then
+            -- units
+            if quests[id]["start"]["U"] then
+                for _, unit in pairs(quests[id]["start"]["U"]) do
+                    meta = meta or {}
+                    meta["layer"] = meta["layer"] or 4
+                    meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available_c.tga"
+                    maps = CodexDatabase:SearchUnitById(unit, meta, maps)
                 end
-                maps = CodexDatabase:SearchUnitById(unit, meta, maps)
+            end
+
+            -- objects
+            if quests[id]["start"]["O"] then
+                for _, object in pairs(quests[id]["start"]["O"]) do
+                    meta = meta or {}
+                    meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available_c.tga"
+                    maps = CodexDatabase:SearchObjectById(object, meta, maps)
+                end
             end
         end
 
-        -- objects
-        if quests[id]["end"]["O"] then
-            for _, object in pairs(quests[id]["end"]["O"]) do
-                meta = meta or {}
+        -- Find quest ender
+        if quests[id]["end"] then
+            -- units
+            if quests[id]["end"]["U"] then
+                for _, unit in pairs(quests[id]["end"]["U"]) do
+                    meta = meta or {}
 
-                if meta["questLogId"] then
-                    local _, _, _, _, _, complete = GetQuestLogTitle(meta["questLogId"])
-                    complete = complete or GetNumQuestLeaderBoards(meta["questLogId"]) == 0 and true or nil
-                    if complete then
-                        meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
+                    if meta["questLogId"] then
+                        local _, _, _, _, _, complete = GetQuestLogTitle(meta["questLogId"])
+                        complete = complete or GetNumQuestLeaderBoards(meta["questLogId"]) == 0 and true or nil
+                        if complete then
+                            meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
+                        else
+                            meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete.tga"
+                        end
                     else
-                        meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete.tga"
+                        meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
                     end
-                else
-                    meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
+                    maps = CodexDatabase:SearchUnitById(unit, meta, maps)
                 end
-                maps = CodexDatabase:SearchObjectById(object, meta, maps)
+            end
+
+            -- objects
+            if quests[id]["end"]["O"] then
+                for _, object in pairs(quests[id]["end"]["O"]) do
+                    meta = meta or {}
+
+                    if meta["questLogId"] then
+                        local _, _, _, _, _, complete = GetQuestLogTitle(meta["questLogId"])
+                        complete = complete or GetNumQuestLeaderBoards(meta["questLogId"]) == 0 and true or nil
+                        if complete then
+                            meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
+                        else
+                            meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete.tga"
+                        end
+                    else
+                        meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\complete_c.tga"
+                    end
+                    maps = CodexDatabase:SearchObjectById(object, meta, maps)
+                end
             end
         end
     end
@@ -600,17 +613,17 @@ function CodexDatabase:SearchQuests(meta, maps)
             -- hide non-available quests for your race
         elseif quests[id]["class"] and not (bit.band(quests[id]["class"], playerClass) == playerClass) then
             -- hide non-available quests for your class
-        elseif quests[id]["lvl"] and quests[id]["lvl"] < playerLevel - 9 and true then
+        elseif quests[id]["lvl"] and quests[id]["lvl"] < playerLevel - 9 and not CodexConfig.showLowLevel then
             -- hide low level quests
         elseif quests[id]["lvl"] and quests[id]["lvl"] > playerLevel + 10 then
             -- hide very high level quests
         elseif quests[id]["min"] and quests[id]["min"] > playerLevel + 3 then
             -- hide quests high level quests
-        elseif math.abs(minLevel - maxLevel) >= 30 and true then
+        elseif math.abs(minLevel - maxLevel) >= 30 and not CodexConfig.showFestival then
             -- hide event quests
-        elseif minLevel > playerLevel and false then
+        elseif minLevel > playerLevel and not CodexConfig.showHighLevel then
             -- hide level+3 quests
-        elseif quests[id]["skill"] and true then
+        elseif quests[id]["skill"] and not CodexDatabase:PlayerHasSkill(quests[id]["skill"]) then
             -- hide non-available quests for your profession??
         elseif id == 3861 then
             -- Hide the CLUCK! quest

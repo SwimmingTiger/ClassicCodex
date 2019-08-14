@@ -481,11 +481,11 @@ function CodexMap:UpdateNode(frame, node)
 
 	if not frame.color then 
 		if frame.uuid and CodexMap.objectiveList[frame.uuid] and CodexMap.objectiveList[frame.uuid] == 1 and frame.layer ~= 5 then
-			local r, g, b = unpack(CodexMap.colorList[CodexMap.colorListIndex])
+			local r, g, b = unpack(CodexConfig.colorList[CodexMap.colorListIndex])
 			frame.tex:SetVertexColor(r, g, b, 1)
-			CodexMap.objectiveList[frame.uuid] = CodexMap.colorList[CodexMap.colorListIndex]
+			CodexMap.objectiveList[frame.uuid] = CodexConfig.colorList[CodexMap.colorListIndex]
 			CodexMap.colorListIndex = CodexMap.colorListIndex + 1
-			if CodexMap.colorListIndex > getn(CodexMap.colorList) then
+			if CodexMap.colorListIndex > getn(CodexConfig.colorList) then
 				CodexMap.colorListIndex = 1
 			end
 		elseif frame.uuid and CodexMap.objectiveList[frame.uuid] and frame.layer ~= 5 then
