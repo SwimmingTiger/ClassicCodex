@@ -93,6 +93,7 @@ SlashCmdList["CODEX"] = function(input, editBox)
 
     if arg1 == "reset" then
         CodexQuest:ResetAll()
+        return
     end
 
     if type(arg1) == "string" then

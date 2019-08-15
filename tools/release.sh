@@ -1,3 +1,5 @@
+#!/bin/sh
+
 mkdir -p ClassicCodex
 cp -r db ClassicCodex/db
 cp -r img ClassicCodex/img
@@ -10,3 +12,5 @@ cp database.lua ClassicCodex/
 cp LICENSE ClassicCodex/
 cp map.lua ClassicCodex/
 cp quest.lua ClassicCodex/
+cp ui.lua ClassicCodex/
+cp browser.lua ClassicCodex/
