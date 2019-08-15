@@ -1,6 +1,7 @@
 CodexMap = CreateFrame("Frame")
 CodexMap.HBDP = LibStub("HereBeDragons-Pins-2.0")
 CodexMap.HBD = LibStub("HereBeDragons-2.0")
+local rgbcache = setmetatable({},{__mode="kv"})
 CodexMap.nodes = {}
 CodexMap.tooltips = {}
 CodexMap.markers = {}
@@ -8,32 +9,6 @@ CodexMap.minimapMarkers = {}
 
 CodexMap.objectiveList = {}
 CodexMap.colorListIndex = 1
-CodexMap.colorList = {
-	[1] = {0.901, 0.098, 0.294},--redish
-	[2] = {0.235, 0.705, 0.294}, --Light Green
-	[3] = {1, 0.882, 0.098}, --yellow
-	[4] = {0, 0.509, 0.784}, --blue
-	[5] = {0.960, 0.509, 0.188}, --orange
-	[6] = {0.568, 0.117, 0.705}, --purple
-	[7] = {0.274, 0.941, 0.941}, --cyan
-	[8] = {0.941, 0.196, 0.901}, --magenta
-	[9] = {0, 1, 0}, --neon green
-	[10] = {1, 0, 0}, --neon red
-	[11] = {0, 0.501, 0.501}, --teal
-	[12] = {0, 0.1, 1}, --neon blue
-	[13] = {0.666, 0.431, 0.156}, --brown
-	[14] = {0.4, 0, 0.4}, -- dark purple
-	[15] = {0.501, 0, 0}, --maroon
-	[16] = {0.666, 1, 0.764}, --mint
-	[17] = {0.521, 0.266, 0.258}, --cappuccino
-	[18] = {1, 0.843, 0.705}, --apricot
-	[19] = {0, 0, 0.501}, --navy
-	[20] = {0.501, 0.501, 0.501}, --grey
-	[21] = {1, 1, 1}, --white
-	-- [22] = {0, 0, 0}, --black
-}
-
-CodexMap.searchColor = {0, 0, 0}
 
 CodexMap.zones = {
     [1] = 1426, --Dun Morogh
@@ -87,10 +62,29 @@ CodexMap.zones = {
 	[3277] = 1460, --Warsong Gulch
 	[3358] = 1461, --Arathi Basin
 }
+
+function str2rgb(text)
+	if not text then return 1, 1, 1 end
+	if CodexColors[text] then return unpack(CodexColors[text]) end
+	if rgbcache[text] then return unpack(rgbcache[text]) end
+	local counter = 1
+	local l = string.len(text)
+	for i = 1, l, 3 do
+		counter = counter*8161 % 4294967279 + (string.byte(text, i) * 16776193) + ((string.byte(text, i + 1) or (l - i + 256)) * 8372226) + ((string.byte(text, i + 2) or (l - i + 256)) * 3932164)
+	end
+	local hash = (counter % 4294967291) % 16777216
+	local r = (hash - hash % 65536) / 65536
+	local g = ((hash - r * 65536) - ((hash - r * 65536) % 256)) / 256
+	local b = hash - r * 65536 - g * 256
+	rgbcache[text] = {r / 255, g / 255, b / 255}
+
+	return unpack(rgbcache[text])
+end
+
 function showTooltip()
 	local focus = GetMouseFocus()
 	
-	if focus:GetName() ~= "TargetFrame" and not UnitExists("mouseover") then
+	if focus and focus:GetName() ~= "TargetFrame" and not UnitExists("mouseover") then
 		GameTooltip:Hide()
 		return
 	end
@@ -136,14 +130,6 @@ local function isEmpty(tabl)
 	return true
 end
 
-local function buildObjectiveList(node)
-	for _, meta in pairs(node) do
-		if meta.uuid and not CodexMap.objectiveList[meta.uuid] then
-			CodexMap.objectiveList[meta.uuid] = 1
-		end
-	end
-end
-
 function CodexMap:GetTooltipColor(min, max)
 	local perc = min / max
 	local r1, g1, b1, r2, g2, b2
@@ -163,13 +149,18 @@ function CodexMap:GetTooltipColor(min, max)
 	return r, g, b
 end
 
+function CodexMap:GetMapNameById(id)
+	id = tonumber(id)
+	return CodexDB["zones"]["loc"][id] or nil
+end
+
 function CodexMap:ShowMapId(map)
 	if map then
 		if not UISpecialFrames["WorldMapFrame"] then
 			table.insert(UISpecialFrames, "WorldMapFrame")
 		end
 
-		-- CodexMap:UpdateNodes()
+		CodexMap:UpdateNodes()
 		WorldMapFrame:Show()
 		for worldMapId, mapId in pairs(CodexMap.zones) do
 			if worldMapId == map then
@@ -183,6 +174,14 @@ function CodexMap:ShowMapId(map)
 	return nil
 end
 
+function CodexMap:HexDifficultyColor(level, force)
+	if force and UnitLevel("player") < level then
+		return "|cffff5555"
+	else
+		local c = GetQuestDifficultyColor(level)
+		return string.format("|cff%02x%02x%02x", c.r * 255, c.g * 255, c.b * 255)
+	end
+end
 
 function CodexMap:ShowTooltip(meta, tooltip)
 	local catch = nil
@@ -223,7 +222,7 @@ function CodexMap:ShowTooltip(meta, tooltip)
 									foundObjective = true
 									local r, g, b = CodexMap:GetTooltipColor(objNum, objNeeded)
 									local dr, dg, db = CodexMap:GetTooltipColor(tonumber(meta["dropRate"]), 100)
-									local lootColor = string.format("%02x%02x%02x", dr * 255,dg * 255, db * 255)
+									local lootColor = string.format("%02x%02x%02x", dr * 255, dg * 255, db * 255)
 									tooltip:AddLine("|cffaaaaaa- |r" .. itemName .. ": " .. objNum .. "/" .. objNeeded .. " |cff555555[|cff" .. lootColor .. meta["dropRate"] .. "%|cff555555]", r, g, b)
 								end
 							end
@@ -244,8 +243,8 @@ function CodexMap:ShowTooltip(meta, tooltip)
 				end
 
 				if not foundObjective and meta["questLevel"] and meta["texture"] then
-					local questLevelString = "Level: " .. meta["questLevel"]
-					local questMinString = meta["questMinimumLevel"] and " / Required: " .. meta["questMinimumLevel"] or ""
+					local questLevelString = "Level: " .. CodexMap:HexDifficultyColor(meta["questLevel"]) .. meta["questLevel"] .. "|r"
+					local questMinString = meta["questMinimumLevel"] and " / Required: " .. CodexMap:HexDifficultyColor(meta["questMinimumLevel"], true) .. meta["questMinimumLevel"] .. "|r" or ""
 					tooltip:AddLine("|cffaaaaaa- |r" .. questLevelString .. questMinString , .8,.8,.8)
 				end
 			end
@@ -270,8 +269,8 @@ function CodexMap:ShowTooltip(meta, tooltip)
 			end
 
 			if not catchFallback and meta["texture"] and meta["questLevel"] then
-				local questLevelString = "Level: " .. meta["questLevel"] .. "|r"
-				local questMinString = meta["questMinimumLevel"] and " / " .. "Required: " .. meta["questMinimumLevel"] .. "|r" or ""
+				local questLevelString = "Level: " .. CodexMap:HexDifficultyColor(meta["questLevel"]) .. meta["questLevel"] .. "|r"
+				local questMinString = meta["questMinimumLevel"] and " / " .. "Required: " .. CodexMap:HexDifficultyColor(meta["questMinimumLevel"], true) .. meta["questMinimumLevel"] .. "|r" or ""
 				tooltip:AddLine("|cffaaaaaa- |r" .. questLevelString .. questMinString , .8,.8,.8)
 			end
 		end
@@ -441,8 +440,11 @@ function CodexMap:UpdateNode(frame, node)
 
 	for title, meta in pairs(node) do
 		meta.layer = GetLayerByTexture(meta.texture)
-
 		if meta.spawn and (meta.layer > frame.layer or not frame.spawn) then
+			frame.updateTexture = (frame.texture ~= meta.texture)
+			frame.updateVertex = (frame.vertex ~= meta.vertex)
+			frame.updateColor = (frame.color ~= meta.color)
+
 			-- set title and texture to the entry with highest layer
 			-- and add core information
 			frame.layer = meta.layer
@@ -453,62 +455,157 @@ function CodexMap:UpdateNode(frame, node)
 			frame.level = meta.level
 			frame.questId = meta.questId
 			frame.texture = meta.texture
-			frame.color = meta.color
-			frame.title = meta.title
-			frame.uuid = meta.uuid
-			frame.search = meta.search
+			frame.vertex = meta.vertex
+			frame.title = title
+
+			if CodexConfig.colorBySpawn then
+				frame.color = meta.spawn or meta.title
+			else
+				frame.color = meta.title
+			end
 		end
 	end
 
-	frame.tex:SetVertexColor(1, 1, 1)
-
+	frame.tex:SetVertexColor(1, 1, 1, 1)
+	
 	if not frame.texture then
-		frame:SetWidth(10)
-		frame:SetHeight(10)
+		frame:SetWidth(CodexConfig.spawnMarkerSize)
+		frame:SetHeight(CodexConfig.spawnMarkerSize)
 		frame.tex:SetTexture("Interface\\Addons\\ClassicCodex\\img\\icon.tga")
 
-		frame:SetScript("OnClick", function(self)
-			if IsShiftKeyDown() then
-				CodexMap:DeleteNode(frame.node[frame.title].addon, frame.title)
-				CodexMap:UpdateNodes()
-			end
-		end)
+		local r, g, b = str2rgb(frame.color)
+		frame.tex:SetVertexColor(r, g, b, 1)
 	else
-		frame:SetWidth(14)
-		frame:SetHeight(14)
+		frame:SetWidth(CodexConfig.questMarkerSize)
+		frame:SetHeight(CodexConfig.questMarkerSize)
 		frame.tex:SetTexture(frame.texture)
-	end
-
-	if not frame.color then 
-		if frame.uuid and CodexMap.objectiveList[frame.uuid] and CodexMap.objectiveList[frame.uuid] == 1 and frame.layer ~= 5 then
-			local r, g, b = unpack(CodexConfig.colorList[CodexMap.colorListIndex])
-			frame.tex:SetVertexColor(r, g, b, 1)
-			CodexMap.objectiveList[frame.uuid] = CodexConfig.colorList[CodexMap.colorListIndex]
-			CodexMap.colorListIndex = CodexMap.colorListIndex + 1
-			if CodexMap.colorListIndex > getn(CodexConfig.colorList) then
-				CodexMap.colorListIndex = 1
+		if frame.vertex then
+			local r, g, b = unpack(frame.vertex)
+			if r > 0 or g > 0 or b > 0 then
+				frame.tex:SetVertexColor(r, g, b, 1)
 			end
-		elseif frame.uuid and CodexMap.objectiveList[frame.uuid] and frame.layer ~= 5 then
-			local color = CodexMap.objectiveList[frame.uuid]
-			frame.tex:SetVertexColor(color[1], color[2], color[3])
-		elseif frame.search then
-			frame.tex:SetVertexColor(CodexMap.searchColor[1], CodexMap.searchColor[2], CodexMap.searchColor[3], 1)
-		end
-	else
-		local r, g, b = unpack(frame.color)
-		if r > 0 or g > 0 or b > 0 then
-			frame.tex:SetVertexColor(r, g, b, 1)
+		else
+			frame.tex:SetVertexColor(1, 1, 1, 1)
 		end
 	end
 
+	frame:SetScript("OnClick", function(self)
+		if IsShiftKeyDown() and self.questId and self.texture and self.layer < 5 then
+			-- mark questnode as done
+			CodexMap:DeleteNode(self.node[self.title].addon, self.title)
+			CodexHistory[self.questId] = true
+			CodexMap:UpdateNodes()
+		elseif IsShiftKeyDown() then
+			CodexMap:DeleteNode(self.node[self.title].addon, self.title)
+			CodexMap:UpdateNodes()
+		else
+			CodexColors[self.color] = {str2rgb(self.color .. GetTime())}
+			CodexMap:UpdateNodes()
+		end
+	end)
+
+	-- if frame.texture then
+	-- 	frame:SetWidth(CodexConfig.questMarkerSize)
+	-- 	frame:SetHeight(CodexConfig.questMarkerSize)
+
+	-- 	if frame.updateTexture or frame.updateVertex then
+	-- 		frame.tex:SetTexture(frame.texture)
+	-- 		frame.tex:SetVertexColor(1, 1, 1)
+
+	-- 		if frame.updateVertex and frame.vertex then
+	-- 			local r, g, b = unpack(frame.vertex)
+	-- 			if r > 0 or g > 0 or b > 0 then
+	-- 				frame.tex:SetVertexColor(r, g, b, 1)
+	-- 			end
+	-- 		end
+	-- 	end
+	-- else
+	-- 	frame:SetWidth(CodexConfig.spawnMarkerSize)
+	-- 	frame:SetHeight(CodexConfig.spawnMarkerSize)
+
+	-- 	if frame.updateColor or frame.updateTexture then
+	-- 		frame.tex:SetTexture("Interface\\Addons\\ClassicCodex\\img\\icon.tga")
+
+	-- 		local r, g, b = str2rgb(frame.color)
+	-- 		frame.tex:SetVertexColor(r, g, b, 1)
+	-- 	end
+	-- end
+
+	-- if frame.updateTexture or frame.updateVertex or frame.updateColor then
+		-- frame:SetScript("OnClick", function(self)
+		-- 	if IsShiftKeyDown() and self.questId and self.texture and self.layer < 5 then
+		-- 		-- mark questnode as done
+		-- 		CodexMap:DeleteNode(self.node[self.title].addon, self.title)
+		-- 		CodexHistory[self.questId] = true
+		-- 		CodexMap:UpdateNodes()
+		-- 	elseif IsShiftKeyDown() then
+		-- 		CodexMap:DeleteNode(self.node[self.title].addon, self.title)
+		-- 		CodexMap:UpdateNodes()
+		-- 	else
+		-- 		CodexColors[self.color] = {str2rgb(self.color .. GetTime())}
+		-- 		CodexMap:UpdateNodes()
+		-- 	end
+		-- end)
+	-- end
 
 	frame.node = node
 end
 
 
+	-- frame.tex:SetVertexColor(1, 1, 1)
+
+	-- if not frame.texture then
+	-- 	frame:SetWidth(10)
+	-- 	frame:SetHeight(10)
+	-- 	frame.tex:SetTexture("Interface\\Addons\\ClassicCodex\\img\\icon.tga")
+	-- else
+	-- 	frame:SetWidth(14)
+	-- 	frame:SetHeight(14)
+	-- 	frame.tex:SetTexture(frame.texture)
+	-- end
+
+	-- frame:SetScript("OnClick", function(self)
+	-- 	if IsShiftKeyDown() and self.questId and self.texture and self.layer < 5 then
+	-- 		-- mark questnode as done
+	-- 		CodexMap:DeleteNode(self.node[self.title].addon, self.title)
+	-- 		CodexHistory[self.questId] = true
+	-- 		CodexMap:UpdateNodes()
+	-- 	elseif IsShiftKeyDown() then
+	-- 		CodexMap:DeleteNode(self.node[self.title].addon, self.title)
+	-- 		CodexMap:UpdateNodes()
+	-- 	end
+	-- end)
+
+	-- if not frame.color then 
+	-- 	-- if frame.uuid and CodexMap.objectiveList[frame.uuid] and CodexMap.objectiveList[frame.uuid] == 1 and frame.layer ~= 5 then
+	-- 	-- 	local r, g, b = unpack(CodexConfig.colorList[CodexMap.colorListIndex])
+	-- 	-- 	frame.tex:SetVertexColor(r, g, b, 1)
+	-- 	-- 	CodexMap.objectiveList[frame.uuid] = CodexConfig.colorList[CodexMap.colorListIndex]
+	-- 	-- 	CodexMap.colorListIndex = CodexMap.colorListIndex + 1
+	-- 	-- 	if CodexMap.colorListIndex > getn(CodexConfig.colorList) then
+	-- 	-- 		CodexMap.colorListIndex = 1
+	-- 	-- 	end
+	-- 	-- elseif frame.uuid and CodexMap.objectiveList[frame.uuid] and frame.layer ~= 5 then
+	-- 	-- 	local color = CodexMap.objectiveList[frame.uuid]
+	-- 	-- 	frame.tex:SetVertexColor(color[1], color[2], color[3])
+	-- 	-- elseif frame.search then
+	-- 	-- 	frame.tex:SetVertexColor(CodexConfig.searchColor[1], CodexConfig.searchColor[2], CodexConfig.searchColor[3], 1)
+	-- 	-- end
+	-- 	local r, g, b = str2rgb(frame.spawn)
+	-- 	frame.tex:SetVertexColor(r, g, b, 1)
+	-- else
+	-- 	local r, g, b = unpack(frame.color)
+	-- 	if r > 0 or g > 0 or b > 0 then
+	-- 		frame.tex:SetVertexColor(r, g, b, 1)
+	-- 	end
+	-- end
+
+
+	-- frame.node = node
+
+
 function CodexMap:UpdateNodes()
 	-- local worldMapId = C_Map.GetBestMapForUnit("player")
-
 	local i = 0
 
 	CodexMap.objectiveList = {}
@@ -523,9 +620,6 @@ function CodexMap:UpdateNodes()
 			worldMapId = CodexMap.zones[mapId]
 			if worldMapId then
 				for coords, node in pairs(CodexMap.nodes[addon][mapId]) do
-
-					buildObjectiveList(node)
-
 					if not CodexMap.markers[i] or not CodexMap.minimapMarkers[i] then
 						CodexMap.markers[i] = CodexMap:CreateMapMarker(node)
 						CodexMap.minimapMarkers[i] = CodexMap:CreateMinimapMarker(node)

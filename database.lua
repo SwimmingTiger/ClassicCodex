@@ -64,14 +64,6 @@ function CodexDatabase:GetBitByClass(model)
     end
 end
 
-local function uuid()
-    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-    return string.gsub(template, '[xy]', function (c)
-        local v = (c == 'x') and random(0, 0xf) or random(8, 0xb)
-        return string.format('%x', v)
-    end)
-end
-
 local function stringCompare(old, new)
     local prv = {}
     for o = 0, string.len(old) do
@@ -99,6 +91,8 @@ local function stringCompare(old, new)
     local diff = strlen(prv[string.len(old)])
     if diff == 0 then
         return 0
+    elseif strlen(old) == 0 then
+        return diff / 0.01
     else
         return diff / strlen(old)
     end
@@ -235,12 +229,11 @@ function CodexDatabase:SearchUnitById(id, meta, maps)
     return maps
 end
 
-function CodexDatabase:SearchUnitByName(name, meta, partial, search)
+function CodexDatabase:SearchUnitByName(name, meta, partial)
     local maps = {}
 
     for id in pairs(CodexDatabase:GetIdByName(name, "units", partial)) do
         if units[id] and units[id]["coords"] then
-            meta["search"] = search
             maps = CodexDatabase:SearchUnitById(id, meta, maps)
         end
     end
@@ -278,12 +271,11 @@ function CodexDatabase:SearchObjectById(id, meta, maps)
     return maps
 end
 
-function CodexDatabase:SearchObjectByName(name, meta, partial, search)
+function CodexDatabase:SearchObjectByName(name, meta, partial)
     local maps = {}
 
     for id in pairs(CodexDatabase:GetIdByName(name, "objects", partial)) do
         if objects[id] and objects[id]["coords"] then
-            meta["search"] = search
             maps = CodexDatabase:SearchObjectById(id, meta, maps)
         end
     end
@@ -364,25 +356,23 @@ function CodexDatabase:SearchItemById(id, meta, maps, allowedTypes)
     return maps
 end
 
-function CodexDatabase:SearchItemByName(name, meta, partial, search)
+function CodexDatabase:SearchItemByName(name, meta, partial)
     local maps = {}
 
     for id in pairs(CodexDatabase:GetIdByName(name, "items", partial)) do
-        meta["search"] = search
         maps = CodexDatabase:SearchItemById(id, meta, maps)
     end
 
     return maps
 end
 
-function CodexDatabase:SearchVendorByItemName(item, meta, search)
+function CodexDatabase:SearchVendorByItemName(item, meta)
     local maps = {}
     local meta = meta or {}
 
     for id in pairs(CodexDatabase:GetIdByName(item, "items")) do
         meta["itemId"] = id
         meta["item"] = CodexDB.items.loc[id]
-        meta["search"] = search
 
         if items[id] and items[id]["V"] then
             for unit, dropChance in pairs(items[id]["V"]) do
@@ -522,7 +512,6 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
                 if not objectiveBlacklist["U"][unit] or objectiveBlacklist["U"][unit] ~= "DONE" then
                     meta = meta or {}
                     meta["texture"] = nil
-                    meta["uuid"] = uuid()
                     maps = CodexDatabase:SearchUnitById(unit, meta, maps)
                 end
             end
@@ -535,7 +524,6 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
                     meta = meta or {}
                     meta["texture"] = nil
                     meta["layer"] = 2
-                    meta["uuid"] = uuid()
                     maps = CodexDatabase:SearchObjectById(object, meta, maps)
                 end
             end
@@ -548,7 +536,6 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
                     meta = meta or {}
                     meta["texture"] = nil
                     meta["layer"] = 2
-                    meta["uuid"] = uuid()
                     maps = CodexDatabase:SearchItemById(item, meta, maps)
                 end
             end
@@ -558,11 +545,10 @@ function CodexDatabase:SearchQuestById(id, meta, maps)
     return maps
 end
 
-function CodexDatabase:SearchQuestByName(quest, meta, partial, search)
+function CodexDatabase:SearchQuestByName(quest, meta, partial)
     local maps = {}
 
     for id in pairs(CodexDatabase:GetIdByName(quest, "quests", partial)) do
-        meta["search"] = search
         maps = CodexDatabase:SearchQuestById(id, meta, maps)
     end
 
@@ -605,7 +591,8 @@ function CodexDatabase:SearchQuests(meta, maps)
         if CodexDB.quests.loc[id] and currentQuests[CodexDB.quests.loc[id].T] then
             -- hide active quest
         elseif completedQuests[id] then
-        -- elseif CodexHistory[id] then
+            -- hide completed quests
+        elseif CodexHistory[id] then
             -- hide completed quests
         elseif quests[id]["pre"] and not CodexHistory[quests[id]["pre"]] then
             -- hide missing pre-quest
@@ -636,20 +623,27 @@ function CodexDatabase:SearchQuests(meta, maps)
             meta["questLevel"] = quests[id]["lvl"]
             meta["questMinimumLevel"] = quests[id]["min"]
 
-            meta["color"] = {0, 0, 0}
+            meta["vertex"] = {0, 0, 0}
             meta["layer"] = 3
 
             -- Tint high level quests red
             if minLevel > playerLevel then
                 meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available.tga"
-                meta["color"] = {1, 0.4, 0.4}
+                meta["vertex"] = {1, 0.4, 0.4}
                 meta["layer"] = 2
             end
 
             -- Tint low level quests grey
             if maxLevel + 9 < playerLevel then
                 meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available.tga"
-                meta["color"] = {1, 1, 1}
+                meta["vertex"] = {1, 1, 1}
+                meta["layer"] = 2
+            end
+
+            -- Festive quests
+            if math.abs(minLevel - maxLevel) >= 30 then
+                meta["texture"] = "Interface\\Addons\\ClassicCodex\\img\\available.tga"
+                meta["vertex"] = {0.2, 0.8, 1}
                 meta["layer"] = 2
             end
 

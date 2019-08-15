@@ -11,6 +11,7 @@ CodexQuest:RegisterEvent("QUEST_LOG_UPDATE")
 CodexQuest:RegisterEvent("QUEST_FINISHED")
 CodexQuest:RegisterEvent("PLAYER_LEVEL_UP")
 CodexQuest:RegisterEvent("PLAYER_ENTERING_WORLD")
+CodexQuest:RegisterEvent("SKILL_LINES_CHANGED")
 CodexQuest:RegisterEvent("QUEST_DETAIL")
 CodexQuest:RegisterEvent("QUEST_PROGRESS")
 CodexQuest:RegisterEvent("QUEST_COMPLETE")
@@ -29,7 +30,7 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
         else
             return
         end
-    elseif event == "PLAYER_LEVEL_UP" or event == "PLAYER_ENTERING_WORLD" then
+    elseif event == "PLAYER_LEVEL_UP" or event == "PLAYER_ENTERING_WORLD" or event == "SKILL_LINES_CHANGED" then
         CodexQuest.updateQuestGivers = true
 
     elseif (event == "GOSSIP_SHOW") then
@@ -127,7 +128,7 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
 end)
 
 CodexQuest:SetScript("OnUpdate", function()
-    if (CodexQuest.tick or 0.2) > GetTime() then return else CodexQuest.tick = GetTime() + 0.2 end
+    if (CodexQuest.tick or 0.1) > GetTime() then return else CodexQuest.tick = GetTime() + 0.1 end
     
     if CodexQuest.updateQuestLog == true then
         CodexQuest:UpdateQuestLog()

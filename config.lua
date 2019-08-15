@@ -1,5 +1,5 @@
 CodexConfig = {}
-colorListPickers = {}
+CodexColors = {}
 
 DefaultCodexConfig = {
     ["trackingMethod"] = 1, -- 1: All Quests; 2: Tracked Quests; 3: Manual; 4: Hide
@@ -11,38 +11,9 @@ DefaultCodexConfig = {
     ["showLowLevel"] = false, -- Show low level quest giver nodes
     ["showHighLevel"] = true, -- Show level+3 quest giver nodes
     ["showFestival"] = true, -- Show event quest giver nodes
-    ["colorList"] = {
-        {0.901, 0.098, 0.294},--redish
-        {0.235, 0.705, 0.294}, --light green
-        {1, 0.882, 0.098}, --yellow
-        {0, 0.509, 0.784}, --blue
-        {0.960, 0.509, 0.188}, --orange
-        {0.568, 0.117, 0.705}, --purple
-        {0.274, 0.941, 0.941}, --cyan
-        {0.941, 0.196, 0.901}, --magenta
-        {0, 1, 0}, --neon green
-        {1, 0, 0}, --neon red
-        {0, 0.501, 0.501}, --teal
-        {0, 0.1, 1}, --neon blue
-        {0.666, 0.431, 0.156}, --brown
-        {0.4, 0, 0.4}, -- dark purple
-        {0.501, 0, 0}, --maroon
-        {0.666, 1, 0.764}, --mint
-        {0.521, 0.266, 0.258}, --cappuccino
-        {1, 0.843, 0.705}, --apricot
-        {0, 0, 0.501}, --navy
-        {0.501, 0.501, 0.501}, --grey
-        {1, 1, 1}, --white
-        {1, 1, 1}, --white
-        {1, 1, 1}, --white
-        {1, 1, 1}, --white
-        {1, 1, 1}, --white
-        {1, 1, 1}, --white
-        {1, 1, 1}, --white
-        {1, 1, 1}, --white
-        {1, 1, 1}, --white
-        {1, 1, 1}, --white
-    },
+    ["colorBySpawn"] = true,
+    ["questMarkerSize"] = 14,
+    ["spawnMarkerSize"] = 10,
 }
 
 function textFactory(parent, value, size)
@@ -95,6 +66,47 @@ function editBoxFactory(parent, name, width, height, onEnter)
     return editBox
 end
 
+function sliderFactory(parent, name, title, minVal, maxVal, valStep, func)
+    local slider = CreateFrame("Slider", name, parent, "OptionsSliderTemplate")
+    local editBox = CreateFrame("EditBox", "$parentEditBox", slider, "InputBoxTemplate")
+    slider:SetMinMaxValues(minVal, maxVal)
+    slider:SetValueStep(valStep)
+    slider.text = _G[name .. "Text"]
+    slider.text:SetText(title)
+    slider.textLow = _G[name .. "Low"]
+    slider.textHigh = _G[name .. "High"]
+    slider.textLow:SetText(floor(minVal))
+    slider.textHigh:SetText(floor(maxVal))
+    slider.textLow:SetTextColor(0.8,0.8,0.8)
+    slider.textHigh:SetTextColor(0.8,0.8,0.8)
+    slider:SetObeyStepOnDrag(true)
+    editBox:SetSize(45,30)
+    editBox:ClearAllPoints()
+    editBox:SetPoint("LEFT", slider, "RIGHT", 15, 0)
+    editBox:SetText(slider:GetValue())
+    editBox:SetAutoFocus(false)
+    slider:SetScript("OnValueChanged", function(self)
+        editBox:SetText(tostring(self:GetValue()))
+        func(self)
+    end)
+    editBox:SetScript("OnTextChanged", function(self)
+        local val = self:GetText()
+        if tonumber(val) then
+            self:GetParent():SetValue(val)
+        end
+    end)
+    editBox:SetScript("OnEnterPressed", function(self)
+        local val = self:GetText()
+        if tonumber(val) then
+            self:GetParent():SetValue(val)
+            self:ClearFocus()
+        end
+    end)
+    slider.editBox = editBox
+    return slider
+end
+
+
 function colorPickerFactory(parent, name, r, g, b, text, onClick)
     local colorPicker = CreateFrame("Button", name, parent)
     colorPicker:SetSize(15, 15)
@@ -102,8 +114,11 @@ function colorPickerFactory(parent, name, r, g, b, text, onClick)
     colorPicker.normal:SetColorTexture(1, 1, 1, 1)
     colorPicker.normal:SetPoint("TOPLEFT", -1, 1)
     colorPicker.normal:SetPoint("BOTTOMRIGHT", 1, -1)
+    colorPicker.r = r
+    colorPicker.g = g
+    colorPicker.b = b
     colorPicker.foreground = colorPicker:CreateTexture(nil, "OVERLAY")
-    colorPicker.foreground:SetColorTexture(r, g, b, 1)
+    colorPicker.foreground:SetColorTexture(colorPicker.r, colorPicker.g, colorPicker.b, 1)
     colorPicker.foreground:SetAllPoints()
     colorPicker:SetNormalTexture(colorPicker.normal)
     colorPicker:SetScript("OnClick", onClick)
@@ -118,7 +133,11 @@ function LoadConfig()
 
     for key, val in pairs(DefaultCodexConfig) do
         if CodexConfig[key] == nil then
-            CodexConfig[key] = val
+            if key == "colorList" then
+                CodexConfig[key] = {unpack(val)}
+            else
+                CodexConfig[key] = val
+            end
         end
     end
 end
@@ -132,15 +151,27 @@ function UpdateConfigPanel(configPanel)
     configPanel.showLowLevelCheckbox:SetChecked(CodexConfig.showLowLevel)
     configPanel.showHighLevelCheckbox:SetChecked(CodexConfig.showHighLevel)
     configPanel.showFestivalCheckbox:SetChecked(CodexConfig.showFestival)
+    configPanel.colorBySpawnCheckbox:SetChecked(CodexConfig.colorBySpawn)
 
-    for k, v in pairs(colorListPickers) do
-        r, g, b = unpack(CodexConfig.colorList[k])
-        print(r)
-        print(g)
-        print(b)
-        v.foreground:SetColorTexture(r, g, b)
-        v.reset = true
-    end
+    configPanel.questMarkerSizeSlider:SetValue(CodexConfig.questMarkerSize)
+    configPanel.questMarkerSizeSlider.editBox:SetCursorPosition(0)
+
+    configPanel.spawnMarkerSizeSlider:SetValue(CodexConfig.spawnMarkerSize)
+    configPanel.spawnMarkerSizeSlider.editBox:SetCursorPosition(0)
+
+    -- for k, v in pairs(colorListPickers) do
+    --     r, g, b = unpack(CodexConfig.colorList[k])
+    --     v.r = r
+    --     v.g = g
+    --     v.b = b
+    --     v.foreground:SetColorTexture(r, g, b)
+    -- end
+
+    -- r, g, b = unpack(CodexConfig.searchColor)
+    -- configPanel.searchColorPicker.r = r
+    -- configPanel.searchColorPicker.g = g
+    -- configPanel.searchColorPicker.b = b
+    -- configPanel.searchColorPicker.foreground:SetColorTexture(r, g, b)
 end
 
 function createConfigPanel(parent)
@@ -182,78 +213,117 @@ function createConfigPanel(parent)
     end)
     config.currentQuestGiversCheckbox:SetPoint("TOPLEFT", 10, -175)
 
-    config.showLowLevelCheckbox = checkboxFactory(config, "Show low-level quests", "If selected, low-level quests will be hidden on the map", function(self)
+    config.showLowLevelCheckbox = checkboxFactory(config, "Show Low-level Quests", "If selected, low-level quests will be hidden on the map", function(self)
         CodexConfig.showLowLevel = self:GetChecked()
         CodexQuest:ResetAll()
     end)
     config.showLowLevelCheckbox:SetPoint("TOPLEFT", 10, -210)
 
-    config.showHighLevelCheckbox = checkboxFactory(config, "Show high-level quests", "If selected, quests with a level requirement of your level + 3 will be shown on the map", function(self)
+    config.showHighLevelCheckbox = checkboxFactory(config, "Show High-level Quests", "If selected, quests with a level requirement of your level + 3 will be shown on the map", function(self)
         CodexConfig.showHighLevel = self:GetChecked()
         CodexQuest:ResetAll()
     end)
     config.showHighLevelCheckbox:SetPoint("TOPLEFT", 10, -245)
 
-    config.showFestivalCheckbox = checkboxFactory(config, "Show festival quests", "If selected, quests related to WoW festive seasons will be displayed on the map", function(self)
+    config.showFestivalCheckbox = checkboxFactory(config, "Show Festival Quests", "If selected, quests related to WoW festive seasons will be displayed on the map", function(self)
         CodexConfig.showFestival = self:GetChecked()
         CodexQuest:ResetAll()
     end)
     config.showFestivalCheckbox:SetPoint("TOPLEFT", 10, -280)
 
-    -- Marker Colors
-    config.markerColorsTitle = textFactory(config, "Map Marker Colors", 20)
-    config.markerColorsTitle:SetPoint("TOPLEFT", 0, -350)
-    config.markerColorsTitle:SetTextColor(1, 0.9, 0, 1)
-
-    config.restoreColorsButton = CreateFrame("Button", nil, config)
-    config.restoreColorsButton:SetPoint("TOPLEFT", 190, -349)
-    config.restoreColorsButton:SetSize(190, 35)
-    config.restoreColorsButton:SetNormalTexture("Interface/Buttons/UI-Panel-Button-Up")
-    config.restoreColorsButton:SetHighlightTexture("Interface/Buttons/UI-Panel-Button-Highlight")
-    config.restoreColorsButton:SetPushedTexture("Interface/Buttons/UI-Panel-Button-Down")
-    local font = config.restoreColorsButton:CreateFontString()
-    font:SetFont("Fonts/FRIZQT__.TTF", 12)
-    font:SetPoint("TOPLEFT", config.restoreColorsButton, "TOPLEFT", 10, -6)
-    font:SetText("Restore Defaults")
-    config.restoreColorsButton:SetFontString(font)
-    config.restoreColorsButton:SetScript("OnClick", function(self)
-        CodexConfig.colorList = DefaultCodexConfig.colorList
+    config.colorBySpawnCheckbox = checkboxFactory(config, "Color By Spawn", "If selected, markers' colors will be set per spawn type or per quest if not selected", function(self)
+        CodexConfig.colorBySpawn = self:GetChecked()
         CodexQuest:ResetAll()
-        UpdateConfigPanel(config)
     end)
+    config.colorBySpawnCheckbox:SetPoint("TOPLEFT", 10, -315)
 
-    for k, v in pairs(CodexConfig.colorList) do
-        local colorPickerFrame = colorPickerFactory(config, "Color " .. k, v[1], v[2], v[3], "Color " .. k, function(self)
-            local function func(restore)
-                if restore then
-                    r, g, b = unpack(restore)
-                else
-                    r, g, b = ColorPickerFrame:GetColorRGB()
-                end
-                CodexConfig.colorList[k] = {r, g, b}
+    config.questMarkerSizeSlider = sliderFactory(config, "questMarkerSize", "Quest Marker Size", 10, 25, 1, function(self)
+        CodexConfig.questMarkerSize = tonumber(self:GetValue())
+        CodexMap:UpdateNodes()
+    end)
+    config.questMarkerSizeSlider:SetPoint("TOPLEFT", 45, -400)
 
-                self.foreground:SetColorTexture(r, g, b, 1)
-                CodexQuest:ResetAll()
-            end
+    config.spawnMarkerSizeSlider = sliderFactory(config, "spawnMarkerSize", "Spawn Marker Size", 6, 20, 1, function(self)
+        CodexConfig.spawnMarkerSize = tonumber(self:GetValue())
+        CodexMap:UpdateNodes()
+    end)
+    config.spawnMarkerSizeSlider:SetPoint("TOPLEFT", 325, -400)
 
-            ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = func, func, func
-            if self.reset then
-                self.reset = false
-                r, g, b = unpack(CodexConfig.colorList[k])
-                ColorPickerFrame:SetColorRGB(r, g, b)
-            else
-                r, g, b = unpack(CodexConfig.colorList[k])
-                ColorPickerFrame:SetColorRGB(r, g, b)
-            end
-            ColorPickerFrame.opacity = 1
-            ColorPickerFrame.previousValues = 
-            ColorPickerFrame:Show()
-        end)
+    -- Marker Colors
+    -- config.markerColorsTitle = textFactory(config, "Map Marker Colors", 20)
+    -- config.markerColorsTitle:SetPoint("TOPLEFT", 0, -350)
+    -- config.markerColorsTitle:SetTextColor(1, 0.9, 0, 1)
 
-        colorPickerFrame:SetPoint("TOPLEFT", ((k - 1) % 6) * 85, -385 - math.floor((k - 1) / 6) * 25)
+    -- config.restoreColorsButton = CreateFrame("Button", nil, config)
+    -- config.restoreColorsButton:SetPoint("TOPLEFT", 190, -349)
+    -- config.restoreColorsButton:SetSize(190, 35)
+    -- config.restoreColorsButton:SetNormalTexture("Interface/Buttons/UI-Panel-Button-Up")
+    -- config.restoreColorsButton:SetHighlightTexture("Interface/Buttons/UI-Panel-Button-Highlight")
+    -- config.restoreColorsButton:SetPushedTexture("Interface/Buttons/UI-Panel-Button-Down")
+    -- local font = config.restoreColorsButton:CreateFontString()
+    -- font:SetFont("Fonts/FRIZQT__.TTF", 12)
+    -- font:SetPoint("TOPLEFT", config.restoreColorsButton, "TOPLEFT", 10, -6)
+    -- font:SetText("Restore Defaults")
+    -- config.restoreColorsButton:SetFontString(font)
+    -- config.restoreColorsButton:SetScript("OnClick", function(self)
+    --     CodexConfig.colorList = {unpack(DefaultCodexConfig.colorList)}
+    --     CodexQuest:ResetAll()
+    --     UpdateConfigPanel(config)
+    -- end)
 
-        table.insert(colorListPickers, colorPickerFrame)
-    end
+    -- for k, v in pairs(CodexConfig.colorList) do
+    --     local colorPickerFrame = colorPickerFactory(config, "Color " .. k, v[1], v[2], v[3], "Color " .. k, function(self)
+    --         local function func(restore)
+    --             if restore then
+    --                 r, g, b = unpack(restore)
+    --             else
+    --                 r, g, b = ColorPickerFrame:GetColorRGB()
+    --             end
+    --             CodexConfig.colorList[k] = {r, g, b}
+
+    --             self.r, self.g, self.b = r, g, b
+    --             self.foreground:SetColorTexture(r, g, b, 1)
+    --             CodexQuest:ResetAll()
+    --         end
+
+    --         ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = func, func, func
+    --         ColorPickerFrame:SetColorRGB(self.r, self.g, self.b)
+    --         ColorPickerFrame.opacity = 1
+    --         ColorPickerFrame.previousValues = {self.r, self.g, self.b}
+    --         ColorPickerFrame:Show()
+    --     end)
+
+    --     colorPickerFrame:SetPoint("TOPLEFT", ((k - 1) % 6) * 85 + 10, -385 - math.floor((k - 1) / 6) * 25)
+
+    --     table.insert(colorListPickers, colorPickerFrame)
+    -- end
+
+    -- Search Color
+    -- config.searchColorTitle = textFactory(config, "Search Marker Color", 20)
+    -- config.searchColorTitle:SetPoint("TOPLEFT", 0, -525)
+    -- config.searchColorTitle:SetTextColor(1, 0.9, 0, 1)
+
+    -- config.searchColorPicker = colorPickerFactory(config, "Search Color", CodexConfig.searchColor[1], CodexConfig.searchColor[2], CodexConfig.searchColor[3], "Search Color", function(self)
+    --     local function func(restore)
+    --         if restore then
+    --             r, g, b = unpack(restore)
+    --         else
+    --             r, g, b = ColorPickerFrame:GetColorRGB()
+    --         end
+    --         CodexConfig.searchColor = {r, g, b}
+
+    --         self.r, self.g, self.b = r, g, b
+    --         self.foreground:SetColorTexture(r, g, b, 1)
+    --         CodexQuest.ResetAll()
+    --     end
+
+    --     ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = func, func, func
+    --     ColorPickerFrame:SetColorRGB(self.r, self.g, self.b)
+    --     ColorPickerFrame.opacity = 1
+    --     ColorPickerFrame.previousValues = {self.r, self.g, self.b}
+    --     ColorPickerFrame:Show()
+    -- end)
+    -- config.searchColorPicker:SetPoint("TOPLEFT", 10, -560)
 
     return config
 end
