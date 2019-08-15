@@ -5,6 +5,7 @@ SlashCmdList["CODEX"] = function(input, editBox)
 
     if (input == "" or input == nil) then
         print("Classic Codex (v" .. tostring(GetAddOnMetadata("ClassicCodex", "Version")) .. "):")
+        print("|cff33ffcc/codex|cffffffff show |cffcccccc - Show database interface")
         print("|cff33ffcc/codex|cffffffff unit <unit> |cffcccccc - Search units")
         print("|cff33ffcc/codex|cffffffff object <gameObject> |cffcccccc - Search objects")
         print("|cff33ffcc/codex|cffffffff item <item> |cffcccccc - Search items")
@@ -14,6 +15,7 @@ SlashCmdList["CODEX"] = function(input, editBox)
         print("|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - Show related objects on the map")
         print("|cff33ffcc/codex|cffffffff clean |cffcccccc - Clean map")
         print("|cff33ffcc/codex|cffffffff reset |cffcccccc - Reset map")
+        print("|cff33ffcc ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r")
         return
     end
 
@@ -84,7 +86,21 @@ SlashCmdList["CODEX"] = function(input, editBox)
         return
     end
 
+    if arg1 == "show" then
+        if CodexBrowser then CodexBrowser:Show() end
+        return
+    end
+
     if arg1 == "reset" then
         CodexQuest:ResetAll()
+        return
+    end
+
+    if type(arg1) == "string" then
+        if CodexBrowser then
+            CodexBrowser:Show()
+            CodexBrowser.input:SetText((string.gsub(string.format("%s %s", arg1, arg2), "^%s*(.-)%s*$", "%1")))
+        end
+        return
     end
 end

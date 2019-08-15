@@ -4,8 +4,8 @@
 ## Title: ClassicCodex
 ## Notes: ClassicCodex
 ## Author: Pgarneau, Shagu
-## Version: 1.1.0
-## SavedVariablesPerCharacter: CodexConfig
+## Version: 1.2.0
+## SavedVariablesPerCharacter: CodexConfig, CodexHistory, CodexBrowserFavorites, CodexColors
 
 # database index
 db\init.lua
@@ -85,3 +85,5 @@ core.lua
 database.lua
 map.lua
 quest.lua
+ui.lua
+browser.lua
