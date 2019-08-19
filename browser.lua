@@ -668,7 +668,7 @@ CodexBrowser:SetScript("OnUpdate", function(self)
   elseif self.selectState and (self.selectState == "clean" or not IsControlKeyDown()) then
     for id, frame in pairs(CodexBrowser.tabs) do
       for id, button in pairs(frame.buttons) do
-        if compat.mod(button:GetID(),2) == 1 then
+        if button:GetID() % 2 == 1 then
           button.tex:SetColorTexture(1,1,1,.02)
         else
           button.tex:SetColorTexture(1,1,1,.04)
