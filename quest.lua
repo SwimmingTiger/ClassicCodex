@@ -399,6 +399,10 @@ end
 
 
 function CodexQuest:CheckNamePlate()
+    -- Blizzard prohibits addons from operating friendly nameplates in an instance.
+    -- Disable related actions in the instance to avoid tainting the UI.
+    if IsInInstance() then return end
+
     local something = WorldFrame:GetNumChildren()
     local index = 1
     local plateList = {}
