@@ -643,8 +643,11 @@ function CodexMap:UpdateNodes()
 
 end
 
+-- Since UpdateNodes draws markers for all maps, it is no longer necessary to redraw when changing zones.
+--[[
 CodexMap:RegisterEvent("ZONE_CHANGED")
 CodexMap:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 CodexMap:SetScript("OnEvent", function(self, event, ...)
 	CodexMap:UpdateNodes()
 end)
+]]

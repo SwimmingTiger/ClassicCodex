@@ -19,7 +19,8 @@ CodexQuest:RegisterEvent("QUEST_GREETING")
 CodexQuest:RegisterEvent("QUEST_REMOVED")
 CodexQuest:RegisterEvent("GOSSIP_SHOW")
 CodexQuest:RegisterEvent("NAME_PLATE_UNIT_ADDED")
-CodexQuest:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
+-- There is no handler for it. In order to avoid triggering the redrawing operation in the else branch, it is no longer registered.
+--CodexQuest:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
 CodexQuest:RegisterEvent("ADDON_LOADED")
 CodexQuest:SetScript("OnEvent", function(self, event, ...)
     if event == "ADDON_LOADED" then
