@@ -165,7 +165,8 @@ function CodexMap:ShowMapId(map)
 		for worldMapId, mapId in pairs(CodexMap.zones) do
 			if worldMapId == map then
 				WorldMapFrame:SetMapID(mapId)
-				CodexMap:UpdateNodes()
+				-- The previous CodexMap:UpdateNodes() call has rendered all the required markers, so there is no need to redraw
+				--CodexMap:UpdateNodes()
 				return true
 			end
 		end
