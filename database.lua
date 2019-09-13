@@ -580,15 +580,17 @@ function CodexDatabase:SearchQuests(meta, maps)
 
     local currentQuests = {}
     for id=1, GetNumQuestLogEntries() do
-        local title = GetQuestLogTitle(id)
-        currentQuests[title] = true
+        local _, _, _, header, _, _, _, questId = GetQuestLogTitle(id)
+        if not header then
+            currentQuests[questId] = true
+        end
     end
 
     for id in pairs(quests) do
         minLevel = quests[id]["min"] or quests[id]["lvl"] or playerLevel
         maxLevel = quests[id]["lvl"] or quests[id]["min"] or playerLevel
 
-        if CodexDB.quests.loc[id] and currentQuests[CodexDB.quests.loc[id].T] then
+        if CodexDB.quests.loc[id] and currentQuests[id] then
             -- hide active quest
         elseif completedQuests[id] then
             -- hide completed quests

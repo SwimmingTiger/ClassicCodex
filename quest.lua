@@ -4,6 +4,7 @@ CodexQuest.queue = {}
 CodexQuest.abandon = ""
 CodexQuest.questLog = {}
 CodexQuest.questLogTemp = {}
+CodexQuest.questNameMap = {}
 CodexQuest.updateNodes = false
 
 CodexQuest:RegisterEvent("QUEST_WATCH_UPDATE")
@@ -105,7 +106,7 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
                 for questLogId = 1, 40 do
                     local title, _, _, header, _, complete = GetQuestLogTitle(questLogId)
 
-                    if GetActiveTitle(index) == title and complete == 1 then
+                    if not header and GetActiveTitle(index) == title and complete == 1 then
                         SelectActiveQuest(index)
                     end
                 end
@@ -155,17 +156,26 @@ end)
 
 function CodexQuest:UpdateQuestLog()
     CodexQuest.questLogTemp = {}
+    CodexQuest.questNameMap = {}
 
     local _, numQuests = GetNumQuestLogEntries()
     local found = 0
+    local quests = CodexDB.quests.loc
 
     -- iterate over all quests
     for questLogId = 1, 40 do
-        local title, _, _, header, _, complete, _, questId = GetQuestLogTitle(questLogId)
+        local blzTitle, _, _, header, _, complete, _, questId = GetQuestLogTitle(questLogId)
         local objectives = GetNumQuestLeaderBoards(questLogId)
         local watched = IsQuestWatched(questLogId)
 
-        if title and not header then
+        if not header and quests[questId] then
+            local title = quests[questId].T
+            -- Save the mapping of the title from Blizzard and from the ClassicCodex database.
+            -- With the game updating, the names of the two may be inconsistent.
+            if blzTitle ~= title then
+                CodexQuest.questNameMap[blzTitle] = title
+            end
+
             -- add new quest to the quest log
             if not CodexQuest.questLog[title] then
                 CodexQuest.questLogTemp[title] = {ids = {questId}, questLogId = questLogId, state = "init"}
@@ -246,12 +256,37 @@ function CodexQuest:UpdateQuestLog()
 end
 
 -- Force reset
+-- Please keep the interface stable. Other addons may add a Reset button through this function.
 function CodexQuest:ResetAll()
     CodexMap.DeleteNode("CODEX")
     CodexQuest.questLog = {}
     CodexQuest.updateQuestLog = true
     CodexQuest.updateQuestGivers = true
     CodexQuest.updateNodes = true
+end
+
+-- Display the selected quest in the quest log
+-- Please keep the interface stable. Other addons may add a Show button through this function.
+function CodexQuest:ShowCurrentQuest()
+    local questIndex = GetQuestLogSelection()
+    local _, _, _, header, _, _, _, questId = GetQuestLogTitle(questIndex)
+    if header then return end
+
+    local maps, meta = {}, {["addon"] = "CODEX", ["questLogId"] = questIndex}
+    maps = CodexDatabase:SearchQuestById(questId, meta, maps)
+    CodexMap:ShowMapId(CodexDatabase:GetBestMap(maps))
+end
+
+-- Hide the selected quest in the quest log
+-- Please keep the interface stable. Other addons may add a Hide button through this function.
+function CodexQuest:HideCurrentQuest()
+	local quests = CodexDB.quests.loc
+    local questIndex = GetQuestLogSelection()
+    local _, _, _, header, _, complete, _, questId = GetQuestLogTitle(questIndex)
+    if header or not quests[questId] then return end
+
+    CodexMap:DeleteNode("CODEX", quests[questId].T)
+    CodexMap:UpdateNodes()
 end
 
 function CodexQuest:AddQuestLogIntegration()
@@ -267,18 +302,7 @@ function CodexQuest:AddQuestLogIntegration()
     CodexQuest.buttonShow:SetText("Show")
     CodexQuest.buttonShow:SetPoint("TOP", dockTitle, "TOP", -110, 0)
     CodexQuest.buttonShow:SetScript("OnClick", function()
-        -- CodexQuest:ResetAll()
-        local questIndex = GetQuestLogSelection()
-        local title, _, _, header, _, complete = GetQuestLogTitle(questIndex)
-        if header then return end
-
-        local ids = CodexQuest.questLog[title].ids
-        local maps, meta = {}, {["addon"] = "CODEX", ["questLogId"] = questIndex}
-        for _, id in pairs(ids) do
-            maps = CodexDatabase:SearchQuestById(id, meta, maps)
-        end
-
-        CodexMap:ShowMapId(CodexDatabase:GetBestMap(maps))
+        CodexQuest:ShowCurrentQuest()
     end)
 
     CodexQuest.buttonHide = CodexQuest.buttonHide or CreateFrame("Button", "CodexQuestHide", dockFrame, "UIPanelButtonTemplate")
@@ -287,12 +311,7 @@ function CodexQuest:AddQuestLogIntegration()
     CodexQuest.buttonHide:SetText("Hide")
     CodexQuest.buttonHide:SetPoint("TOP", dockTitle, "TOP", -37, 0)
     CodexQuest.buttonHide:SetScript("OnClick", function()
-        local questIndex = GetQuestLogSelection()
-        local title, _, _, header, _, complete = GetQuestLogTitle(questIndex)
-        if header then return end
-
-        CodexMap:DeleteNode("CODEX", title)
-        CodexMap:UpdateNodes()
+        CodexQuest:HideCurrentQuest()
     end)
 
     -- CodexQuest.buttonClean = CodexQuest.buttonClean or CreateFrame("Button", "CodexQuestClean", dockFrame, "UIPanelButtonTemplate")
@@ -420,10 +439,14 @@ end
 local CodexHookRemoveQuestWatch = RemoveQuestWatch
 RemoveQuestWatch = function(questIndex)
     local ret = CodexHookRemoveQuestWatch(questIndex)
-    local title, _, _, header, _, complete = GetQuestLogTitle(questIndex)
-    CodexMap:DeleteNode("CODEX", title)
-    CodexQuest.updateQuestLog = true
-    CodexQuest.updateQuestGivers = true
+    
+	local quests = CodexDB.quests.loc
+    local _, _, _, header, _, complete, _, questId = GetQuestLogTitle(questIndex)
+    if not header and quests[questId] then
+        CodexMap:DeleteNode("CODEX", quests[questId].T)
+        CodexQuest.updateQuestLog = true
+        CodexQuest.updateQuestGivers = true
+    end
 
     return ret
 end
@@ -440,5 +463,10 @@ end
 local CodexHookAbandonQuest = AbandonQuest
 AbandonQuest = function()
     CodexQuest.abandon = GetAbandonQuestName()
+    -- The quest title from the Blizzard API may be inconsistent with the ClassicCodex database.
+    -- Convert to the title in the database to avoid subsequent errors.
+    if CodexQuest.questNameMap[CodexQuest.abandon] then
+        CodexQuest.abandon = CodexQuest.questNameMap[CodexQuest.abandon]
+    end
     CodexHookAbandonQuest()
 end
