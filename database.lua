@@ -702,9 +702,11 @@ function CodexDatabase:FormatQuestText(text)
     return string.gsub(text, "($[Gg])(.+):(.+);", "%"..UnitSex("player"))
 end
 
+-- Deprecated: Since Blizzard's GetQuestLogTitle() returns the quest ID directly, no longer need to guess
 -- Try to guess the quest ID based on the questlog ID
 -- automatically runs a deep scan if no result was found.
 -- Returns possible quest ID
+--[[
 function CodexDatabase:GetQuestIds(questId, deep)
     local oldId = GetQuestLogSelection()
     SelectQuestLogEntry(questId)
@@ -755,6 +757,7 @@ function CodexDatabase:GetQuestIds(questId, deep)
 
     return results[best] or (not deep and CodexDatabase:GetQuestIds(questId, 1) or {})
 end
+]]
 
 -- browser search related defaults and value
 CodexDatabase.lastSearchQuery = ""

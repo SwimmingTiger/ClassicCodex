@@ -161,15 +161,14 @@ function CodexQuest:UpdateQuestLog()
 
     -- iterate over all quests
     for questLogId = 1, 40 do
-        local title, _, _, header, _, complete = GetQuestLogTitle(questLogId)
+        local title, _, _, header, _, complete, _, questId = GetQuestLogTitle(questLogId)
         local objectives = GetNumQuestLeaderBoards(questLogId)
         local watched = IsQuestWatched(questLogId)
 
         if title and not header then
             -- add new quest to the quest log
             if not CodexQuest.questLog[title] then
-                local questId = CodexDatabase:GetQuestIds(questLogId)
-                CodexQuest.questLogTemp[title] = {ids = questId, questLogId = questLogId, state = "init"}
+                CodexQuest.questLogTemp[title] = {ids = {questId}, questLogId = questLogId, state = "init"}
 
             elseif CodexQuest.questLog[title].questLogId ~= questLogId then
                 CodexQuest.questLogTemp[title] = {ids = CodexQuest.questLog[title].ids, questLogId = questLogId, state = CodexQuest.questLog[title].state}
