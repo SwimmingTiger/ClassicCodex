@@ -25,6 +25,18 @@ function textFactory(parent, value, size)
     return text
 end
 
+function buttonFactory(parent, name, description, onClick)
+    local button = CreateFrame("Button", name, parent, "UIPanelButtonTemplate")
+    button:SetHeight(25)
+    button:SetWidth(400)
+    button:SetText(name)
+    button.tooltipText = description
+    button:SetScript("OnClick", function(self)
+        onClick(self)
+    end)
+    return button
+end
+
 function checkboxFactory(parent, name, description, onClick)
     local checkbox = CreateFrame("CheckButton", name, parent, "ChatConfigCheckButtonTemplate")
     getglobal(checkbox:GetName() .. "Text"):SetText(name)
@@ -248,6 +260,19 @@ function createConfigPanel(parent)
         CodexMap:UpdateNodes()
     end)
     config.spawnMarkerSizeSlider:SetPoint("TOPLEFT", 325, -400)
+    
+    config.showAllHiddenQuests = buttonFactory(config, "Show All Quests You Manually Hide", "Show all the quests you have hidden by shift + click.\n"..
+                                                       "Hide a quest by holding the shift key and clicking on the quest icon on the minimap or world map.", function(self)
+        local size = Codex:tablelen(CodexHiddenQuests)
+        CodexHiddenQuests = {}
+        CodexQuest:ResetAll()
+        if size < 1 then
+            print('ClassicCodex: You have no manually hidden quests. You can hold the shift key and click on the quest icon on the minimap or world map to hide it.')
+        else
+            print('ClassicCodex: '..tostring(size)..' hidden quests will be able to show again.')
+        end
+    end)
+    config.showAllHiddenQuests:SetPoint("TOPLEFT", 15, -460)
 
     -- Marker Colors
     -- config.markerColorsTitle = textFactory(config, "Map Marker Colors", 20)
