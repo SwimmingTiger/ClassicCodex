@@ -398,7 +398,7 @@ local function ResultButtonReload(self)
         if level and level ~= "" then level = " (" .. level .. ")" end
         self.text:SetText(self.name .. "|cffaaaaaa" .. level)
 
-        if CodexDB[self.btype]["data"][self.id]["coords"] then
+        if CodexDB[self.btype]["data"][self.id] and CodexDB[self.btype]["data"][self.id]["coords"] then
             self.text:SetTextColor(1, 1, 1)
         else
             self.text:SetTextColor(0.5, 0.5, 0.5)
