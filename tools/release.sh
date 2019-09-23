@@ -4,6 +4,7 @@ mkdir -p ClassicCodex
 cp -r db ClassicCodex/db
 cp -r img ClassicCodex/img
 cp -r lib ClassicCodex/lib
+cp -r locale ClassicCodex/locale
 cp ClassicCodex.toc ClassicCodex/
 cp command.lua ClassicCodex/
 cp config.lua ClassicCodex/
