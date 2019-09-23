@@ -1,3 +1,5 @@
+local L = LibStub("AceLocale-3.0"):GetLocale("ClassicCodex")
+
 SLASH_CODEX1, SLASH_CODEX2 = "/codex", "/classiccodex"
 SlashCmdList["CODEX"] = function(input, editBox)
     local params = {}
@@ -5,17 +7,17 @@ SlashCmdList["CODEX"] = function(input, editBox)
 
     if (input == "" or input == nil) then
         print("Classic Codex (v" .. tostring(GetAddOnMetadata("ClassicCodex", "Version")) .. "):")
-        print("|cff33ffcc/codex|cffffffff show |cffcccccc - Show database interface")
-        print("|cff33ffcc/codex|cffffffff unit <unit> |cffcccccc - Search units")
-        print("|cff33ffcc/codex|cffffffff object <gameObject> |cffcccccc - Search objects")
-        print("|cff33ffcc/codex|cffffffff item <item> |cffcccccc - Search items")
-        print("|cff33ffcc/codex|cffffffff vendor <item> |cffcccccc - Search vendors for item")
-        print("|cff33ffcc/codex|cffffffff quest <questName> |cffcccccc - Show specific quest giver")
-        print("|cff33ffcc/codex|cffffffff quests |cffcccccc - Show all quests on the map")
-        print("|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - Show related objects on the map")
-        print("|cff33ffcc/codex|cffffffff clean |cffcccccc - Clean map")
-        print("|cff33ffcc/codex|cffffffff reset |cffcccccc - Reset map")
-        print("|cff33ffcc ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r")
+        print(L["|cff33ffcc/codex|cffffffff show |cffcccccc - Show database interface"])
+        print(L["|cff33ffcc/codex|cffffffff unit <unit> |cffcccccc - Search units"])
+        print(L["|cff33ffcc/codex|cffffffff object <gameObject> |cffcccccc - Search objects"])
+        print(L["|cff33ffcc/codex|cffffffff item <item> |cffcccccc - Search items"])
+        print(L["|cff33ffcc/codex|cffffffff vendor <item> |cffcccccc - Search vendors for item"])
+        print(L["|cff33ffcc/codex|cffffffff quest <questName> |cffcccccc - Show specific quest giver"])
+        print(L["|cff33ffcc/codex|cffffffff quests |cffcccccc - Show all quests on the map"])
+        print(L["|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - Show related objects on the map"])
+        print(L["|cff33ffcc/codex|cffffffff clean |cffcccccc - Clean map"])
+        print(L["|cff33ffcc/codex|cffffffff reset |cffcccccc - Reset map"])
+        print(L["|cff33ffcc ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r"])
         return
     end
 

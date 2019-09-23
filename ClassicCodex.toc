@@ -85,6 +85,12 @@ lib\LibStub\LibStub.lua
 lib\CallbackHandler-1.0\CallbackHandler-1.0.xml
 lib\HereBeDragons\HereBeDragons-2.0.lua
 lib\HereBeDragons\HereBeDragons-Pins-2.0.lua
+lib\AceLocale-3.0\AceLocale-3.0.lua
+
+# locales
+locale\enUS.lua
+locale\zhCN.lua
+locale\zhTW.lua
 
 # main
 command.lua

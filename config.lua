@@ -1,3 +1,5 @@
+local L = LibStub("AceLocale-3.0"):GetLocale("ClassicCodex")
+
 CodexConfig = {}
 CodexColors = {}
 
@@ -19,7 +21,10 @@ DefaultCodexConfig = {
 
 function textFactory(parent, value, size)
     local text = parent:CreateFontString(nil, "ARTWORK")
-    text:SetFont("Fonts/FRIZQT__.ttf", size)
+    -- Different languages require different fonts, and 
+    -- using inappropriate fonts will result in text not displaying correctly.
+    -- So the choice of font needs to be localized.
+    text:SetFont(L["CONFIG_TEXT_FONT"], size)
     text:SetJustifyV("CENTER")
     text:SetJustifyH("CENTER")
     text:SetText(value)
@@ -203,86 +208,86 @@ function createConfigPanel(parent)
     config.titleText:SetTextColor(1, 0.9, 0, 1)
     
     -- Auto-Accept Quests
-    config.autoAcceptQuestsCheckbox = checkboxFactory(config, "Auto-Accept Quests", "Toggle auto-accepting quests", function(self)
+    config.autoAcceptQuestsCheckbox = checkboxFactory(config, L["Auto-Accept Quests"], L["Toggle auto-accepting quests"], function(self)
         CodexConfig.autoAccept = self:GetChecked()
     end)
     config.autoAcceptQuestsCheckbox:SetPoint("TOPLEFT", 10, -35)
 
     -- Auto-Turnin Quests
-    config.autoTurninQuestsCheckbox = checkboxFactory(config, "Auto-Turnin Quests", "Toggle auto-turning in quests", function(self)
+    config.autoTurninQuestsCheckbox = checkboxFactory(config, L["Auto-Turnin Quests"], L["Toggle auto-turning in quests"], function(self)
         CodexConfig.autoTurnin = self:GetChecked()
     end)
     config.autoTurninQuestsCheckbox:SetPoint("TOPLEFT", 10, -70)
 
     -- Quest Icon on Nameplate
-    config.nameplateIconCheckbox = checkboxFactory(config, "Nameplate Quest Icon", "Toggle quest icon on top of enemy nameplates", function(self)
+    config.nameplateIconCheckbox = checkboxFactory(config, L["Nameplate Quest Icon"], L["Toggle quest icon on top of enemy nameplates"], function(self)
         CodexConfig.nameplateIcon = self:GetChecked()
     end)
     config.nameplateIconCheckbox:SetPoint("TOPLEFT", 10, -105)
 
-    config.allQuestGiversCheckbox = checkboxFactory(config, "All Questgivers", "If selected, this will display all questgivers on the map", function(self)
+    config.allQuestGiversCheckbox = checkboxFactory(config, L["All Questgivers"], L["If selected, this will display all questgivers on the map"], function(self)
         CodexConfig.allQuestGivers = self:GetChecked()
         CodexQuest:ResetAll()
     end)
     config.allQuestGiversCheckbox:SetPoint("TOPLEFT", 10, -140)
 
-    config.currentQuestGiversCheckbox = checkboxFactory(config, "Current Questgivers", "If selected, current quest-ender npcs/objects will be displayed on the map for active quests", function(self)
+    config.currentQuestGiversCheckbox = checkboxFactory(config, L["Current Questgivers"], L["If selected, current quest-ender npcs/objects will be displayed on the map for active quests"], function(self)
         CodexConfig.currentQuestGivers = self:GetChecked()
         CodexQuest:ResetAll()
     end)
     config.currentQuestGiversCheckbox:SetPoint("TOPLEFT", 10, -175)
 
-    config.showLowLevelCheckbox = checkboxFactory(config, "Show Low-level Quests", "If selected, low-level quests will be hidden on the map", function(self)
+    config.showLowLevelCheckbox = checkboxFactory(config, L["Show Low-level Quests"], L["If selected, low-level quests will be hidden on the map"], function(self)
         CodexConfig.showLowLevel = self:GetChecked()
         CodexQuest:ResetAll()
     end)
     config.showLowLevelCheckbox:SetPoint("TOPLEFT", 10, -210)
 
-    config.showHighLevelCheckbox = checkboxFactory(config, "Show High-level Quests", "If selected, quests with a level requirement of your level + 3 will be shown on the map", function(self)
+    config.showHighLevelCheckbox = checkboxFactory(config, L["Show High-level Quests"], L["If selected, quests with a level requirement of your level + 3 will be shown on the map"], function(self)
         CodexConfig.showHighLevel = self:GetChecked()
         CodexQuest:ResetAll()
     end)
     config.showHighLevelCheckbox:SetPoint("TOPLEFT", 10, -245)
 
-    config.showFestivalCheckbox = checkboxFactory(config, "Show Festival Quests", "If selected, quests related to WoW festive seasons will be displayed on the map", function(self)
+    config.showFestivalCheckbox = checkboxFactory(config, L["Show Festival Quests"], L["If selected, quests related to WoW festive seasons will be displayed on the map"], function(self)
         CodexConfig.showFestival = self:GetChecked()
         CodexQuest:ResetAll()
     end)
     config.showFestivalCheckbox:SetPoint("TOPLEFT", 10, -280)
 
-    config.colorBySpawnCheckbox = checkboxFactory(config, "Color By Spawn", "If selected, markers' colors will be set per spawn type or per quest if not selected", function(self)
+    config.colorBySpawnCheckbox = checkboxFactory(config, L["Color By Spawn"], L["If selected, markers' colors will be set per spawn type or per quest if not selected"], function(self)
         CodexConfig.colorBySpawn = self:GetChecked()
         CodexQuest:ResetAll()
     end)
     config.colorBySpawnCheckbox:SetPoint("TOPLEFT", 10, -315)
 
-    config.questMarkerSizeSlider = sliderFactory(config, "questMarkerSize", "Quest Marker Size", 10, 25, 1, function(self)
+    config.questMarkerSizeSlider = sliderFactory(config, "questMarkerSize", L["Quest Marker Size"], 10, 25, 1, function(self)
         CodexConfig.questMarkerSize = tonumber(self:GetValue())
         CodexMap:UpdateNodes()
     end)
     config.questMarkerSizeSlider:SetPoint("TOPLEFT", 45, -400)
 
-    config.spawnMarkerSizeSlider = sliderFactory(config, "spawnMarkerSize", "Spawn Marker Size", 6, 20, 1, function(self)
+    config.spawnMarkerSizeSlider = sliderFactory(config, "spawnMarkerSize", L["Spawn Marker Size"], 6, 20, 1, function(self)
         CodexConfig.spawnMarkerSize = tonumber(self:GetValue())
         CodexMap:UpdateNodes()
     end)
     config.spawnMarkerSizeSlider:SetPoint("TOPLEFT", 325, -400)
 
-    config.minimumDropChanceSlider = sliderFactory(config, "minimumDropChance", "Hide items with a drop probability less than (%)", 0, 100, 1, function(self)
+    config.minimumDropChanceSlider = sliderFactory(config, "minimumDropChance", L["Hide items with a drop probability less than (%)"], 0, 100, 1, function(self)
         CodexConfig.minimumDropChance = tonumber(self:GetValue())
         CodexQuest:ResetAll()
     end, 424)
     config.minimumDropChanceSlider:SetPoint("TOPLEFT", 45, -460)
     
-    config.showAllHiddenQuests = buttonFactory(config, "Show All Quests You Manually Hide", "Show all the quests you have hidden by shift + click.\n"..
-                                                       "Hide a quest by holding the shift key and clicking on the quest icon on the minimap or world map.", function(self)
+    config.showAllHiddenQuests = buttonFactory(config, L["Show All Quests You Manually Hide"], L["Show all the quests you have hidden by shift + click."].."\n"..
+                                                       L["Hide a quest by holding the shift key and clicking on the quest icon on the minimap or world map."], function(self)
         local size = Codex:tablelen(CodexHiddenQuests)
         CodexHiddenQuests = {}
         CodexQuest:ResetAll()
         if size < 1 then
-            print('ClassicCodex: You have no manually hidden quests. You can hold the shift key and click on the quest icon on the minimap or world map to hide it.')
+            print(L["ClassicCodex: You have no manually hidden quests. You can hold the shift key and click on the quest icon on the minimap or world map to hide it."])
         else
-            print('ClassicCodex: '..tostring(size)..' hidden quests will be able to show again.')
+            print(string.format(L["ClassicCodex: %d hidden quests will be able to show again."], size))
         end
     end)
     config.showAllHiddenQuests:SetPoint("TOPLEFT", 15, -505)
