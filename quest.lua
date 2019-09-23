@@ -385,12 +385,13 @@ end
 
 
 function CodexQuest:CheckNamePlate()
+    if IsInInstance() then return end
     local something = WorldFrame:GetNumChildren()
     local index = 1
     local plateList = {}
     for index = 1, something do
         local frame = select(index, WorldFrame:GetChildren())
-        if frame:GetName() and frame:GetName():find("NamePlate%d") and not frame.skinned then
+        if frame and frame:GetName() and frame:GetName():find("NamePlate%d") and not frame.skinned then
             frame.skinned = 1
             frame.icon = CreateFrame("Frame", nil, frame)
             frame.icon:SetFrameStrata("HIGH")
