@@ -1,5 +1,5 @@
 Codex = {}
-CodexHistory = {}
+CodexHiddenQuests = {}
 
 function Codex:strsplit(delimiter, data)
     if not data then return nil end
@@ -29,4 +29,10 @@ function Codex:SanitizePattern(pattern)
     end
 
     return sanitizeCache[pattern]
+end
+
+function Codex:tablelen(table)
+    local count = 0
+    for _ in pairs(table) do count = count + 1 end
+    return count
 end

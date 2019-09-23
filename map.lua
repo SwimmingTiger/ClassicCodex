@@ -165,7 +165,8 @@ function CodexMap:ShowMapId(map)
 		for worldMapId, mapId in pairs(CodexMap.zones) do
 			if worldMapId == map then
 				WorldMapFrame:SetMapID(mapId)
-				CodexMap:UpdateNodes()
+				-- The previous CodexMap:UpdateNodes() call has rendered all the required markers, so there is no need to redraw
+				--CodexMap:UpdateNodes()
 				return true
 			end
 		end
@@ -186,15 +187,16 @@ end
 function CodexMap:ShowTooltip(meta, tooltip)
 	local catch = nil
 	local tooltip = tooltip or GameTooltip
+	local quests = CodexDB.quests.loc
 
 	-- Add quest data
 	if meta["quest"] then
 		-- scan all quest entries for matches
-		for questId = 1, GetNumQuestLogEntries() do
-			local title, _, _, _, _, complete = GetQuestLogTitle(questId)
+		for questIndex = 1, GetNumQuestLogEntries() do
+			local _, _, _, header, _, complete, _, questId = GetQuestLogTitle(questIndex)
 
-			if meta["quest"] == title then
-				local objectives = GetNumQuestLeaderBoards(questId)
+			if not header and quests[questId] and meta["quest"] == quests[questId].T then
+				local objectives = GetNumQuestLeaderBoards(questIndex)
 				catch = true
 
 				local symbol = (complete or objectives == 0) and "|cff555555[|cffffcc00?|cff555555]|r " or "|cff555555[|cffffcc00!|cff555555]|r "
@@ -203,7 +205,7 @@ function CodexMap:ShowTooltip(meta, tooltip)
 				local foundObjective = nil
 				if objectives then
 					for i = 1, objectives do
-						local text, type, complete = GetQuestLogLeaderBoard(i, questId)
+						local text, type, complete = GetQuestLogLeaderBoard(i, questIndex)
 
 						if type == "monster" then
 							-- kill
@@ -491,9 +493,9 @@ function CodexMap:UpdateNode(frame, node)
 
 	frame:SetScript("OnClick", function(self)
 		if IsShiftKeyDown() and self.questId and self.texture and self.layer < 5 then
-			-- mark questnode as done
+			-- player hides the quest
 			CodexMap:DeleteNode(self.node[self.title].addon, self.title)
-			CodexHistory[self.questId] = true
+			CodexHiddenQuests[self.questId] = true
 			CodexMap:UpdateNodes()
 		elseif IsShiftKeyDown() then
 			CodexMap:DeleteNode(self.node[self.title].addon, self.title)
@@ -643,8 +645,11 @@ function CodexMap:UpdateNodes()
 
 end
 
+-- Since UpdateNodes draws markers for all maps, it is no longer necessary to redraw when changing zones.
+--[[
 CodexMap:RegisterEvent("ZONE_CHANGED")
 CodexMap:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 CodexMap:SetScript("OnEvent", function(self, event, ...)
 	CodexMap:UpdateNodes()
 end)
+]]

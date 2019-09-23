@@ -182,7 +182,8 @@ local function ResultButtonClick(self)
             CodexMap:ShowMapId(CodexDatabase:GetBestMap(maps))
         else
             local maps = CodexDatabase:SearchUnitById(self.id, meta)
-            CodexMap:UpdateNodes()
+            -- CodexMap:ShowMapId() will call CodexMap:UpdateNodes().
+            --CodexMap:UpdateNodes()
             CodexMap:ShowMapId(CodexDatabase:GetBestMap(maps))
         end
     elseif self.btype == "objects" then
@@ -191,7 +192,8 @@ local function ResultButtonClick(self)
             CodexMap:ShowMapId(CodexDatabase:GetBestMap(maps))
         else
             local maps = CodexDatabase:SearchObjectById(self.id, meta)
-            CodexMap:UpdateNodes()
+            -- CodexMap:ShowMapId() will call CodexMap:UpdateNodes().
+            --CodexMap:UpdateNodes()
             CodexMap:ShowMapId(CodexDatabase:GetBestMap(maps))
         end
     end
@@ -234,7 +236,8 @@ local function ResultButtonClickSpecial(self)
     elseif self.buttonType == "V" then
         maps = CodexDatabase:SearchVendorByItemName(param, meta)
     end
-    CodexMap:UpdateNodes()
+    -- CodexMap:ShowMapId() will call CodexMap:UpdateNodes().
+    --CodexMap:UpdateNodes()
     CodexMap:ShowMapId(CodexDatabase:GetBestMap(maps))
 end
 
@@ -707,8 +710,10 @@ CodexBrowser.clean = CreateFrame("Button", "CodexBrowserClean", CodexBrowser)
 CodexBrowser.clean:SetPoint("TOPLEFT", CodexBrowser, "TOPLEFT", 545, -30)
 CodexBrowser.clean:SetPoint("BOTTOMRIGHT", CodexBrowser, "TOPRIGHT", -5, -55)
 CodexBrowser.clean:SetScript("OnClick", function()
-    CodexMap:DeleteNode("CODEX")
-    CodexMap:UpdateNodes()
+    -- Users should not want to "clear" all their quest markers with this button.
+    -- CodexMap:DeleteNode("CODEX")
+    -- CodexMap:UpdateNodes()
+    CodexQuest:ResetAll()
 end)
 CodexBrowser.clean.text = CodexBrowser.clean:CreateFontString("Caption", "LOW", "GameFontWhite")
 CodexBrowser.clean.text:SetAllPoints(CodexBrowser.clean)

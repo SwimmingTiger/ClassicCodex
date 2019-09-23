@@ -292,7 +292,12 @@ function CodexDatabase:SearchItemById(id, meta, maps, allowedTypes)
     meta["itemId"] = id
     meta["item"] = CodexDB.items.loc[id]
 
-    local minimumDropChance = 0 -- This could be configured in the future
+    -- Apply filtering only to entries from the quest log.
+    -- Allows all markers to be displayed from the browser.
+    local minimumDropChance = 0
+    if meta["questLogId"] ~= nil then
+        minimumDropChance = CodexConfig.minimumDropChance
+    end
 
     -- Search Unit drops
     if items[id]["U"] and ((not allowedTypes) or allowedTypes["U"]) then
@@ -580,8 +585,14 @@ function CodexDatabase:SearchQuests(meta, maps)
 
     local currentQuests = {}
     for id=1, GetNumQuestLogEntries() do
-        local title = GetQuestLogTitle(id)
-        currentQuests[title] = true
+        local _, _, _, header, _, _, _, questId = GetQuestLogTitle(id)
+        if (not header) and CodexDB.quests.loc[questId] then
+            -- Some quests have the same title, the same ends, but with different starts and different quest ids.
+            -- They are mutually exclusive in game. Use title-based matching to filter out these quests.
+            -- Also, the title returned by the Wow API is not used because the quest title in the database may not match the real title.
+            local title = CodexDB.quests.loc[questId].T
+            currentQuests[title] = true
+        end
     end
 
     for id in pairs(quests) do
@@ -591,10 +602,10 @@ function CodexDatabase:SearchQuests(meta, maps)
         if CodexDB.quests.loc[id] and currentQuests[CodexDB.quests.loc[id].T] then
             -- hide active quest
         elseif completedQuests[id] then
+            -- hide quests hidden by the player
+        elseif CodexHiddenQuests[id] then
             -- hide completed quests
-        elseif CodexHistory[id] then
-            -- hide completed quests
-        elseif quests[id]["pre"] and not CodexHistory[quests[id]["pre"]] then
+        elseif quests[id]["pre"] and not completedQuests[quests[id]["pre"]] then
             -- hide missing pre-quest
         elseif quests[id]["race"] and not (bit.band(quests[id]["race"], playerRace) == playerRace) then
             -- hide non-available quests for your race
@@ -702,9 +713,11 @@ function CodexDatabase:FormatQuestText(text)
     return string.gsub(text, "($[Gg])(.+):(.+);", "%"..UnitSex("player"))
 end
 
+-- Deprecated: Since Blizzard's GetQuestLogTitle() returns the quest ID directly, no longer need to guess
 -- Try to guess the quest ID based on the questlog ID
 -- automatically runs a deep scan if no result was found.
 -- Returns possible quest ID
+--[[
 function CodexDatabase:GetQuestIds(questId, deep)
     local oldId = GetQuestLogSelection()
     SelectQuestLogEntry(questId)
@@ -755,6 +768,7 @@ function CodexDatabase:GetQuestIds(questId, deep)
 
     return results[best] or (not deep and CodexDatabase:GetQuestIds(questId, 1) or {})
 end
+]]
 
 -- browser search related defaults and value
 CodexDatabase.lastSearchQuery = ""

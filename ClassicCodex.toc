@@ -5,7 +5,7 @@
 ## Notes: ClassicCodex
 ## Author: Pgarneau, Shagu
 ## Version: 1.2.1
-## SavedVariablesPerCharacter: CodexConfig, CodexHistory, CodexBrowserFavorites, CodexColors
+## SavedVariablesPerCharacter: CodexConfig, CodexHiddenQuests, CodexBrowserFavorites, CodexColors
 
 # database index
 db\init.lua
