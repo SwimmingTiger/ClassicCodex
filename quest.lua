@@ -391,7 +391,9 @@ function CodexQuest:CheckNamePlate()
     local plateList = {}
     for index = 1, something do
         local frame = select(index, WorldFrame:GetChildren())
-        if frame and not frame:IsForbidden() and frame:GetName():find("NamePlate%d") and not frame.skinned then
+        -- Notice: sometimes frame:GetName() returns nil so we must check it before call :find()
+        --         or an "attempt to index a nil value" error will be threw.
+        if frame and not frame:IsForbidden() and frame:GetName() and frame:GetName():find("NamePlate%d") and not frame.skinned then
             frame.skinned = 1
             frame.icon = CreateFrame("Frame", nil, frame)
             frame.icon:SetFrameStrata("HIGH")
