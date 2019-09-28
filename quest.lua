@@ -271,7 +271,7 @@ end
 -- Hide the selected quest in the quest log
 -- Please keep the interface stable. Other addons may add a Hide button through this function.
 function CodexQuest:HideCurrentQuest()
-	local quests = CodexDB.quests.loc
+    local quests = CodexDB.quests.loc
     local questIndex = GetQuestLogSelection()
     local _, _, _, header, _, complete, _, questId = GetQuestLogTitle(questIndex)
     if header or not quests[questId] then return end
@@ -391,6 +391,24 @@ end
 function CodexQuest:UpdateNameplate(unitID)
     local frame = C_NamePlate.GetNamePlateForUnit(unitID)
     if frame and not frame:IsForbidden() then
+        local name = UnitName(unitID)
+        if not name or not CodexMap.tooltips[name] then return end
+
+        local found
+        for title in pairs(CodexQuest.questLog) do
+            if CodexMap.tooltips[name][title] then
+                found = true
+                break
+            end
+        end
+
+        if not found then
+            if frame.codexIcon then
+                frame.codexIcon:Hide()
+            end
+            return
+        end
+
         if not frame.codexIcon then
             local icon = CreateFrame("Frame", nil, frame)
             icon:SetFrameStrata("HIGH")
@@ -406,16 +424,7 @@ function CodexQuest:UpdateNameplate(unitID)
             frame.codexIcon = icon
         end
 
-        frame.codexIcon:Hide()
-        local name = UnitName(unitID)
-        if not name or not CodexMap.tooltips[name] then return end
-
-        for title in pairs(CodexQuest.questLog) do
-            if CodexMap.tooltips[name][title] then
-                frame.icon:Show()
-                return
-            end
-        end
+        frame.codexIcon:Show()
     end
 end
 
@@ -423,7 +432,7 @@ function CodexQuest:UpdateAllNameplates()
     for i = 1, 40 do
         local unitID = "nameplate" .. i
         if not UnitExists(unitID) then break end
-        
+
         CodexQuest:UpdateNameplate(unitID)
     end
 end
@@ -434,7 +443,7 @@ local CodexHookRemoveQuestWatch = RemoveQuestWatch
 RemoveQuestWatch = function(questIndex)
     local ret = CodexHookRemoveQuestWatch(questIndex)
     
-	local quests = CodexDB.quests.loc
+    local quests = CodexDB.quests.loc
     local _, _, _, header, _, complete, _, questId = GetQuestLogTitle(questIndex)
     if not header and quests[questId] then
         CodexMap:DeleteNode("CODEX", quests[questId].T)
