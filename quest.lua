@@ -422,9 +422,9 @@ end
 function CodexQuest:UpdateAllNameplates()
     for i = 1, 40 do
         local unitID = "nameplate" .. i
-        if UnitExists(unitID) then
-            CodexQuest:UpdateNameplate(unitID)
-        end
+        if not UnitExists(unitID) then break end
+        
+        CodexQuest:UpdateNameplate(unitID)
     end
 end
 
