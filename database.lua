@@ -862,21 +862,21 @@ function CodexDatabase:BrowserSearch(query, searchType, searchLimit)
     end
 
     local queryLength = strlen(query)
-    local queryNumber = tonumber(query)
+    local idSearch = tonumber(query) and true or false
     local results = {}
     local resultCount = 0
 
     -- Set the DB to be searched
     local minChars = 3
     local minInts = 1
-    if (queryLength >= minChars) or (queryNumber and (queryLength >= minInts)) then
-            if queryNumber then
+    if (queryLength >= minChars) or (idSearch and (queryLength >= minInts)) then
+            if idSearch then
                 results, resultCount = CodexDatabase:GetIdByPartialId(query, searchType, exactMatch, searchLimit)
             else
                 results, resultCount = CodexDatabase:GetIdByName(query, searchType, not exactMatch, searchLimit)
             end
 
-            return results, resultCount, queryNumber and true or false
+            return results, resultCount, idSearch
     else
         -- min search length not satisfied, reset search results and return favorites or nil
         return {}, -1, nil
