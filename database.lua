@@ -617,7 +617,7 @@ function CodexDatabase:SearchQuests(meta, maps)
             -- hide very high level quests
         elseif quests[id]["min"] and quests[id]["min"] > playerLevel + 3 then
             -- hide quests high level quests
-        elseif math.abs(minLevel - maxLevel) >= 30 and not CodexConfig.showFestival then
+        elseif quests[id]["hide"] and not CodexConfig.showFestival then
             -- hide event quests
         elseif minLevel > playerLevel and not CodexConfig.showHighLevel then
             -- hide level+3 quests
