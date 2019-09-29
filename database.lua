@@ -216,6 +216,48 @@ function CodexDatabase:GetIdByPartialId(partialId, db, exact, searchLimit)
     return result, count
 end
 
+function CodexDatabase:SearchCompletedQuests(name, db, exact, searchLimit)
+    if db ~= 'quests' or not CodexDB[db] then
+        return {}, 0
+    end
+
+    local lvl = tonumber(name)
+    local lvlMatch = lvl and true or false
+    if lvlMatch and not exact then
+        lvl = lvl - (lvl % 10)
+    end
+
+    local function lvlEqual(questId, lvl)
+        if not quests[questId] then return false end
+        local questLvl = quests[questId].lvl or quests[questId].min or 1
+        if not exact then questLvl = questLvl - (questLvl % 10) end
+        return questLvl == lvl
+    end
+
+    local function nameMatched(title, name)
+        if exact then return title == name end
+        return strfind(title, name)
+    end
+
+    local result = {}
+    local count = 0
+    local noFilter = strlen(name) == 0
+
+    for questId, _ in pairs(GetQuestsCompleted()) do
+        questId = tonumber(questId)
+        if CodexDB[db]["loc"][questId] then
+            local title = CodexDB[db]["loc"][questId]["T"]
+            if noFilter or (lvlMatch and lvlEqual(questId, lvl)) or (not lvlMatch and nameMatched(title, name)) then
+                result[questId] = title
+                count = count + 1
+                if searchLimit and (count >= searchLimit) then break end
+            end
+        end
+    end
+
+    return result, count
+end
+
 -- Scans a map table for all spawns
 -- Return the map with the most spawns
 function CodexDatabase:GetBestMap(maps)
@@ -854,29 +896,37 @@ end
 -- If the query doesn't satisfy the minimum search length requiered for its
 -- type (number/string), the favourites for the `searchType` are returned.
 function CodexDatabase:BrowserSearch(query, searchType, searchLimit)
+    local searchCompletedQuests = false
     local exactMatch = false
+    -- Start with @ to search complated quests
+    if strlen(query) >= 1 and query:sub(1, 1) == '@' then
+        searchCompletedQuests = true
+        query = query:sub(2)
+    end
     -- Start with # for exact match, such as "#123" or "#The People's Militia"
-    if strlen(query) >= 2 and query:sub(1, 1) == '#' then
+    if strlen(query) >= 1 and query:sub(1, 1) == '#' then
         exactMatch = true
         query = query:sub(2)
     end
 
     local queryLength = strlen(query)
-    local idSearch = tonumber(query) and true or false
+    local idSearch = (not searchCompletedQuests and tonumber(query)) and true or false
     local results = {}
     local resultCount = 0
 
     -- Set the DB to be searched
     local minChars = 3
     local minInts = 1
-    if (queryLength >= minChars) or (idSearch and (queryLength >= minInts)) then
-            if idSearch then
-                results, resultCount = CodexDatabase:GetIdByPartialId(query, searchType, exactMatch, searchLimit)
-            else
-                results, resultCount = CodexDatabase:GetIdByName(query, searchType, not exactMatch, searchLimit)
-            end
+    if searchCompletedQuests or (queryLength >= minChars) or (idSearch and (queryLength >= minInts)) then
+        if searchCompletedQuests then
+            results, resultCount = CodexDatabase:SearchCompletedQuests(query, searchType, exactMatch, searchLimit)
+        elseif idSearch then
+            results, resultCount = CodexDatabase:GetIdByPartialId(query, searchType, exactMatch, searchLimit)
+        else
+            results, resultCount = CodexDatabase:GetIdByName(query, searchType, not exactMatch, searchLimit)
+        end
 
-            return results, resultCount, idSearch
+        return results, resultCount, idSearch
     else
         -- min search length not satisfied, reset search results and return favorites or nil
         return {}, -1, nil
