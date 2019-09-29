@@ -58,6 +58,16 @@ function CodexDatabase:PlayerHasSkill(skill)
     return false
 end
 
+function CodexDatabase:PlayerHasReputation(repu)
+    local minRank = 0
+    if type(repu) == 'table' then
+        minRank = repu.min
+        repu = repu.id
+    end
+    local _, _, _, _, _, rank = GetFactionInfoByID(repu)
+    return rank and rank > minRank
+end
+
 function CodexDatabase:GetBitByRace(model)
     for bit, v in pairs(bitraces) do
         if model == v then return bit end
@@ -661,6 +671,8 @@ function CodexDatabase:SearchQuests(meta, maps)
             -- hide level+3 quests
         elseif quests[id]["skill"] and not CodexDatabase:PlayerHasSkill(quests[id]["skill"]) then
             -- hide non-available quests for your profession??
+        elseif quests[id]["repu"] and not CodexDatabase:PlayerHasReputation(quests[id]["repu"]) then
+            -- hide non-available quests for poor reputation
         elseif id == 3861 then
             -- Hide the CLUCK! quest
         else
