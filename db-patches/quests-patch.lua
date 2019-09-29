@@ -2,10 +2,10 @@
 -- ClassicCodex git tag: 1fc3507, quest num: 4243
 -- Questie git tag: v4.1.2-91-ga0d93f3, quest num: 4174
 local D = CodexDB.quests.data
-D[26].start.U={3033,4217} --old: {3033}
+D[26].start.U={4217} --old: {3033}
 D[26].next=29 --old: 28
 D[26].race=8 --old: 32
-D[27].start.U={3033,4217} --old: {4217}
+D[27].start.U={3033} --old: {4217}
 D[27].next=28 --old: 29
 D[27].race=32 --old: 8
 D[33].excl={5261} --old: nil
@@ -47,11 +47,11 @@ D[367].race=178 --old: 16
 D[368].race=178 --old: 16
 D[369].race=178 --old: 16
 D[374].pre=427 --old: nil
-D[410].pre={-409,366} --old: -409
+D[410].pre=366 --old: -409
 D[410].excl={411} --old: nil
 D[415].excl={413} --old: nil
 D[428].excl={429} --old: nil
-D[431].pre={-409,366} --old: -409
+D[431].pre=366 --old: -409
 D[431].excl={411} --old: nil
 D[463].excl={276} --old: nil
 D[473].pre=455 --old: nil
@@ -63,6 +63,7 @@ D[574].preg={203,204} --old: nil
 D[578].obj={}
 D[578].obj.I={3898} --old: nil
 D[588].preg={585,586} --old: nil
+D[592].obj.I={3912,3913} --old: {3913}
 D[594].obj={}
 D[594].obj.I={4098} --old: nil
 D[624].obj={}
@@ -70,12 +71,16 @@ D[624].obj.I={4056} --old: nil
 D[635].obj={}
 D[635].obj.I={4614} --old: nil
 D[637].obj.I={4432,4433} --old: {4432}
+D[654].obj.I={8523,8524,9437,9438,9439,9440,9441,9442} --old: {8523,9437,9438,9439,9440,9441,9442}
+D[656].obj.I={4472,4473} --old: {4473}
 D[680].pre=678 --old: nil
 D[687].pre={653,688} --old: nil
 D[695].obj={}
 D[695].obj.I={4529} --old: nil
 D[715].skill={["id"]=171,["min"]=0} --old: id=171
 D[734].preg={712,714} --old: nil
+D[735].obj.I={4641,4644,4646,4649} --old: {4641,4644,4646}
+D[736].obj.I={4641,4644,4646,4650} --old: {4641,4644,4646}
 D[737].pre={735,736} --old: nil
 D[742].excl={235,6382} --old: nil
 D[754].obj={}
@@ -95,23 +100,31 @@ D[787].hide=true --old: nil
 D[794].pre={792,1499} --old: nil
 D[830].obj.I={4881,4883} --old: {4883}
 D[841].excl={654} --old: nil
+D[849].obj.I={5021} --old: nil
 D[858].race=178 --old: 255
 D[862].skill={["id"]=185,["min"]=76} --old: id=185
 D[866].skill={["id"]=182,["min"]=1} --old: id=182
+D[877].obj.I={5068} --old: nil
+D[881].obj.I={5100,10327} --old: {5100}
 D[894].obj={}
 D[894].obj.I={5088} --old: nil
 D[910].hide=true --old: nil
 D[911].hide=true --old: nil
 D[915].preg={910,911,1800} --old: nil
 D[915].hide=true --old: nil
+D[921].obj.I={5184,5185} --old: {5184}
 D[925].hide=true --old: nil
-D[926].pre={-924,809} --old: -924
+D[926].pre=809 --old: -924
+D[929].obj.I={5619,5639} --old: {5639}
 D[930].pre={918,919} --old: nil
+D[933].obj.I={5621,5645} --old: {5645}
 D[936].excl={3762,3784} --old: nil
 D[944].obj={}
 D[944].obj.I={5251} --old: nil
+D[957].obj.I={5338} --old: nil
 D[972].excl={96} --old: nil
 D[990].pre={994,995} --old: nil
+D[992].obj.I={8584,8585} --old: {8585}
 D[994].excl={995} --old: nil
 D[995].excl={994} --old: nil
 D[996].hide=true --old: nil
@@ -119,15 +132,20 @@ D[998].hide=true --old: nil
 D[1000].excl={1004,1018} --old: nil
 D[1004].excl={1000,1018} --old: nil
 D[1015].excl={1019,1047} --old: nil
+D[1016].obj.I={5455,5456,12220} --old: {5455,12220}
 D[1018].excl={1000,1004} --old: nil
 D[1019].excl={1015,1047} --old: nil
+D[1023].obj.I={5463,5505} --old: {5463}
 D[1029].obj={}
 D[1029].obj.I={5462} --old: nil
 D[1030].obj={}
 D[1030].obj.I={5462} --old: nil
 D[1036].hide=true --old: nil
+D[1045].obj.I={5388,5462} --old: {5388}
 D[1047].excl={1015,1019} --old: nil
+D[1079].obj.I={5718,5738} --old: {5718}
 D[1079].pre={1074,1077} --old: 1074
+D[1080].obj.I={5717,5738} --old: {5717}
 D[1080].pre={1074,1077} --old: 1077
 D[1082].preg={1083,1084} --old: nil
 D[1085].pre=1070 --old: nil
@@ -141,14 +159,15 @@ D[1120].excl={1121} --old: nil
 D[1121].excl={1120} --old: nil
 D[1122].pre={1120,1121} --old: nil
 D[1124].pre={1123,6762} --old: nil
+D[1136].obj.I={5810,5811,5838} --old: {5810,5811}
+D[1148].obj.I={5853,5854,5855,5877} --old: {5853,5854,5855}
 D[1193].hide=true --old: nil
 D[1194].obj={}
 D[1194].obj.I={5866} --old: nil
+D[1197].obj.I={5868,5869} --old: {5869}
 D[1271].preg={1222,1258} --old: nil
 D[1276].pre={1273,1323} --old: 1323
-D[1282].excl={} --old: nil
 D[1301].excl={1302} --old: nil
-D[1302].excl={} --old: nil
 D[1339].excl={1338} --old: nil
 D[1369].pre={1367,1386} --old: nil
 D[1370].pre={1368,1384} --old: nil
@@ -179,6 +198,9 @@ D[1529].excl={1528,2985,2986} --old: nil
 D[1530].pre={1528,1529,2985,2986} --old: nil
 D[1531].excl={1532} --old: nil
 D[1532].excl={1531} --old: nil
+D[1534].obj.I={7767,7770} --old: {7770}
+D[1535].obj.I={7766,7769} --old: {7769}
+D[1536].obj.I={7768,7771} --old: {7771}
 D[1558].hide=true --old: nil
 D[1559].skill={["id"]=202,["min"]=1} --old: id=202
 D[1578].skill={["id"]=164,["min"]=30} --old: id=164
@@ -200,6 +222,8 @@ D[1646].obj.I={6916} --old: nil
 D[1646].excl={1642,2997,2998,2999,3000,3681} --old: nil
 D[1649].obj={}
 D[1649].obj.I={6776} --old: nil
+D[1654].obj.I={6895,6993,6994,6996,7083} --old: {6895,6993,6994,7083}
+D[1657].obj.I={20387} --old: nil
 D[1657].hide=true --old: nil
 D[1658].hide=true --old: nil
 D[1661].excl={4485,4486} --old: nil
@@ -207,7 +231,10 @@ D[1679].excl={1638,1684} --old: nil
 D[1684].excl={1638,1679} --old: nil
 D[1685].excl={1715} --old: nil
 D[1687].hide=true --old: nil
+D[1701].obj.I={6838,6839,6840,6841,6842} --old: {6838,6839,6840,6841}
+D[1712].obj.I={3357,3901,4479,4480,4481,6851,6929} --old: {3357,3901,4479,4480,4481,6851}
 D[1715].excl={1685} --old: nil
+D[1718].start.U={3041,3354,4595,5113,5479} --old: {3041,3354,4595,5113,5479,7315}
 D[1779].obj={}
 D[1779].obj.I={6866} --old: nil
 D[1781].obj={}
@@ -217,34 +244,48 @@ D[1794].excl={1649} --old: nil
 D[1795].pre={1804,1805} --old: 1805
 D[1800].hide=true --old: nil
 D[1818].excl={1505} --old: nil
+D[1838].obj.I={3575,6841,7126,7127,7587} --old: {3575,6841,7126,7127}
+D[1858].obj.I={7208,7209,7295} --old: {7208,7295}
 D[1859].excl={1885} --old: nil
 D[1860].excl={1879} --old: nil
+D[1861].obj.I={7206,7207} --old: {7206}
 D[1878].hide=true --old: nil
 D[1879].excl={1860} --old: nil
 D[1881].excl={1883} --old: nil
 D[1883].excl={1881} --old: nil
 D[1885].excl={1859} --old: nil
 D[1943].excl={1944} --old: nil
+D[1944].obj.I={7268,7269} --old: {7268}
+D[1948].obj.I={1529,7272,7273,7516} --old: {1529,7272,7273}
+D[2078].obj.I={7442} --old: nil
+D[2118].obj.I={7586} --old: nil
 D[2178].skill={["id"]=185,["min"]=10} --old: id=185
 D[2200].obj={}
 D[2200].obj.I={7667} --old: nil
+D[2201].obj.I={7668,7669,7670,7671} --old: {7669,7670,7671}
+D[2203].obj.I={7867,7870} --old: {7867}
 D[2203].skill={["id"]=171,["min"]=210} --old: id=171
 D[2205].excl={2218,2241} --old: nil
 D[2206].pre=2205 --old: nil
 D[2218].excl={2205,2241} --old: nil
 D[2241].excl={2205,2218} --old: nil
+D[2282].obj.I={5060,7871} --old: {7871}
 D[2318].obj={}
 D[2318].obj.I={7886} --old: nil
+D[2339].obj.I={7668,7669,7670,7671,7672} --old: {7669,7670,7671,7672}
 D[2358].hide=true --old: nil
+D[2359].obj.I={7908,7923,8046} --old: {7908,7923}
 D[2378].excl={2380} --old: nil
 D[2379].pre={2378,2380} --old: nil
 D[2380].excl={2378} --old: nil
 D[2458].obj={}
 D[2458].obj.I={8051} --old: nil
+D[2501].obj.I={7867,7870} --old: {7867}
 D[2501].skill={["id"]=171,["min"]=210} --old: id=171
 D[2520].obj={}
 D[2520].obj.I={8155} --old: nil
 D[2523].hide=true --old: nil
+D[2561].obj.I={8149} --old: nil
 D[2751].skill={["id"]=164,["min"]=140} --old: id=164
 D[2752].skill={["id"]=164,["min"]=1} --old: id=164
 D[2753].skill={["id"]=164,["min"]=1} --old: id=164
@@ -284,8 +325,12 @@ D[2859].skill={["id"]=165,["min"]=225} --old: id=165
 D[2860].preg={2855,2856,2857,2858,2859} --old: nil
 D[2860].skill={["id"]=165,["min"]=225} --old: id=165
 D[2878].hide=true --old: nil
+D[2879].obj.I={9255,9256,9257,9258,9263,9306} --old: {9255,9256,9257,9258,9306}
 D[2881].hide=true --old: nil
+D[2882].obj.I={9254,9275} --old: {9275}
+D[2926].obj.I={9283,9284} --old: {9284}
 D[2932].obj.I={9320,15002} --old: {9320}
+D[2937].obj.I={9323,9324} --old: {9324}
 D[2954].pre={2946,2966} --old: nil
 D[2969].obj={}
 D[2969].obj.I={12301} --old: nil
@@ -310,8 +355,14 @@ D[3379].skill={["id"]=197,["min"]=230} --old: id=197
 D[3385].skill={["id"]=197,["min"]=226} --old: id=197
 D[3402].skill={["id"]=197,["min"]=1} --old: id=197
 D[3444].pre={3380,3445} --old: nil
+D[3449].obj.I={10445,10563,10564,10565,10566} --old: {10563,10564,10565,10566}
+D[3463].obj.I={10515} --old: nil
+D[3514].obj.I={10622} --old: nil
 D[3526].excl={3629,3630,3632,3633,3634,3635,3637,4181} --old: nil
 D[3526].skill={["id"]=202,["min"]=200} --old: id=202
+D[3528].obj.I={10465,10662,10663} --old: {10662,10663}
+D[3568].obj.I={10691,10692,10693,10694,10695} --old: {10691,10692,10693,10694}
+D[3602].obj.I={10714,10834} --old: {10714}
 D[3629].excl={3526,3630,3632,3633,3634,3635,3637,4181} --old: nil
 D[3629].skill={["id"]=202,["min"]=200} --old: id=202
 D[3630].excl={3526,3629,3632,3633,3634,3635,3637,4181} --old: nil
@@ -327,14 +378,17 @@ D[3635].excl={3526,3629,3630,3632,3633,3634,3637,4181} --old: nil
 D[3635].skill={["id"]=202,["min"]=200} --old: id=202
 D[3637].excl={3526,3629,3630,3632,3633,3634,3635,4181} --old: nil
 D[3637].skill={["id"]=202,["min"]=200} --old: id=202
+D[3638].obj.I={10792,11270} --old: {11270}
 D[3638].pre={3526,3629,3633,4181} --old: nil
 D[3638].excl={3640,3642} --old: nil
 D[3638].skill={["id"]=202,["min"]=200} --old: id=202
 D[3639].skill={["id"]=202,["min"]=200} --old: id=202
+D[3640].obj.I={10793,11283} --old: {11283}
 D[3640].pre={3630,3632,3634} --old: nil
 D[3640].excl={3638,3642} --old: nil
 D[3640].skill={["id"]=202,["min"]=200} --old: id=202
 D[3641].skill={["id"]=202,["min"]=200} --old: id=202
+D[3642].obj.I={10794,11282} --old: {11282}
 D[3642].pre={3635,3637} --old: nil
 D[3642].excl={3638,3640} --old: nil
 D[3642].skill={["id"]=202,["min"]=200} --old: id=202
@@ -349,16 +403,24 @@ D[3762].excl={936,3784} --old: nil
 D[3763].excl={3789,3790} --old: nil
 D[3765].excl={1275} --old: nil
 D[3784].excl={936,3762} --old: nil
+D[3785].obj.I={11020,11040} --old: {11040}
+D[3786].obj.I={11020,11040} --old: {11040}
 D[3787].excl={3788} --old: nil
 D[3788].excl={3787} --old: nil
 D[3789].excl={3763,3790} --old: nil
 D[3790].excl={3763,3789} --old: nil
+D[3791].obj.I={11020,11040} --old: {11040}
+D[3825].obj.I={11079} --old: nil
+D[3845].obj.I={11104,11105,11106,11107} --old: {11104,11105,11106}
 D[3861].hide=true --old: nil
-D[3903].pre={18,33} --old: 33
+D[3883].obj.I={11131,11132} --old: {11131}
+D[3903].pre=18 --old: 33
 D[3912].obj={}
 D[3912].obj.I={11136} --old: nil
+D[4005].obj.I={11522,11617} --old: {11522}
 D[4022].excl={4023} --old: nil
 D[4023].excl={4022} --old: nil
+D[4024].obj.I={11230,11231} --old: {11230}
 D[4024].pre={4022,4023} --old: 4023
 D[4104].skill={["id"]=186,["min"]=1} --old: id=186
 D[4105].skill={["id"]=182,["min"]=1} --old: id=182
@@ -382,13 +444,16 @@ D[4135].obj.I={11463} --old: nil
 D[4161].skill={["id"]=185,["min"]=1} --old: id=185
 D[4181].excl={3526,3629,3630,3632,3633,3634,3635,3637} --old: nil
 D[4181].skill={["id"]=202,["min"]=200} --old: id=202
+D[4201].obj.I={8846,11405,11412,11413} --old: {8846,11405,11413}
 D[4221].hide=true --old: nil
 D[4222].hide=true --old: nil
+D[4292].obj.I={11510,11568} --old: {11510}
 D[4295].hide=true --old: nil
 D[4321].preg={4285,4287,4288} --old: nil
 D[4343].hide=true --old: nil
 D[4401].hide=true --old: nil
 D[4403].hide=true --old: nil
+D[4441].obj.I={5646,11682} --old: {5646}
 D[4443].hide=true --old: nil
 D[4444].hide=true --old: nil
 D[4445].hide=true --old: nil
@@ -409,19 +474,32 @@ D[4489].excl={3631,4487,4488} --old: nil
 D[4491].obj={}
 D[4491].obj.I={11804} --old: nil
 D[4494].pre=82 --old: nil
+D[4505].obj.I={12566,12567} --old: {12567}
 D[4506].obj={}
 D[4506].obj.I={12565} --old: nil
+D[4507].obj.I={11833,11835} --old: {11835}
+D[4512].obj.I={11912,11947,11949} --old: {11947,11949}
+D[4513].obj.I={11954,11955} --old: {11954}
 D[4621].hide=true --old: nil
 D[4641].race=178 --old: 130
+D[4642].obj.I={12288,12291} --old: {12291}
 D[4642].preg={4293,4294} --old: nil
+D[4729].obj.I={12262,12263} --old: {12263}
 D[4736].excl={4737,4738,4739} --old: nil
 D[4737].excl={4736,4738,4739} --old: nil
 D[4738].excl={4736,4737,4739} --old: nil
 D[4739].excl={4736,4737,4738} --old: nil
+D[4743].obj.I={12324,12339} --old: {12324}
+D[4762].obj.I={12349,12350} --old: {12349}
+D[4763].obj.I={12341,12342,12343,12346,12347,12355} --old: {12341,12342,12343,12355}
+D[4771].obj.I={12368} --old: nil
+D[4812].obj.I={14338,14339} --old: {14339}
 D[4822].preg={1479,1558,1687} --old: nil
 D[4822].hide=true --old: nil
+D[4867].obj.I={12712,12730} --old: {12712}
 D[4881].obj={}
 D[4881].obj.I={12564} --old: nil
+D[4903].obj.I={12562,12563} --old: {12562}
 D[4962].excl={4963} --old: nil
 D[4963].excl={4962} --old: nil
 D[4964].excl={4975} --old: nil
@@ -431,6 +509,7 @@ D[4968].excl={4965,4967,4969} --old: nil
 D[4969].excl={4965,4967,4968} --old: nil
 D[4975].excl={4964} --old: nil
 D[5050].pre={5048,5049} --old: nil
+D[5051].obj.I={12721,12722,12723} --old: {12722,12723}
 D[5059].pre=5058 --old: nil
 D[5060].pre=5059 --old: nil
 D[5066].excl={5090,5091} --old: nil
@@ -442,8 +521,11 @@ D[5094].excl={5093,5095} --old: nil
 D[5095].excl={5093,5094} --old: nil
 D[5096].obj.I={12807,12814} --old: {12814}
 D[5096].pre={5093,5094,5095} --old: nil
+D[5097].obj.I={12815} --old: nil
+D[5098].obj.I={12815} --old: nil
 D[5103].skill={["id"]=164,["min"]=275} --old: id=164
 D[5126].skill={["id"]=164,["min"]=285} --old: id=164
+D[5127].obj.I={12806,12847,12848} --old: {12806,12847}
 D[5127].skill={["id"]=164,["min"]=285} --old: id=164
 D[5141].excl={5143,5144} --old: nil
 D[5141].skill={["id"]=165,["min"]=225} --old: id=165
@@ -459,6 +541,8 @@ D[5146].skill={["id"]=165,["min"]=225} --old: id=165
 D[5148].excl={5145,5146} --old: nil
 D[5148].skill={["id"]=165,["min"]=225} --old: id=165
 D[5149].pre={5142,5601} --old: nil
+D[5157].obj.I={12907,12922} --old: {12907}
+D[5165].obj.I={12906} --old: nil
 D[5201].repu={["id"]=589,["min"]=1500} --old: id=nil
 D[5206].preg={5168,5181} --old: nil
 D[5211].obj.U={8530,8531,8532,11064} --old: {11064}
@@ -466,8 +550,11 @@ D[5218].pre={5216,5229,5237} --old: 5237
 D[5227].pre={5225,5235,5237} --old: 5237
 D[5237].excl={5238} --old: nil
 D[5238].excl={5237} --old: nil
+D[5245].obj.I={12891,12896,12897,12898,12899} --old: {12896,12897,12898,12899}
+D[5247].obj.I={11562,12655,16973,16974} --old: {11562,12655,16973}
 D[5249].excl={5250} --old: nil
 D[5250].excl={5249} --old: nil
+D[5282].obj.I={13289} --old: nil
 D[5283].excl={5284} --old: nil
 D[5283].skill={["id"]=164,["min"]=200} --old: id=164
 D[5284].excl={5283} --old: nil
@@ -479,6 +566,7 @@ D[5302].skill={["id"]=164,["min"]=200} --old: id=164
 D[5305].skill={["id"]=164,["min"]=250} --old: id=164
 D[5306].skill={["id"]=164,["min"]=250} --old: id=164
 D[5307].skill={["id"]=164,["min"]=250} --old: id=164
+D[5384].obj.I={13523} --old: nil
 D[5401].excl={5405,5503} --old: nil
 D[5401].hide=true --old: nil
 D[5402].hide=true --old: nil
@@ -489,6 +577,7 @@ D[5405].hide=true --old: nil
 D[5406].hide=true --old: nil
 D[5407].hide=true --old: nil
 D[5408].hide=true --old: nil
+D[5466].obj.I={13626,13752} --old: {13626}
 D[5502].preg={915,925} --old: nil
 D[5502].hide=true --old: nil
 D[5503].excl={5401,5405} --old: nil
@@ -511,6 +600,7 @@ D[5521].repu={["id"]=529,["min"]=42000} --old: id=nil
 D[5524].excl={5517,5521} --old: nil
 D[5524].repu={["id"]=529,["min"]=42000} --old: id=nil
 D[5525].hide=true --old: nil
+D[5526].obj.I={18539,18540} --old: {18540}
 D[5528].hide=true --old: nil
 D[5601].excl={5142} --old: nil
 D[5627].pre={5628,5629,5630,5631,5632,5633} --old: nil
@@ -552,9 +642,12 @@ D[5676].excl={5677} --old: nil
 D[5677].excl={5676} --old: nil
 D[5679].excl={5644,5646} --old: nil
 D[5680].excl={5642,5643} --old: nil
+D[5721].obj.I={15209,177528} --old: nil
 D[5727].obj={}
 D[5727].obj.I={14544} --old: nil
 D[5742].preg={5542,5543,5544} --old: nil
+D[5801].obj.I={14644,14645} --old: {14645}
+D[5802].obj.I={14644,14645} --old: {14645}
 D[5883].skill={["id"]=186,["min"]=1} --old: id=186
 D[5884].skill={["id"]=182,["min"]=1} --old: id=182
 D[5885].skill={["id"]=393,["min"]=1} --old: id=393
@@ -580,9 +673,11 @@ D[6001].obj={}
 D[6001].obj.I={15208} --old: nil
 D[6002].obj={}
 D[6002].obj.I={15710} --old: nil
+D[6022].obj.I={15447,15448,15454} --old: {15447,15448}
 D[6031].repu={["id"]=576,["min"]=3000} --old: id=nil
 D[6032].skill={["id"]=197,["min"]=290} --old: id=197
 D[6032].repu={["id"]=576,["min"]=3000} --old: id=nil
+D[6041].obj.I={15736} --old: nil
 D[6065].excl={6066,6067} --old: nil
 D[6066].excl={6065,6067} --old: nil
 D[6067].excl={6065,6066} --old: nil
@@ -595,11 +690,17 @@ D[6073].excl={6071,6072,6721,6722} --old: nil
 D[6074].excl={6075,6076} --old: nil
 D[6075].excl={6074,6076} --old: nil
 D[6076].excl={6074,6075} --old: nil
+D[6122].obj.I={15844,15845} --old: {15845}
+D[6124].obj.I={15826} --old: nil
+D[6127].obj.I={15842,15843} --old: {15843}
+D[6129].obj.I={15826} --old: nil
 D[6132].race=77 --old: 255
+D[6146].obj.I={13852,15876} --old: {13852}
 D[6382].excl={235,742} --old: nil
 D[6383].pre={235,742,6382} --old: nil
 D[6541].excl={6542} --old: nil
 D[6542].excl={6541} --old: nil
+D[6543].obj.I={16763,16764,16765,16783} --old: {16763,16764,16765}
 D[6570].obj={}
 D[6570].obj.I={16787} --old: nil
 D[6585].preg={6582,6583,6584} --old: nil
@@ -609,6 +710,7 @@ D[6609].skill={["id"]=356,["min"]=225} --old: id=356
 D[6610].skill={["id"]=185,["min"]=225} --old: id=185
 D[6611].skill={["id"]=185,["min"]=225} --old: id=185
 D[6612].skill={["id"]=185,["min"]=225} --old: id=185
+D[6621].obj.I={16972,16976} --old: {16976}
 D[6622].obj={}
 D[6622].obj.I={16991} --old: nil
 D[6622].skill={["id"]=129,["min"]=225} --old: id=129
@@ -622,6 +724,7 @@ D[6643].repu={["id"]=59,["min"]=1} --old: id=nil
 D[6644].repu={["id"]=59,["min"]=1} --old: id=nil
 D[6645].repu={["id"]=59,["min"]=1} --old: id=nil
 D[6646].repu={["id"]=59,["min"]=1} --old: id=nil
+D[6681].obj.I={17125,17126} --old: {17125}
 D[6701].repu={["id"]=349,["min"]=0} --old: id=nil
 D[6721].excl={6071,6072,6073,6722} --old: nil
 D[6722].excl={6071,6072,6073,6721} --old: nil
@@ -654,6 +757,7 @@ D[7001].obj={}
 D[7001].obj.I={17626} --old: nil
 D[7001].hide=true --old: nil
 D[7002].hide=true --old: nil
+D[7003].obj.I={18904,18956} --old: {18956}
 D[7021].excl={7024} --old: nil
 D[7021].hide=true --old: nil
 D[7022].excl={7023} --old: nil
@@ -667,12 +771,15 @@ D[7026].hide=true --old: nil
 D[7027].obj={}
 D[7027].obj.I={17689} --old: nil
 D[7027].hide=true --old: nil
+D[7029].obj.I={17693,17696} --old: {17696}
+D[7041].obj.I={17693,17696} --old: {17696}
 D[7042].hide=true --old: nil
 D[7043].hide=true --old: nil
 D[7045].hide=true --old: nil
 D[7061].hide=true --old: nil
 D[7062].hide=true --old: nil
 D[7063].hide=true --old: nil
+D[7067].obj.I={17757,17758,17781} --old: {17757,17758}
 D[7068].min=39 --old: 38
 D[7070].min=39 --old: 38
 D[7081].hide=true --old: nil
@@ -718,6 +825,7 @@ D[7282].hide=true --old: nil
 D[7301].hide=true --old: nil
 D[7302].hide=true --old: nil
 D[7321].skill={["id"]=185,["min"]=1} --old: id=185
+D[7383].obj.I={18151,18152} --old: {18151}
 D[7385].hide=true --old: nil
 D[7386].hide=true --old: nil
 D[7429].hide=true --old: nil
@@ -736,14 +844,19 @@ D[7494].hide=true --old: nil
 D[7497].skill={["id"]=165,["min"]=300} --old: id=165
 D[7507].hide=true --old: nil
 D[7508].hide=true --old: nil
+D[7509].obj.I={18489,18492} --old: {18492}
 D[7509].hide=true --old: nil
 D[7581].hide=true --old: nil
 D[7583].preg={7581,7582} --old: nil
+D[7603].obj.I={18625,18626} --old: {18625}
 D[7629].preg={7564,7625} --old: nil
 D[7630].preg={7626,7627,7628} --old: nil
+D[7631].obj.I={18818} --old: nil
 D[7631].preg={7629,7630} --old: nil
 D[7633].pre=7632 --old: nil
+D[7636].obj.I={18708,18952,18953,18954,18955} --old: {18952,18953,18954,18955}
 D[7637].pre=7638 --old: nil
+D[7647].obj.I={18749,18792,18799,18804} --old: {18749,18792,18799}
 D[7649].skill={["id"]=164,["min"]=300} --old: id=164
 D[7649].hide=true --old: nil
 D[7650].skill={["id"]=164,["min"]=300} --old: id=164
@@ -773,6 +886,7 @@ D[7676].hide=true --old: nil
 D[7677].hide=true --old: nil
 D[7678].hide=true --old: nil
 D[7703].hide=true --old: nil
+D[7725].obj.I={18904,18956} --old: {18956}
 D[7725].hide=true --old: nil
 D[7726].hide=true --old: nil
 D[7732].preg={7730,7731} --old: nil
@@ -1098,6 +1212,7 @@ D[8194].hide=true --old: nil
 D[8195].hide=true --old: nil
 D[8196].repu={["id"]=270,["min"]=9000} --old: id=nil
 D[8196].hide=true --old: nil
+D[8201].obj.I={19880,19881,19883} --old: {19880,19881}
 D[8201].hide=true --old: nil
 D[8221].skill={["id"]=356,["min"]=0} --old: id=356
 D[8221].hide=true --old: nil
@@ -1125,6 +1240,7 @@ D[8246].repu={["id"]=270,["min"]=42000} --old: id=nil
 D[8246].hide=true --old: nil
 D[8250].hide=true --old: nil
 D[8254].hide=true --old: nil
+D[8258].obj.I={18746,18880} --old: {18880}
 D[8260].excl={8261,8262} --old: nil
 D[8260].repu={["id"]=509,["min"]=3000} --old: id=nil
 D[8260].hide=true --old: nil
@@ -1172,6 +1288,7 @@ D[8299].excl={8123,8124,8160,8161,8162,8163,8164,8165,8300} --old: nil
 D[8299].hide=true --old: nil
 D[8300].excl={8123,8124,8160,8161,8162,8163,8164,8165,8299} --old: nil
 D[8300].hide=true --old: nil
+D[8301].obj.I={20384,20402} --old: {20384}
 D[8301].hide=true --old: nil
 D[8302].hide=true --old: nil
 D[8303].obj={}
@@ -1187,6 +1304,7 @@ D[8311].hide=true --old: nil
 D[8312].hide=true --old: nil
 D[8313].skill={["id"]=185,["min"]=285} --old: id=185
 D[8314].preg={8309,8310} --old: nil
+D[8315].obj.I={20464,20465} --old: {20465}
 D[8317].skill={["id"]=185,["min"]=285} --old: id=185
 D[8318].hide=true --old: nil
 D[8320].hide=true --old: nil
@@ -1291,7 +1409,9 @@ D[8503].hide=true --old: nil
 D[8504].hide=true --old: nil
 D[8505].hide=true --old: nil
 D[8506].hide=true --old: nil
+D[8507].obj.I={20810,21143} --old: {20810}
 D[8507].hide=true --old: nil
+D[8508].obj.I={20810,23024} --old: {23024}
 D[8508].hide=true --old: nil
 D[8509].hide=true --old: nil
 D[8510].hide=true --old: nil
@@ -1376,6 +1496,7 @@ D[8602].hide=true --old: nil
 D[8603].hide=true --old: nil
 D[8604].hide=true --old: nil
 D[8605].hide=true --old: nil
+D[8606].obj.I={21042} --old: nil
 D[8606].repu={["id"]=910,["min"]=0} --old: id=nil
 D[8606].hide=true --old: nil
 D[8607].hide=true --old: nil
@@ -1389,6 +1510,7 @@ D[8614].hide=true --old: nil
 D[8615].hide=true --old: nil
 D[8616].hide=true --old: nil
 D[8619].hide=true --old: nil
+D[8620].obj.I={21111,21112} --old: {21111}
 D[8620].repu={["id"]=910,["min"]=0} --old: id=nil
 D[8620].hide=true --old: nil
 D[8621].hide=true --old: nil
@@ -1499,11 +1621,14 @@ D[8726].hide=true --old: nil
 D[8727].hide=true --old: nil
 D[8728].repu={["id"]=910,["min"]=0} --old: id=nil
 D[8728].hide=true --old: nil
+D[8729].obj.I={21136,21137} --old: {21137}
 D[8729].repu={["id"]=910,["min"]=0} --old: id=nil
 D[8729].hide=true --old: nil
 D[8730].repu={["id"]=910,["min"]=0} --old: id=nil
 D[8730].hide=true --old: nil
+D[8731].obj.I={20810,21143} --old: {20810}
 D[8731].hide=true --old: nil
+D[8732].obj.I={20810,23024} --old: {23024}
 D[8732].hide=true --old: nil
 D[8733].repu={["id"]=910,["min"]=0} --old: id=nil
 D[8733].hide=true --old: nil
@@ -1523,6 +1648,7 @@ D[8743].hide=true --old: nil
 D[8744].hide=true --old: nil
 D[8745].repu={["id"]=910,["min"]=0} --old: id=nil
 D[8745].hide=true --old: nil
+D[8746].obj.I={21211,21315} --old: {21211}
 D[8746].hide=true --old: nil
 D[8747].excl={8752,8757} --old: nil
 D[8747].repu={["id"]=910,["min"]=0} --old: id=nil
@@ -1569,6 +1695,7 @@ D[8760].hide=true --old: nil
 D[8761].excl={8751,8756} --old: nil
 D[8761].repu={["id"]=910,["min"]=42000} --old: id=nil
 D[8761].hide=true --old: nil
+D[8762].obj.I={21211,21315} --old: {21211}
 D[8762].hide=true --old: nil
 D[8763].skill={["id"]=185,["min"]=300} --old: id=185
 D[8763].hide=true --old: nil
@@ -1709,12 +1836,22 @@ D[8930].obj={}
 D[8930].obj.I={22115} --old: nil
 D[8930].pre={8927,8938,8939,8940,8941,8942,8943,8944} --old: nil
 D[8945].pre={8929,8930} --old: nil
+D[8951].obj.I={16715,16718,16719,22047} --old: {16715,16718,16719}
+D[8952].obj.I={16675,16678,16679,22047} --old: {16675,16678,16679}
+D[8953].obj.I={16682,16687,16689,22047} --old: {16682,16687,16689}
+D[8954].obj.I={16725,16728,16729,22047} --old: {16725,16728,16729}
+D[8955].obj.I={16691,16694,16695,22047} --old: {16691,16694,16695}
+D[8956].obj.I={16708,16709,16711,22047} --old: {16708,16709,16711}
+D[8957].obj.I={16668,16669,16670,22047} --old: {16668,16669,16670}
+D[8958].obj.I={16699,16701,16704,22047} --old: {16699,16701,16704}
+D[8959].obj.I={16732,16733,16734,22047} --old: {16732,16733,16734}
 D[8960].pre={8951,8952,8953,8954,8955,8956,8958,8959} --old: nil
 D[8961].pre={8960,9032} --old: nil
 D[8962].excl={8963,8964,8965} --old: nil
 D[8963].excl={8962,8964,8965} --old: nil
 D[8964].excl={8962,8963,8965} --old: nil
 D[8965].excl={8962,8963,8964} --old: nil
+D[8970].obj.I={21984,22094} --old: {22094}
 D[8970].pre={8966,8967,8968,8969} --old: nil
 D[8979].hide=true --old: nil
 D[8980].hide=true --old: nil
@@ -1727,7 +1864,17 @@ D[8986].pre={8965,8970} --old: 8970
 D[8987].pre={8962,8970} --old: 8970
 D[8988].pre={8963,8970} --old: 8970
 D[8993].hide=true --old: nil
+D[8994].obj.I={13512,22048,22138} --old: {13512,22138}
 D[8994].pre={8989,8990,8991,8992} --old: nil
+D[8995].obj.I={22048,22056} --old: {22048}
+D[9015].obj.I={21986,22047} --old: {22047}
+D[9016].obj.I={16715,16718,16719,22047} --old: {16715,16718,16719}
+D[9017].obj.I={16675,16678,16679,22047} --old: {16675,16678,16679}
+D[9018].obj.I={16682,16687,16689,21986} --old: {16682,16687,16689}
+D[9019].obj.I={16691,16694,16695,22047} --old: {16691,16694,16695}
+D[9020].obj.I={16708,16709,16711,22047} --old: {16708,16709,16711}
+D[9021].obj.I={16699,16701,16704,22047} --old: {16699,16701,16704}
+D[9022].obj.I={16732,16733,16734,22047} --old: {16732,16733,16734}
 D[9023].hide=true --old: nil
 D[9024].hide=true --old: nil
 D[9025].hide=true --old: nil
