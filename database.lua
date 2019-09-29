@@ -607,6 +607,8 @@ function CodexDatabase:SearchQuests(meta, maps)
             -- hide completed quests
         elseif quests[id]["pre"] and not completedQuests[quests[id]["pre"]] then
             -- hide missing pre-quest
+        elseif quests[id]["next"] and completedQuests[quests[id]["next"]] then
+            -- The next quest in the quest chain has been completed and the current quest is no longer available
         elseif quests[id]["race"] and not (bit.band(quests[id]["race"], playerRace) == playerRace) then
             -- hide non-available quests for your race
         elseif quests[id]["class"] and not (bit.band(quests[id]["class"], playerClass) == playerClass) then
