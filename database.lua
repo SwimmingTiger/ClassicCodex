@@ -161,20 +161,27 @@ function CodexDatabase:GetRaceMaskById(id, db)
 end
 
 -- Scans DB by name and returns list of matching IDs
-function CodexDatabase:GetIdByName(name, db, partial)
+function CodexDatabase:GetIdByName(name, db, partial, searchLimit)
     if not CodexDB[db] then return nil end
     local result = {}
 
+    local count = 0
     for key, value in pairs(CodexDB[db]["loc"]) do
         if db == "quests" then value = value["T"] end
 
         if value and name then
             if partial == true and strfind(strlower(value), strlower(name), 1, true) then
                 result[key] = value
+                count = count + 1
+                if searchLimit and (count >= searchLimit) then break end
             elseif partial == "LOWER" and strlower(value) == strlower(name) then
                 result[key] = value
+                count = count + 1
+                if searchLimit and (count >= searchLimit) then break end
             elseif value == name then
                 result[key] = value
+                count = count + 1
+                if searchLimit and (count >= searchLimit) then break end
             end
         end
     end
@@ -182,17 +189,28 @@ function CodexDatabase:GetIdByName(name, db, partial)
     return result
 end
 
-function CodexDatabase:GetIdByPartialId(partialId, db)
+function CodexDatabase:GetIdByPartialId(partialId, db, exact, searchLimit)
     if not CodexDB[db] then return nil end
     local result = {}
+    
+    if exact then
+        partialId = tonumber(partialId)
+        local value = CodexDB[db]["loc"][partialId]
+        if not value then return {} end
+        if db == "quests" then value = value["T"] end
+        result[partialId] = value
+        return result
+    end
 
+    local count = 0
     for key, value in pairs(CodexDB[db]["loc"]) do
         if db == "quests" then value = value["T"] end
 
         if partialId and value and strfind(tostring(key), partialId) then
             result[key] = value
+            count = count + 1
+            if searchLimit and (count >= searchLimit) then break end
         end
-
     end
 
     return result
@@ -839,7 +857,14 @@ CodexDatabase.lastSearchResults = {["items"] = {}, ["quests"] = {}, ["objects"] 
 -- E.g.: {{[5] = "Some Name", [231] = "Another Name"}, 2}
 -- If the query doesn't satisfy the minimum search length requiered for its
 -- type (number/string), the favourites for the `searchType` are returned.
-function CodexDatabase:BrowserSearch(query, searchType)
+function CodexDatabase:BrowserSearch(query, searchType, searchLimit)
+    local exactMatch = false
+    -- Start with # for exact match, such as "#123" or "#The People's Militia"
+    if strlen(query) >= 2 and query:sub(1, 1) == '#' then
+        exactMatch = true
+        query = query:sub(2)
+    end
+
     local queryLength = strlen(query)
     local queryNumber = tonumber(query)
     local results = {}
@@ -878,9 +903,9 @@ function CodexDatabase:BrowserSearch(query, searchType)
             return results, resultCount
         else
             if queryNumber then
-                results = CodexDatabase:GetIdByPartialId(query, searchType)
+                results = CodexDatabase:GetIdByPartialId(query, searchType, exactMatch, searchLimit)
             else
-                results = CodexDatabase:GetIdByName(query, searchType, true)
+                results = CodexDatabase:GetIdByName(query, searchType, not exactMatch, searchLimit)
             end
             local resultCount = 0
             for _, _ in pairs(results) do
@@ -894,4 +919,3 @@ function CodexDatabase:BrowserSearch(query, searchType)
         return {}, -1
     end
 end
-            
