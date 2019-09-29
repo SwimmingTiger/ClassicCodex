@@ -756,7 +756,10 @@ CodexBrowser.input:SetScript("OnTextChanged", function(self)
   for _, caption in pairs({"Units","Objects","Items","Quests"}) do
     local searchType = strlower(caption)
 
-    local data = strlen(text) >= 3 and CodexDatabase:GetIdByName(text, searchType, true) or CodexBrowserFavorites[searchType]
+    local data, count = CodexDatabase:BrowserSearch(text, searchType, searchLimit)
+    if count == -1 then
+        data = CodexBrowserFavorites[searchType]
+    end
 
     local i = 0
     if data then
@@ -776,4 +779,3 @@ CodexBrowser.input:SetScript("OnTextChanged", function(self)
 end)
 
 CodexUI.api.CreateBackdrop(CodexBrowser.input, nil, true)
-
