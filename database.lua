@@ -595,6 +595,30 @@ function CodexDatabase:SearchQuests(meta, maps)
         end
     end
 
+    local function oneOfCompleted(questIds)
+        if type(questIds) ~= 'table' then
+            return completedQuests[questIds]
+        end
+        for _,id in pairs(questIds) do
+            if completedQuests[id] then
+                return true
+            end
+        end
+        return false
+    end
+
+    local function allCompleted(questIds)
+        if type(questIds) ~= 'table' then
+            return completedQuests[questIds]
+        end
+        for _,id in pairs(questIds) do
+            if not completedQuests[id] then
+                return false
+            end
+        end
+        return true
+    end
+
     for id in pairs(quests) do
         minLevel = quests[id]["min"] or quests[id]["lvl"] or playerLevel
         maxLevel = quests[id]["lvl"] or quests[id]["min"] or playerLevel
@@ -605,8 +629,12 @@ function CodexDatabase:SearchQuests(meta, maps)
             -- hide quests hidden by the player
         elseif CodexHiddenQuests[id] then
             -- hide completed quests
-        elseif quests[id]["pre"] and not completedQuests[quests[id]["pre"]] then
+        elseif quests[id]["pre"] and not oneOfCompleted(quests[id]["pre"]) then
             -- hide missing pre-quest
+            -- Need to complete one of these quests to pick up the quest
+        elseif quests[id]["preg"] and not allCompleted(quests[id]["preg"]) then
+            -- hide missing pre-quest groups
+            -- Need to complete all these quests to pick up the quest
         elseif quests[id]["next"] and completedQuests[quests[id]["next"]] then
             -- The next quest in the quest chain has been completed and the current quest is no longer available
         elseif quests[id]["race"] and not (bit.band(quests[id]["race"], playerRace) == playerRace) then
