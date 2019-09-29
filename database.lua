@@ -216,7 +216,7 @@ function CodexDatabase:GetIdByPartialId(partialId, db, exact, searchLimit)
     return result, count
 end
 
-function CodexDatabase:SearchCompletedQuests(name, db, exact, searchLimit)
+function CodexDatabase:SearchQuestInSet(questSet, name, db, exact, searchLimit)
     if db ~= 'quests' or not CodexDB[db] then
         return {}, 0
     end
@@ -243,7 +243,7 @@ function CodexDatabase:SearchCompletedQuests(name, db, exact, searchLimit)
     local count = 0
     local noFilter = strlen(name) == 0
 
-    for questId, _ in pairs(GetQuestsCompleted()) do
+    for questId, _ in pairs(questSet) do
         questId = tonumber(questId)
         if CodexDB[db]["loc"][questId] then
             local title = CodexDB[db]["loc"][questId]["T"]
@@ -896,37 +896,51 @@ end
 -- If the query doesn't satisfy the minimum search length requiered for its
 -- type (number/string), the favourites for the `searchType` are returned.
 function CodexDatabase:BrowserSearch(query, searchType, searchLimit)
-    local searchCompletedQuests = false
-    local exactMatch = false
-    -- Start with @ to search complated quests
-    if strlen(query) >= 1 and query:sub(1, 1) == '@' then
-        searchCompletedQuests = true
-        query = query:sub(2)
+    -- Search Mode: 1: title matching, 2: id matching, 3: completed quests, 4: hidden quests
+    local searchMode = 1
+
+    local questSet = nil
+    if strlen(query) >= 1 then
+        if query:sub(1, 1) == '@' then
+            -- Start with @ to search complated quests
+            searchMode = 3
+            questSet = GetQuestsCompleted()
+            query = query:sub(2)
+        elseif query:sub(1, 1) == '!' then
+            -- Start with @ to search manually hidden quests
+            searchMode = 4
+            questSet = CodexHiddenQuests
+            query = query:sub(2)
+        end
     end
     -- Start with # for exact match, such as "#123" or "#The People's Militia"
+    local exactMatch = false
     if strlen(query) >= 1 and query:sub(1, 1) == '#' then
         exactMatch = true
         query = query:sub(2)
     end
 
+    if searchMode == 1 and tonumber(query) then
+        searchMode = 2
+    end
+
     local queryLength = strlen(query)
-    local idSearch = (not searchCompletedQuests and tonumber(query)) and true or false
     local results = {}
     local resultCount = 0
 
     -- Set the DB to be searched
     local minChars = 3
     local minInts = 1
-    if searchCompletedQuests or (queryLength >= minChars) or (idSearch and (queryLength >= minInts)) then
-        if searchCompletedQuests then
-            results, resultCount = CodexDatabase:SearchCompletedQuests(query, searchType, exactMatch, searchLimit)
-        elseif idSearch then
+    if questSet or (queryLength >= minChars) or (searchMode == 2 and (queryLength >= minInts)) then
+        if questSet then
+            results, resultCount = CodexDatabase:SearchQuestInSet(questSet, query, searchType, exactMatch, searchLimit)
+        elseif searchMode == 2 then
             results, resultCount = CodexDatabase:GetIdByPartialId(query, searchType, exactMatch, searchLimit)
         else
             results, resultCount = CodexDatabase:GetIdByName(query, searchType, not exactMatch, searchLimit)
         end
 
-        return results, resultCount, idSearch
+        return results, resultCount, searchMode
     else
         -- min search length not satisfied, reset search results and return favorites or nil
         return {}, -1, nil
