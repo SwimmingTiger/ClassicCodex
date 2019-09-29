@@ -249,7 +249,7 @@ function createConfigPanel(parent)
     end)
     config.showHighLevelCheckbox:SetPoint("TOPLEFT", 10, -245)
 
-    config.showFestivalCheckbox = checkboxFactory(config, L["Show Festival Quests"], L["If selected, quests related to WoW festive seasons will be displayed on the map"], function(self)
+    config.showFestivalCheckbox = checkboxFactory(config, L["Show Festival/PVP/Misc Quests"], L["If selected, quests related to WoW festive seasons or PVP or not available at the current stage will be displayed on the map"], function(self)
         CodexConfig.showFestival = self:GetChecked()
         CodexQuest:ResetAll()
     end)
