@@ -2,6 +2,7 @@
 
 mkdir -p ClassicCodex
 cp -r db ClassicCodex/db
+cp -r db-patches ClassicCodex/db-patches
 cp -r img ClassicCodex/img
 cp -r lib ClassicCodex/lib
 cp -r locale ClassicCodex/locale
