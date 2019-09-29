@@ -67,11 +67,13 @@ L["If selected, markers' colors will be set per spawn type or per quest if not s
 L["Quest Marker Size"] = true
 L["Spawn Marker Size"] = true
 L["Hide items with a drop probability less than (%)"] = true
-L["Show All Quests You Manually Hide"] = true
+L["Show All Quests You Manually Hide Again"] = true
 L["Show all the quests you have hidden by shift + click."] = true
 L["Hide a quest by holding the shift key and clicking on the quest icon on the minimap or world map."] = true
 L["ClassicCodex: You have no manually hidden quests. You can hold the shift key and click on the quest icon on the minimap or world map to hide it."] = true
 L["ClassicCodex: %d hidden quests will be able to show again."] = true
+L["List Manually Hidden Quests"] = true
+L["List Completed Quests"] = true
 
 -- map.lua
 L["Buy"] = true

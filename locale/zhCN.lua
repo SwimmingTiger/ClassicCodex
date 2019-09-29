@@ -67,11 +67,13 @@ L["If selected, markers' colors will be set per spawn type or per quest if not s
 L["Quest Marker Size"] = "任务标记大小"
 L["Spawn Marker Size"] = "怪物标记大小"
 L["Hide items with a drop probability less than (%)"] = "隐藏掉落概率低于(%)的物品"
-L["Show All Quests You Manually Hide"] = "显示所有手动隐藏的任务"
+L["Show All Quests You Manually Hide Again"] = "重新显示所有手动隐藏的任务"
 L["Show all the quests you have hidden by shift + click."] = "显示所有通过Shift+点击隐藏的任务"
 L["Hide a quest by holding the shift key and clicking on the quest icon on the minimap or world map."] = "按住Shift并点击小地图或世界地图上的任务图标可以隐藏任务"
 L["ClassicCodex: You have no manually hidden quests. You can hold the shift key and click on the quest icon on the minimap or world map to hide it."] = "ClassicCodex: 您没有手动隐藏过任何任务，按住Shift并点击小地图或世界地图上的任务图标可以隐藏任务"
 L["ClassicCodex: %d hidden quests will be able to show again."] = "ClassicCodex: %d个隐藏任务已重新显示"
+L["List Manually Hidden Quests"] = "列出手动隐藏的任务"
+L["List Completed Quests"] = "列出完成的任务"
 
 -- map.lua
 L["Buy"] = "购买"

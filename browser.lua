@@ -729,6 +729,11 @@ function CodexBrowser:RestoreCVars()
     end
 end
 
+function CodexBrowser:OpenView(viewName)
+    SelectView(self.tabs[viewName])
+    self:Show()
+end
+
 CodexUI.api.CreateBackdrop(CodexBrowser, nil, true, 0.75)
 table.insert(UISpecialFrames, "CodexBrowser")
 
