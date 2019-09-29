@@ -636,7 +636,9 @@ function CodexDatabase:SearchQuests(meta, maps)
             -- hide missing pre-quest groups
             -- Need to complete all these quests to pick up the quest
         elseif quests[id]["next"] and completedQuests[quests[id]["next"]] then
-            -- The next quest in the quest chain has been completed and the current quest is no longer available
+            -- hide unavailable quest because the next quest in the quest chain has been completed
+        elseif quests[id]["excl"] and oneOfCompleted(quests[id]["excl"]) then
+            -- hide unavailable quest because a quest that is mutually exclusive with the current quest has been completed
         elseif quests[id]["race"] and not (bit.band(quests[id]["race"], playerRace) == playerRace) then
             -- hide non-available quests for your race
         elseif quests[id]["class"] and not (bit.band(quests[id]["class"], playerClass) == playerClass) then
