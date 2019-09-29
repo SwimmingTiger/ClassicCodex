@@ -2,7 +2,18 @@
 -- ClassicCodex git tag: 1fc3507, quest num: 4243
 -- Questie git tag: v4.1.2-91-ga0d93f3, quest num: 4174
 local D = CodexDB.quests.data
+D[26].start.U={3033,4217} --old: {3033}
+D[26].next=29 --old: 28
+D[26].race=8 --old: 32
+D[27].start.U={3033,4217} --old: {4217}
+D[27].next=28 --old: 29
+D[27].race=32 --old: 8
+D[33].excl={5261} --old: nil
+D[46].pre=39 --old: nil
+D[90].skill={["id"]=185,["min"]=50} --old: id=nil
 D[96].excl={972} --old: nil
+D[103].race=77 --old: nil
+D[104].race=77 --old: nil
 D[123].obj.I={1307,2223} --old: {2223}
 D[136].obj={}
 D[136].obj.I={1357} --old: nil
@@ -12,6 +23,9 @@ D[139].obj={}
 D[139].obj.I={1361} --old: nil
 D[140].obj={}
 D[140].obj.I={1362} --old: nil
+D[152].race=77 --old: nil
+D[163].excl={5} --old: nil
+D[164].excl={95} --old: nil
 D[171].preg={558,4822} --old: nil
 D[171].hide=true --old: nil
 D[172].obj={}
@@ -26,8 +40,24 @@ D[235].excl={742,6382} --old: nil
 D[243].obj={}
 D[243].obj.I={8523} --old: nil
 D[247].preg={2,23,24} --old: nil
+D[282].excl={287} --old: nil
+D[308].excl={311} --old: nil
 D[361].obj.I={2837,2839} --old: {2837}
+D[367].race=178 --old: 16
+D[368].race=178 --old: 16
+D[369].race=178 --old: 16
+D[374].pre=427 --old: nil
+D[410].pre={-409,366} --old: -409
+D[410].excl={411} --old: nil
+D[415].excl={413} --old: nil
+D[428].excl={429} --old: nil
+D[431].pre={-409,366} --old: -409
+D[431].excl={411} --old: nil
+D[463].excl={276} --old: nil
+D[473].pre=455 --old: nil
 D[484].repu={["id"]=47,["min"]=9000} --old: id=nil
+D[526].excl={322,324} --old: nil
+D[535].excl={533} --old: nil
 D[558].hide=true --old: nil
 D[574].preg={203,204} --old: nil
 D[578].obj={}
@@ -40,6 +70,7 @@ D[624].obj.I={4056} --old: nil
 D[635].obj={}
 D[635].obj.I={4614} --old: nil
 D[637].obj.I={4432,4433} --old: {4432}
+D[680].pre=678 --old: nil
 D[687].pre={653,688} --old: nil
 D[695].obj={}
 D[695].obj.I={4529} --old: nil
@@ -54,6 +85,7 @@ D[758].obj.I={5415} --old: nil
 D[760].obj={}
 D[760].obj.I={5416} --old: nil
 D[768].skill={["id"]=393,["min"]=1} --old: id=393
+D[769].skill={["id"]=165,["min"]=10} --old: id=nil
 D[770].obj={}
 D[770].obj.I={4854} --old: nil
 D[772].obj={}
@@ -62,7 +94,9 @@ D[781].obj.I={4850,4851} --old: {4850}
 D[787].hide=true --old: nil
 D[794].pre={792,1499} --old: nil
 D[830].obj.I={4881,4883} --old: {4883}
-D[862].skill={["id"]=185,["min"]=1} --old: id=185
+D[841].excl={654} --old: nil
+D[858].race=178 --old: 255
+D[862].skill={["id"]=185,["min"]=76} --old: id=185
 D[866].skill={["id"]=182,["min"]=1} --old: id=182
 D[894].obj={}
 D[894].obj.I={5088} --old: nil
@@ -71,6 +105,8 @@ D[911].hide=true --old: nil
 D[915].preg={910,911,1800} --old: nil
 D[915].hide=true --old: nil
 D[925].hide=true --old: nil
+D[926].pre={-924,809} --old: -924
+D[930].pre={918,919} --old: nil
 D[936].excl={3762,3784} --old: nil
 D[944].obj={}
 D[944].obj.I={5251} --old: nil
@@ -94,10 +130,12 @@ D[1047].excl={1015,1019} --old: nil
 D[1079].pre={1074,1077} --old: 1074
 D[1080].pre={1074,1077} --old: 1077
 D[1082].preg={1083,1084} --old: nil
+D[1085].pre=1070 --old: nil
 D[1086].obj={}
 D[1086].obj.I={5638} --old: nil
 D[1091].preg={1079,1080} --old: nil
 D[1100].obj.I={5790,5791} --old: {5790}
+D[1106].preg={1104,1105} --old: nil
 D[1119].preg={621,1118} --old: nil
 D[1120].excl={1121} --old: nil
 D[1121].excl={1120} --old: nil
@@ -107,18 +145,25 @@ D[1193].hide=true --old: nil
 D[1194].obj={}
 D[1194].obj.I={5866} --old: nil
 D[1271].preg={1222,1258} --old: nil
-D[1282].excl={1302} --old: nil
-D[1302].excl={1282} --old: nil
+D[1276].pre={1273,1323} --old: 1323
+D[1282].excl={} --old: nil
+D[1301].excl={1302} --old: nil
+D[1302].excl={} --old: nil
+D[1339].excl={1338} --old: nil
 D[1369].pre={1367,1386} --old: nil
 D[1370].pre={1368,1384} --old: nil
 D[1468].obj={}
 D[1468].obj.I={18598} --old: nil
 D[1468].hide=true --old: nil
+D[1470].excl={1485} --old: nil
 D[1472].excl={1507} --old: nil
 D[1473].pre=1478 --old: nil
+D[1473].excl={1501} --old: nil
 D[1479].hide=true --old: nil
 D[1480].obj.I={6766,20310} --old: {20310}
+D[1485].excl={1470} --old: nil
 D[1501].pre=1506 --old: nil
+D[1501].excl={1473} --old: nil
 D[1505].excl={1818} --old: nil
 D[1507].excl={1472} --old: nil
 D[1514].hide=true --old: nil
@@ -141,16 +186,23 @@ D[1579].skill={["id"]=356,["min"]=30} --old: id=356
 D[1580].skill={["id"]=356,["min"]=1} --old: id=356
 D[1581].skill={["id"]=171,["min"]=20} --old: id=171
 D[1582].skill={["id"]=165,["min"]=90} --old: id=165
+D[1598].excl={1599} --old: nil
+D[1599].excl={1598} --old: nil
 D[1618].skill={["id"]=164,["min"]=70} --old: id=164
 D[1638].excl={1679,1684} --old: nil
+D[1641].excl={1642,1646,2997,2998,2999,3000,3681} --old: nil
 D[1642].obj={}
 D[1642].obj.I={6775} --old: nil
+D[1642].excl={1646,2997,2998,2999,3000,3681} --old: nil
+D[1645].excl={1642,1646,2997,2998,2999,3000,3681} --old: nil
 D[1646].obj={}
 D[1646].obj.I={6916} --old: nil
+D[1646].excl={1642,2997,2998,2999,3000,3681} --old: nil
 D[1649].obj={}
 D[1649].obj.I={6776} --old: nil
 D[1657].hide=true --old: nil
 D[1658].hide=true --old: nil
+D[1661].excl={4485,4486} --old: nil
 D[1679].excl={1638,1684} --old: nil
 D[1684].excl={1638,1679} --old: nil
 D[1685].excl={1715} --old: nil
@@ -160,8 +212,8 @@ D[1779].obj={}
 D[1779].obj.I={6866} --old: nil
 D[1781].obj={}
 D[1781].obj.I={6866} --old: nil
-D[1793].excl={1794} --old: nil
-D[1794].excl={1793} --old: nil
+D[1793].excl={1649} --old: nil
+D[1794].excl={1649} --old: nil
 D[1795].pre={1804,1805} --old: 1805
 D[1800].hide=true --old: nil
 D[1818].excl={1505} --old: nil
@@ -172,6 +224,7 @@ D[1879].excl={1860} --old: nil
 D[1881].excl={1883} --old: nil
 D[1883].excl={1881} --old: nil
 D[1885].excl={1859} --old: nil
+D[1943].excl={1944} --old: nil
 D[2178].skill={["id"]=185,["min"]=10} --old: id=185
 D[2200].obj={}
 D[2200].obj.I={7667} --old: nil
@@ -212,6 +265,7 @@ D[2765].skill={["id"]=164,["min"]=210} --old: id=164
 D[2771].skill={["id"]=164,["min"]=210} --old: id=164
 D[2772].skill={["id"]=164,["min"]=210} --old: id=164
 D[2773].skill={["id"]=164,["min"]=210} --old: id=164
+D[2781].start.O={142122,150075} --old: {150075}
 D[2801].pre={2623,2783} --old: nil
 D[2847].skill={["id"]=165,["min"]=225} --old: id=165
 D[2848].skill={["id"]=165,["min"]=225} --old: id=165
@@ -239,19 +293,21 @@ D[2983].excl={1522,1523,2984} --old: nil
 D[2984].excl={1522,1523,2983} --old: nil
 D[2985].excl={1528,1529,2986} --old: nil
 D[2986].excl={1528,1529,2985} --old: nil
+D[2994].lvl=51 --old: 53
 D[2996].excl={3001} --old: nil
-D[2997].excl={2999,3000} --old: nil
-D[2998].excl={3681} --old: nil
-D[2999].excl={2997,3000} --old: nil
-D[3000].excl={2997,2999} --old: nil
+D[2997].excl={1642,1646,2998,2999,3000,3681} --old: nil
+D[2998].excl={1642,1646,2997,2998,3000,3681} --old: nil
+D[2999].excl={1642,1646,2997,2998,3000,3681} --old: nil
+D[3000].excl={1642,1646,2997,2998,2999,3681} --old: nil
 D[3001].excl={2996} --old: nil
+D[3090].race=256 --old: 178
 D[3129].preg={3127,3128} --old: nil
 D[3181].obj.I={10000,10005} --old: {10005}
 D[3321].preg={2771,2772,2773} --old: nil
 D[3321].skill={["id"]=164,["min"]=210} --old: id=164
 D[3363].hide=true --old: nil
 D[3379].skill={["id"]=197,["min"]=230} --old: id=197
-D[3385].skill={["id"]=197,["min"]=1} --old: id=197
+D[3385].skill={["id"]=197,["min"]=226} --old: id=197
 D[3402].skill={["id"]=197,["min"]=1} --old: id=197
 D[3444].pre={3380,3445} --old: nil
 D[3526].excl={3629,3630,3632,3633,3634,3635,3637,4181} --old: nil
@@ -287,16 +343,18 @@ D[3644].skill={["id"]=202,["min"]=200} --old: id=202
 D[3645].skill={["id"]=202,["min"]=200} --old: id=202
 D[3646].skill={["id"]=202,["min"]=200} --old: id=202
 D[3647].skill={["id"]=202,["min"]=200} --old: id=202
-D[3681].excl={2998} --old: nil
+D[3681].excl={1642,1646,2997,2998,2999,3000} --old: nil
 D[3721].preg={648,836,2767} --old: nil
 D[3762].excl={936,3784} --old: nil
 D[3763].excl={3789,3790} --old: nil
+D[3765].excl={1275} --old: nil
 D[3784].excl={936,3762} --old: nil
 D[3787].excl={3788} --old: nil
 D[3788].excl={3787} --old: nil
 D[3789].excl={3763,3790} --old: nil
 D[3790].excl={3763,3789} --old: nil
 D[3861].hide=true --old: nil
+D[3903].pre={18,33} --old: 33
 D[3912].obj={}
 D[3912].obj.I={11136} --old: nil
 D[4022].excl={4023} --old: nil
@@ -343,16 +401,18 @@ D[4464].hide=true --old: nil
 D[4465].hide=true --old: nil
 D[4466].hide=true --old: nil
 D[4467].hide=true --old: nil
-D[4485].excl={4486} --old: nil
-D[4486].excl={4485} --old: nil
+D[4485].excl={1661,4486} --old: nil
+D[4486].excl={1661,4485} --old: nil
 D[4487].excl={3631,4488,4489} --old: nil
 D[4488].excl={3631,4487,4489} --old: nil
 D[4489].excl={3631,4487,4488} --old: nil
 D[4491].obj={}
 D[4491].obj.I={11804} --old: nil
+D[4494].pre=82 --old: nil
 D[4506].obj={}
 D[4506].obj.I={12565} --old: nil
 D[4621].hide=true --old: nil
+D[4641].race=178 --old: 130
 D[4642].preg={4293,4294} --old: nil
 D[4736].excl={4737,4738,4739} --old: nil
 D[4737].excl={4736,4738,4739} --old: nil
@@ -371,6 +431,8 @@ D[4968].excl={4965,4967,4969} --old: nil
 D[4969].excl={4965,4967,4968} --old: nil
 D[4975].excl={4964} --old: nil
 D[5050].pre={5048,5049} --old: nil
+D[5059].pre=5058 --old: nil
+D[5060].pre=5059 --old: nil
 D[5066].excl={5090,5091} --old: nil
 D[5090].excl={5066,5091} --old: nil
 D[5091].excl={5066,5090} --old: nil
@@ -399,6 +461,7 @@ D[5148].skill={["id"]=165,["min"]=225} --old: id=165
 D[5149].pre={5142,5601} --old: nil
 D[5201].repu={["id"]=589,["min"]=1500} --old: id=nil
 D[5206].preg={5168,5181} --old: nil
+D[5211].obj.U={8530,8531,8532,11064} --old: {11064}
 D[5218].pre={5216,5229,5237} --old: 5237
 D[5227].pre={5225,5235,5237} --old: 5237
 D[5237].excl={5238} --old: nil
@@ -532,6 +595,7 @@ D[6073].excl={6071,6072,6721,6722} --old: nil
 D[6074].excl={6075,6076} --old: nil
 D[6075].excl={6074,6076} --old: nil
 D[6076].excl={6074,6075} --old: nil
+D[6132].race=77 --old: 255
 D[6382].excl={235,742} --old: nil
 D[6383].pre={235,742,6382} --old: nil
 D[6541].excl={6542} --old: nil
@@ -609,6 +673,8 @@ D[7045].hide=true --old: nil
 D[7061].hide=true --old: nil
 D[7062].hide=true --old: nil
 D[7063].hide=true --old: nil
+D[7068].min=39 --old: 38
+D[7070].min=39 --old: 38
 D[7081].hide=true --old: nil
 D[7082].hide=true --old: nil
 D[7101].hide=true --old: nil
@@ -676,6 +742,7 @@ D[7583].preg={7581,7582} --old: nil
 D[7629].preg={7564,7625} --old: nil
 D[7630].preg={7626,7627,7628} --old: nil
 D[7631].preg={7629,7630} --old: nil
+D[7633].pre=7632 --old: nil
 D[7637].pre=7638 --old: nil
 D[7649].skill={["id"]=164,["min"]=300} --old: id=164
 D[7649].hide=true --old: nil
