@@ -41,10 +41,16 @@ local bitclasses = {
 }
 
 function CodexDatabase:PlayerHasSkill(skill)
+    local minRank = 0
+    if type(skill) == 'table' then
+        minRank = skill.min
+        skill = skill.id
+    end
     if not professions[skill] then return false end
 
     for i = 0, GetNumSkillLines() do
-        if GetSkillLineInfo(i) == professions[skill] then
+        local name, _, _, rank = GetSkillLineInfo(i)
+        if name == professions[skill] and rank >= minRank then
             return true
         end
     end
