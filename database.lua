@@ -164,8 +164,8 @@ end
 function CodexDatabase:GetIdByName(name, db, partial, searchLimit)
     if not CodexDB[db] then return nil end
     local result = {}
-
     local count = 0
+    
     for key, value in pairs(CodexDB[db]["loc"]) do
         if db == "quests" then value = value["T"] end
 
@@ -186,7 +186,7 @@ function CodexDatabase:GetIdByName(name, db, partial, searchLimit)
         end
     end
 
-    return result
+    return result, count
 end
 
 function CodexDatabase:GetIdByPartialId(partialId, db, exact, searchLimit)
@@ -196,10 +196,10 @@ function CodexDatabase:GetIdByPartialId(partialId, db, exact, searchLimit)
     if exact then
         partialId = tonumber(partialId)
         local value = CodexDB[db]["loc"][partialId]
-        if not value then return {} end
+        if not value then return {}, 0 end
         if db == "quests" then value = value["T"] end
         result[partialId] = value
-        return result
+        return result, 1
     end
 
     local count = 0
@@ -213,7 +213,7 @@ function CodexDatabase:GetIdByPartialId(partialId, db, exact, searchLimit)
         end
     end
 
-    return result
+    return result, count
 end
 
 -- Scans a map table for all spawns
@@ -838,10 +838,6 @@ function CodexDatabase:GetQuestIds(questId, deep)
 end
 ]]
 
--- browser search related defaults and value
-CodexDatabase.lastSearchQuery = ""
-CodexDatabase.lastSearchResults = {["items"] = {}, ["quests"] = {}, ["objects"] = {}, ["units"] = {}}
-
 -- BrowserSearch
 -- Search for a list of IDs of the specified `searchType` based on if `query` is
 -- part of the name or ID of the database entry it is compared against.
@@ -874,48 +870,15 @@ function CodexDatabase:BrowserSearch(query, searchType, searchLimit)
     local minChars = 3
     local minInts = 1
     if (queryLength >= minChars) or (queryNumber and (queryLength >= minInts)) then
-        if ((queryLength > minChars) or (queryNumber and (queryLength > minInts)))
-            and (CodexDatabase.lastSearchQuery ~= "" and queryLength > strlen(CodexDatabase.lastSearchQuery))
-        then
-            local searchDatabase = CodexDatabase.lastSearchResults[searchType]
-            for id in pairs(searchDatabase) do
-                local db = CodexDB[searchType]["loc"][id]
-                if db then
-                    local compared
-                    local search = query
-                    if queryNumber then
-                        compare = tostring(id)
-                    else
-                        search = strlower(query)
-                        if searchType == "quests" then
-                            compare = strlower(db["T"])
-                        else
-                            compare = strlower(db)
-                        end
-                    end
-                    if strfind(compare, search) then
-                        results[id] = db
-                        resultCount = resultCount + 1
-                    end
-                end
-            end
-            
-            return results, resultCount
-        else
             if queryNumber then
-                results = CodexDatabase:GetIdByPartialId(query, searchType, exactMatch, searchLimit)
+                results, resultCount = CodexDatabase:GetIdByPartialId(query, searchType, exactMatch, searchLimit)
             else
-                results = CodexDatabase:GetIdByName(query, searchType, not exactMatch, searchLimit)
-            end
-            local resultCount = 0
-            for _, _ in pairs(results) do
-                resultCount = resultCount + 1
+                results, resultCount = CodexDatabase:GetIdByName(query, searchType, not exactMatch, searchLimit)
             end
 
-            return results, resultCount
-        end
+            return results, resultCount, queryNumber and true or false
     else
         -- min search length not satisfied, reset search results and return favorites or nil
-        return {}, -1
+        return {}, -1, nil
     end
 end

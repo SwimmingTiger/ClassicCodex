@@ -151,7 +151,8 @@ local function ResultButtonUpdate(self)
     end
 
     if self.itemColor then
-        self.text:SetText(self.itemColor .. "|Hitem:" .. self.id .. ":0:0:0|h[" .. self.name .. "]|h|r")
+        local idStr = self.showId and string.format('|cff006a72#%d|r ', self.id) or ''
+        self.text:SetText(idStr .. self.itemColor .. "|Hitem:" .. self.id .. ":0:0:0|h[" .. self.name .. "]|h|r")
         self.text:SetWidth(self.text:GetStringWidth())
     end
 
@@ -389,14 +390,16 @@ local function ResultButtonReload(self)
         self.fav.icon:SetVertexColor(1, 1, 1, 0.1)
     end
 
+    local idStr = self.showId and string.format('|cff006a72#%d|r ', self.id) or ''
+
     -- actions by search type
     if self.btype == "quests" then
         self.name = CodexDB[self.btype]["loc"][self.id]["T"]
-        self.text:SetText("|cffffcc00|Hquest:0:0:0:0|h[" .. self.name .. "]|h|r")
+        self.text:SetText(idStr .. "|cffffcc00|Hquest:0:0:0:0|h[" .. self.name .. "]|h|r")
     elseif self.btype == "units" or self.btype == "objects" then
         local level = CodexDB[self.btype]["data"][self.id] and CodexDB[self.btype]["data"][self.id]["lvl"] or ""
         if level and level ~= "" then level = " (" .. level .. ")" end
-        self.text:SetText(self.name .. "|cffaaaaaa" .. level)
+        self.text:SetText(idStr .. self.name .. "|cffaaaaaa" .. level)
 
         if CodexDB[self.btype]["data"][self.id] and CodexDB[self.btype]["data"][self.id]["coords"] then
             self.text:SetTextColor(1, 1, 1)
@@ -412,7 +415,7 @@ local function ResultButtonReload(self)
             end
         end
 
-        self.text:SetText("|cffff5555[?] |cffffffff" .. self.name)
+        self.text:SetText(idStr .. "|cffff5555[?] |cffffffff" .. self.name)
 
         self.refreshCount = 0
         self:SetScript("OnUpdate", ResultButtonUpdate)
@@ -756,7 +759,7 @@ CodexBrowser.input:SetScript("OnTextChanged", function(self)
   for _, caption in pairs({"Units","Objects","Items","Quests"}) do
     local searchType = strlower(caption)
 
-    local data, count = CodexDatabase:BrowserSearch(text, searchType, searchLimit)
+    local data, count, idMatch = CodexDatabase:BrowserSearch(text, searchType, searchLimit)
     if count == -1 then
         data = CodexBrowserFavorites[searchType]
     end
@@ -770,6 +773,7 @@ CodexBrowser.input:SetScript("OnTextChanged", function(self)
         CodexBrowser.tabs[searchType].buttons[i] = CodexBrowser.tabs[searchType].buttons[i] or ResultButtonCreate(i, searchType)
         CodexBrowser.tabs[searchType].buttons[i].id = id
         CodexBrowser.tabs[searchType].buttons[i].name = text
+        CodexBrowser.tabs[searchType].buttons[i].showId = idMatch
         CodexBrowser.tabs[searchType].buttons[i]:Reload()
         end
     end
