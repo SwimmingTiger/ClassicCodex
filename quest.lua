@@ -232,11 +232,13 @@ function CodexQuest:UpdateQuestLog()
     -- process queue
     if CodexConfig.trackingMethod ~= 4  and table.getn(CodexQuest.queue) > 0 then
         for id, entry in pairs(CodexQuest.queue) do
-            if CodexConfig.trackingMethod ~= 3 and (CodexConfig.trackingMethod ~= 2 or IsQuestWatched(entry[3])) then
+            if CodexConfig.trackingMethod ~= 2 or IsQuestWatched(entry[3]) then
                 CodexMap:DeleteNode("CODEX", entry[1])
-                local meta = {["addon"] = "CODEX", ["questLogId"] = entry[3]}
-                for _, id in pairs(entry[2]) do
-                    CodexDatabase:SearchQuestById(id, meta)
+                if CodexConfig.trackingMethod ~= 3 then
+                    local meta = {["addon"] = "CODEX", ["questLogId"] = entry[3]}
+                    for _, id in pairs(entry[2]) do
+                        CodexDatabase:SearchQuestById(id, meta)
+                    end
                 end
                 CodexQuest.updateNodes = true
             end
