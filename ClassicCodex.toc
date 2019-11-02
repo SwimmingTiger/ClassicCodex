@@ -75,6 +75,14 @@ db\esES\quests.lua
 db\esES\zones.lua
 db\esES\professions.lua
 
+# database esMX
+db\esMX\items.lua
+db\esMX\units.lua
+db\esMX\objects.lua
+db\esMX\quests.lua
+db\esMX\zones.lua
+db\esMX\professions.lua
+
 # database ruRU
 db\ruRU\items.lua
 db\ruRU\units.lua
@@ -92,6 +100,8 @@ lib\AceLocale-3.0\AceLocale-3.0.lua
 
 # locales
 locale\enUS.lua
+locale\esES.lua
+locale\esMX.lua
 locale\zhCN.lua
 locale\zhTW.lua
 
