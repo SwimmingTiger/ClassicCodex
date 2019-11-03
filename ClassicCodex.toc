@@ -4,7 +4,7 @@
 ## Title: ClassicCodex
 ## Notes: ClassicCodex
 ## Author: Pgarneau, Shagu
-## Version: 1.2.2
+## Version: 1.2.3
 ## SavedVariablesPerCharacter: CodexConfig, CodexHiddenQuests, CodexBrowserFavorites, CodexColors
 
 # database index
