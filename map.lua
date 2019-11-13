@@ -84,21 +84,9 @@ function str2rgb(text)
 end
 
 function showTooltip()
-	local focus = GetMouseFocus()
-	
-	if focus and focus:GetName() ~= "TargetFrame" and not UnitExists("mouseover") then
-		GameTooltip:Hide()
-		return
-	end
-	
-	if focus and focus.title then 
-		return
-	end
+	local name = UnitName("mouseover")
 
-	if focus and focus:GetName() and strsub((focus:GetName() or ""), 0, 10) == "QuestTimer" then return end
-
-	local name = getglobal("GameTooltipTextLeft1") and getglobal("GameTooltipTextLeft1"):GetText()
-	if name and CodexMap.tooltips[name] then
+	if name and not UnitIsPlayer("mouseover") and CodexMap.tooltips[name] then
 		for title, meta in pairs(CodexMap.tooltips[name]) do
 			CodexMap:ShowTooltip(meta, GameTooltip)
 			GameTooltip:Show()
