@@ -14,7 +14,7 @@ DefaultCodexConfig = {
     ["continentIcon"] = false, -- Show quest markers on continent map
     ["allQuestGivers"] = true, -- Show available quest givers
     ["currentQuestGivers"] = true, -- Show current quest giver nodes
-    ["alwaysShowIdCheckbox"] = false, -- Display unit/object/item/quest id in non-id search results
+    ["alwaysShowId"] = false, -- Display unit/object/item/quest id in non-id search results
     ["showLowLevel"] = false, -- Show low level quest giver nodes
     ["showHighLevel"] = true, -- Show level+3 quest giver nodes
     ["showFestival"] = true, -- Show event quest giver nodes
@@ -76,7 +76,7 @@ function CodexConfigFrame:LoadConfig()
             autoTurnin = {
                 order = 201, -- row: 2, column: 1
                 type = "toggle",
-                width = 1.5, -- make the next checkbox in a new line
+                width = 1.5, -- make two checkboxes on the same line
                 name = L["Auto-Turnin Quests"],
                 desc = L["Toggle auto-turning in quests"],
                 get = function(info)
@@ -101,9 +101,9 @@ function CodexConfigFrame:LoadConfig()
                 end
             },
             nameplateIcon = {
-                order = 301, -- row: 3, column: 1
+                order = 301,
                 type = "toggle",
-                width = 3, -- make the next checkbox in a new line
+                width = 1.5,
                 name = L["Nameplate Quest Icon"],
                 desc = L["Toggle quest icon on top of enemy nameplates"],
                 get = function(info)
@@ -113,10 +113,24 @@ function CodexConfigFrame:LoadConfig()
                     CodexConfig.nameplateIcon = val
                 end
             },
-            allQuestGivers = {
-                order = 401,
+            continentIcon = {
+                order = 302,
                 type = "toggle",
-                width = 3,
+                width = 1.5,
+                name = L["Show Markers on Continent"],
+                desc = L["Show markers at the top level of the world map"],
+                get = function(info)
+                    return CodexConfig.continentIcon
+                end,
+                set = function(info, val)
+                    CodexConfig.continentIcon = val
+                    CodexMap:UpdateNodes()
+                end
+            },
+            allQuestGivers = {
+                order = 401, -- row: 4, column: 1
+                type = "toggle",
+                width = 3, -- make the next checkbox in a new line
                 name = L["All Questgivers"],
                 desc = L["If selected, this will display all questgivers on the map"],
                 get = function(info)
@@ -128,8 +142,8 @@ function CodexConfigFrame:LoadConfig()
                 end
             },
             currentQuestGivers = {
-                order = 501,
-                type = "toggle",
+                order = 501, -- row: 5, column: 1
+                type = "toggle", -- make the next checkbox in a new line
                 width = 3,
                 name = L["Current Questgivers"],
                 desc = L["If selected, current quest-ender npcs/objects will be displayed on the map for active quests"],
