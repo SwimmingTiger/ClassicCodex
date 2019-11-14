@@ -1,4 +1,4 @@
-What is this addon?
+ClassicCodex [![Build Status](https://travis-ci.com/SwimmingTiger/ClassicCodex.svg)](https://travis-ci.com/SwimmingTiger/ClassicCodex)
 ===================
 
 This is a partial rewrite of pfQuest/ShaguDB. It is an addon to show you where you can pickup quests, where to turn in quests, where to find mobs / items required for quests, etc.

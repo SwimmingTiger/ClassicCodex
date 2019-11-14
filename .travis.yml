@@ -1,0 +1,14 @@
+sudo: false
+language: c
+
+addons:
+  apt:
+    packages:
+    - pandoc
+    - zip
+
+script: bash ./tools/release.sh
+
+branches:
+  only:
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
