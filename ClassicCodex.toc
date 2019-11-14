@@ -98,6 +98,8 @@ lib\CallbackHandler-1.0\CallbackHandler-1.0.xml
 lib\HereBeDragons\HereBeDragons-2.0.lua
 lib\HereBeDragons\HereBeDragons-Pins-2.0.lua
 lib\AceLocale-3.0\AceLocale-3.0.lua
+lib\AceGUI-3.0\AceGUI-3.0.xml
+lib\AceConfig-3.0\AceConfig-3.0.xml
 
 # locales
 locale\enUS.lua
