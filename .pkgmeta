@@ -1,0 +1,6 @@
+package-as: ClassicCodex
+ignore:
+    - documents
+    - tools
+    - .*
+    - *.zip
