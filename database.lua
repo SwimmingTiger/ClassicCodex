@@ -280,6 +280,12 @@ function CodexDatabase:SearchUnitById(id, meta, maps)
 
     local maps = maps or {}
 
+    local coordsNum = {}
+    for _, data in pairs(units[id]["coords"]) do
+        local _, _, zone = unpack(data)
+        coordsNum[zone] = coordsNum[zone] and (coordsNum[zone] + 1) or 1
+    end
+
     for _, data in pairs(units[id]["coords"]) do
         local x, y, zone, respawn = unpack(data)
 
@@ -296,6 +302,7 @@ function CodexDatabase:SearchUnitById(id, meta, maps)
             meta["level"] = units[id]["lvl"] or UNKNOWN
             meta["spawnType"] = "Unit"
             meta["respawn"] = respawn > 0 and SecondsToTime(respawn)
+            meta["coordsNum"] = coordsNum[zone]
 
             maps[zone] = maps[zone] and maps[zone] + 1 or 1
             CodexMap:AddNode(meta)
@@ -322,6 +329,12 @@ function CodexDatabase:SearchObjectById(id, meta, maps)
 
     local maps = maps or {}
 
+    local coordsNum = {}
+    for _, data in pairs(objects[id]["coords"]) do
+        local _, _, zone = unpack(data)
+        coordsNum[zone] = coordsNum[zone] and (coordsNum[zone] + 1) or 1
+    end
+
     for _, data in pairs(objects[id]["coords"]) do
         local x, y, zone, respawn = unpack(data)
 
@@ -338,6 +351,7 @@ function CodexDatabase:SearchObjectById(id, meta, maps)
             meta["level"] = nil
             meta["spawnType"] = "Object"
             meta["respawn"] = respawn and SecondsToTime(respawn)
+            meta["coordsNum"] = coordsNum[zone]
 
             maps[zone] = maps[zone] and maps[zone] + 1 or 1
             CodexMap:AddNode(meta)

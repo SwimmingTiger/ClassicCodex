@@ -10,14 +10,18 @@ DefaultCodexConfig = {
     ["autoAccept"] = true, -- Auto-accept quests
     ["autoTurnin"] = true, -- Auto-turnin quests
     ["nameplateIcon"] = true, -- Show quest icon above nameplates
+    ["minimapButton"] = true, -- Show button of codex browser on the edge of the minimap
+    ["continentIcon"] = false, -- Show quest markers on continent map
     ["allQuestGivers"] = true, -- Show available quest givers
     ["currentQuestGivers"] = true, -- Show current quest giver nodes
+    ["alwaysShowIdCheckbox"] = false, -- Display unit/object/item/quest id in non-id search results
     ["showLowLevel"] = false, -- Show low level quest giver nodes
     ["showHighLevel"] = true, -- Show level+3 quest giver nodes
     ["showFestival"] = true, -- Show event quest giver nodes
     ["colorBySpawn"] = true,
     ["questMarkerSize"] = 14,
     ["spawnMarkerSize"] = 10,
+    ["bossMarkerSize"] = 25, -- Display a larger icon for the boss or a single target to help you find it.
     ["minimumDropChance"] = 2, -- (%) Hide markers with a drop probability less than this value
 }
 
@@ -180,7 +184,7 @@ function CodexConfigFrame:LoadConfig()
             questMarkerSize = {
                 order = 1001,
                 type = "range",
-                width = 1.5,
+                width = 1,
                 name = L["Quest Marker Size"],
                 min = 0,
                 max = 300,
@@ -199,7 +203,7 @@ function CodexConfigFrame:LoadConfig()
             spawnMarkerSize = {
                 order = 1002,
                 type = "range",
-                width = 1.5,
+                width = 1,
                 name = L["Spawn Marker Size"],
                 min = 0,
                 max = 300,
@@ -212,6 +216,26 @@ function CodexConfigFrame:LoadConfig()
                 end,
                 set = function(info, val)
                     CodexConfig.spawnMarkerSize = tonumber(val)
+                    CodexMap:UpdateNodes()
+                end
+            },
+            bossMarkerSize = {
+                order = 1003,
+                type = "range",
+                width = 1,
+                name = L["Boss Marker Size"],
+                desc = L["Display a larger icon for the boss or a single target to help you find it"],
+                min = 0,
+                max = 300,
+                step = 1,
+                softMin = 10,
+                softMax = 50,
+                bigStep = 1,
+                get = function(info)
+                    return CodexConfig.bossMarkerSize
+                end,
+                set = function(info, val)
+                    CodexConfig.bossMarkerSize = tonumber(val)
                     CodexMap:UpdateNodes()
                 end
             },

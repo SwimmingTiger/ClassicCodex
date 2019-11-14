@@ -429,6 +429,7 @@ end
 
 function CodexMap:UpdateNode(frame, node)
 	frame.layer = 0
+	local markerSize = CodexConfig.spawnMarkerSize
 
 	for title, meta in pairs(node) do
 		meta.layer = GetLayerByTexture(meta.texture)
@@ -455,14 +456,18 @@ function CodexMap:UpdateNode(frame, node)
 			else
 				frame.color = meta.title
 			end
+
+			if meta.coordsNum == 1 then
+				markerSize = CodexConfig.bossMarkerSize
+			end
 		end
 	end
 
 	frame.tex:SetVertexColor(1, 1, 1, 1)
 	
 	if not frame.texture then
-		frame:SetWidth(CodexConfig.spawnMarkerSize)
-		frame:SetHeight(CodexConfig.spawnMarkerSize)
+		frame:SetWidth(markerSize)
+		frame:SetHeight(markerSize)
 		frame.tex:SetTexture("Interface\\Addons\\ClassicCodex\\img\\icon.tga")
 
 		local r, g, b = str2rgb(frame.color)
