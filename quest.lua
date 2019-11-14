@@ -22,8 +22,7 @@ CodexQuest:RegisterEvent("QUEST_GREETING")
 CodexQuest:RegisterEvent("QUEST_REMOVED")
 CodexQuest:RegisterEvent("GOSSIP_SHOW")
 CodexQuest:RegisterEvent("NAME_PLATE_UNIT_ADDED")
--- There is no handler for it. In order to avoid triggering the redrawing operation in the else branch, it is no longer registered.
---CodexQuest:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
+CodexQuest:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
 CodexQuest:RegisterEvent("ADDON_LOADED")
 CodexQuest:SetScript("OnEvent", function(self, event, ...)
     if event == "ADDON_LOADED" then
@@ -123,10 +122,14 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
 
     elseif (event == "NAME_PLATE_UNIT_ADDED") then
         if CodexConfig.nameplateIcon then
-            -- CodexQuest:UpdateNameplate(...)
-            -- use UpdateAllNameplates for now
-            -- we need to hook on quest log update
-            CodexQuest:UpdateAllNameplates()
+            -- arg1: unitID
+            CodexQuest:UpdateNameplate(...)
+        end
+
+    elseif (event == "NAME_PLATE_UNIT_REMOVED") then
+        if CodexConfig.nameplateIcon then
+            -- arg1: unitID
+            CodexQuest:HideNameplate(...)
         end
 
     else
@@ -153,6 +156,7 @@ CodexQuest:SetScript("OnUpdate", function()
 
     if CodexQuest.updateNodes == true then
         CodexMap:UpdateNodes()
+        CodexQuest:UpdateAllNameplates()
         CodexQuest.updateNodes = false
     end
 end)
@@ -392,50 +396,59 @@ end
 
 function CodexQuest:UpdateNameplate(unitID)
     local frame = C_NamePlate.GetNamePlateForUnit(unitID)
-    if frame and not frame:IsForbidden() then
-        local name = UnitName(unitID)
-        if not name or not CodexMap.tooltips[name] then return end
+    if not frame or frame:IsForbidden() then return end
 
-        local found
-        for title in pairs(CodexQuest.questLog) do
-            if CodexMap.tooltips[name][title] then
-                found = true
-                break
-            end
+    local name = UnitName(unitID)
+    if not name or not CodexMap.tooltips[name] then return end
+
+    local found = false
+    for title in pairs(CodexQuest.questLog) do
+        if CodexMap.tooltips[name][title] then
+            found = true
+            break
         end
-
-        if not found then
-            if frame.codexIcon then
-                frame.codexIcon:Hide()
-            end
-            return
-        end
-
-        if not frame.codexIcon then
-            local icon = CreateFrame("Frame", nil, frame)
-            icon:SetFrameStrata("HIGH")
-            icon:SetWidth(25)
-            icon:SetHeight(25)
-            icon:SetPoint("BOTTOM", frame, "TOP", 0, 0)
-
-            local texture = icon:CreateTexture(nil, "HIGH")
-            texture:SetTexture("Interface\\Addons\\ClassicCodex\\img\\pickup.tga")
-            texture:SetAllPoints(icon)
-
-            icon.texture = texture
-            frame.codexIcon = icon
-        end
-
-        frame.codexIcon:Show()
     end
+
+    if not found then
+        if frame.codexIcon then
+            frame.codexIcon:Hide()
+        end
+        return
+    end
+
+    if not frame.codexIcon then
+        local icon = CreateFrame("Frame", nil, frame)
+        icon:SetFrameStrata("HIGH")
+        icon:SetWidth(25)
+        icon:SetHeight(25)
+        icon:SetPoint("BOTTOM", frame, "TOP", 0, 0)
+
+        local texture = icon:CreateTexture(nil, "HIGH")
+        texture:SetTexture("Interface\\Addons\\ClassicCodex\\img\\pickup.tga")
+        texture:SetAllPoints(icon)
+
+        icon.texture = texture
+        frame.codexIcon = icon
+    end
+
+    frame.codexIcon:Show()
+end
+
+-- When a nameplate is out of range, its frame will be reused later.
+-- If you don't hide the icon, it will appear on the wrong unit.
+function CodexQuest:HideNameplate(unitID)
+    local frame = C_NamePlate.GetNamePlateForUnit(unitID)
+    if not frame or frame:IsForbidden() or not frame.codexIcon then return end
+    frame.codexIcon:Hide()
 end
 
 function CodexQuest:UpdateAllNameplates()
     for i = 1, 40 do
         local unitID = "nameplate" .. i
-        if not UnitExists(unitID) then break end
-
-        CodexQuest:UpdateNameplate(unitID)
+        -- Notice: nameplate IDs are not continuous, don't use break
+        if UnitExists(unitID) then
+            CodexQuest:UpdateNameplate(unitID)
+        end
     end
 end
 
