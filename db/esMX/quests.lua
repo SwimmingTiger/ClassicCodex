@@ -21213,4 +21213,5 @@
 ["D"]="Algunos agentes de los Renegados descubrieron un plan de la Alianza para establecer nuevas bases en las Tierras de la Peste del Este utilizando las torres abandonadas de la zona.$B$BEs realmente imperativo que no logren establecerse en nuestra frontera del este, por lo que debemos detener esta incursión de la Alianza. Nuestros planes actuales consisten en expulsarlos de las torres que ya hayan conquistado y en ocupar aquellas que tenemos bajo nuestro control para defenderlas de futuras agresiones.",
 ["O"]="Captura la Torre de la Corona, la Torre de la Muralla del Este, la Torre del Paso Norte y la Torre del Bosque de la Peste en las Tierras de la Peste del Este. Tras hacerlo, regresa y habla con el Emisario Gormok en la Capilla de la Esperanza de la Luz.",
 ["T"]="Fortalecimiento de nuestras defensas",
-},\n}
+},
+}
