@@ -702,9 +702,9 @@ function CodexDatabase:SearchQuests(meta, maps)
         if CodexDB.quests.loc[id] and currentQuests[CodexDB.quests.loc[id].T] then
             -- hide active quest
         elseif completedQuests[id] then
-            -- hide quests hidden by the player
-        elseif CodexHiddenQuests[id] then
             -- hide completed quests
+        elseif CodexHiddenQuests[id] then
+            -- hide quests hidden by the player
         elseif quests[id]["pre"] and not oneOfCompleted(quests[id]["pre"]) then
             -- hide missing pre-quest
             -- Need to complete one of these quests to pick up the quest

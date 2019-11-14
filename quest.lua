@@ -441,10 +441,7 @@ end
 
 -- [[ Hook UI Functions ]] --
 -- Set certain events on quest watch
-local CodexHookRemoveQuestWatch = RemoveQuestWatch
-RemoveQuestWatch = function(questIndex)
-    local ret = CodexHookRemoveQuestWatch(questIndex)
-    
+hooksecurefunc("RemoveQuestWatch", function(questIndex)
     local quests = CodexDB.quests.loc
     local _, _, _, header, _, complete, _, questId = GetQuestLogTitle(questIndex)
     if not header and quests[questId] then
@@ -452,15 +449,9 @@ RemoveQuestWatch = function(questIndex)
         CodexQuest.updateQuestLog = true
         CodexQuest.updateQuestGivers = true
     end
+end)
 
-    return ret
-end
-
-local CodexHookAddQuestWatch = AddQuestWatch
-AddQuestWatch = function(questIndex)
-    local ret = CodexHookAddQuestWatch(questIndex)
+hooksecurefunc("AddQuestWatch", function(questIndex)
     CodexQuest.updateQuestLog = true
     CodexQuest.updateQuestGivers = true
-
-    return re
-end
+end)
