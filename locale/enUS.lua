@@ -74,8 +74,8 @@ L["ClassicCodex: You have no manually hidden quests. You can hold the shift key 
 L["ClassicCodex: %d hidden quests will be able to show again."] = true
 L["List Manually Hidden Quests"] = true
 L["List Completed Quests"] = true
-L["Always Show ID In Browser"] = true
-L["If selected, the item/object/unit/quest ID will be displayed when you searching something in ClassicCodex Browser."] = true
+L["Show ID in Codex Browser"] = true
+L["If selected, the item/object/unit/quest ID will be displayed when you searching something in Codex browser."] = true
 
 -- map.lua
 L["Buy"] = true

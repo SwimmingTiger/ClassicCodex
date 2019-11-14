@@ -40,6 +40,8 @@ function CodexConfigFrame:LoadConfig()
         end
     end
 
+    self:UpdateMinimapButton()
+
     self.configTable = {
         type = "group",
         name = "ClassicCodex",
@@ -61,8 +63,8 @@ function CodexConfigFrame:LoadConfig()
                 order = 102, -- row: 1, column: 2
                 type = "toggle",
                 width = 1.5, -- make two checkboxes on the same line
-                name = L["Always Show ID In Browser"],
-                desc = L["If selected, the item/object/unit/quest ID will be displayed when you searching something in ClassicCodex Browser."],
+                name = L["Show ID in Codex Browser"],
+                desc = L["If selected, the item/object/unit/quest ID will be displayed when you searching something in Codex browser."],
                 get = function(info)
                     return CodexConfig.alwaysShowId
                 end,
@@ -74,7 +76,7 @@ function CodexConfigFrame:LoadConfig()
             autoTurnin = {
                 order = 201, -- row: 2, column: 1
                 type = "toggle",
-                width = 3, -- make the next checkbox in a new line
+                width = 1.5, -- make the next checkbox in a new line
                 name = L["Auto-Turnin Quests"],
                 desc = L["Toggle auto-turning in quests"],
                 get = function(info)
@@ -82,6 +84,20 @@ function CodexConfigFrame:LoadConfig()
                 end,
                 set = function(info, val)
                     CodexConfig.autoTurnin = val
+                end
+            },
+            minimapButton = {
+                order = 202, -- row: 2, column: 2
+                type = "toggle",
+                width = 1.5, -- make two checkboxes on the same line
+                name = L["Show Minimap Button"],
+                desc = L["Show a button on the edge of the minimap, click to open Codex browser"],
+                get = function(info)
+                    return CodexConfig.minimapButton
+                end,
+                set = function(info, val)
+                    CodexConfig.minimapButton = val
+                    CodexConfigFrame:UpdateMinimapButton()
                 end
             },
             nameplateIcon = {
@@ -297,11 +313,31 @@ function CodexConfigFrame:LoadConfig()
                     end
                 end,
             },
+            openCodexBrowser = {
+                order = 1302,
+                type = "execute",
+                width = 1.5,
+                name = L["Open Codex Browser"],
+                func = function(info)
+                    if CodexBrowser then
+                        CodexBrowser:Show()
+                    end
+                end,
+            },
         },
     }
 
     self.registeredOptionsTable = AceConfigRegistry:RegisterOptionsTable("ClassicCodex", self.configTable)
     self.blizOptions = AceConfigDialog:AddToBlizOptions("ClassicCodex", "ClassicCodex")
+end
+
+function CodexConfigFrame:UpdateMinimapButton()
+    if not CodexBrowserIcon then return end
+    if CodexConfig.minimapButton then
+        CodexBrowserIcon:Show()
+    else
+        CodexBrowserIcon:Hide()
+    end
 end
 
 CodexConfigFrame:RegisterEvent("ADDON_LOADED")
