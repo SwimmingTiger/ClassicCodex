@@ -42,7 +42,7 @@ L["|cff33ffcc/codex|cffffffff quests |cffcccccc - Show all quests on the map"] =
 L["|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - Show related objects on the map"] = "|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - Mostrar objetos relacionados en el mapa"
 L["|cff33ffcc/codex|cffffffff clean |cffcccccc - Clean map"] = "|cff33ffcc/codex|cffffffff clean |cffcccccc - Limpiar mapa"
 L["|cff33ffcc/codex|cffffffff reset |cffcccccc - Reset map"] = "|cff33ffcc/codex|cffffffff reset |cffcccccc - Reiniciar mapa"
-L["|cff33ffcc ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r"] = "|cff33ffcc ->|cffffffff Relaciones disponibles:  |cff33ffcccofre|r, |cff33ffcchierbas|r, |cff33ffccminas|r"
+L["|cff33ffcc    ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r"] = "|cff33ffcc ->|cffffffff Relaciones disponibles:  |cff33ffcccofre|r, |cff33ffcchierbas|r, |cff33ffccminas|r"
 
 -- config.lua
 L["CONFIG_TEXT_FONT"] = "Fonts/FRIZQT__.ttf"

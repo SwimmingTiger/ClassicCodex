@@ -42,7 +42,10 @@ L["|cff33ffcc/codex|cffffffff quests |cffcccccc - Show all quests on the map"] =
 L["|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - Show related objects on the map"] = true
 L["|cff33ffcc/codex|cffffffff clean |cffcccccc - Clean map"] = true
 L["|cff33ffcc/codex|cffffffff reset |cffcccccc - Reset map"] = true
-L["|cff33ffcc ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r"] = true
+L["|cff33ffcc    ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r"] = true
+L["|cff33ffcc/codexcfg|cffcccccc - Show options"] = true
+L["|cff33ffcc/codexcfg|cffffffff <optionName>|cffcccccc - Toggle option"] = true
+L["|cff33ffcc/codexcfg|cffffffff <optionName> <value>|cffcccccc - Set option"] = true
 
 -- config.lua
 L["CONFIG_TEXT_FONT"] = "Fonts/FRIZQT__.ttf"

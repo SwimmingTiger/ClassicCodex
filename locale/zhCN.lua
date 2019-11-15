@@ -42,7 +42,10 @@ L["|cff33ffcc/codex|cffffffff quests |cffcccccc - Show all quests on the map"] =
 L["|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - Show related objects on the map"] = "|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - 在地图上显示相关目标、对象"
 L["|cff33ffcc/codex|cffffffff clean |cffcccccc - Clean map"] = "|cff33ffcc/codex|cffffffff clean |cffcccccc - 清理地图"
 L["|cff33ffcc/codex|cffffffff reset |cffcccccc - Reset map"] = "|cff33ffcc/codex|cffffffff reset |cffcccccc - 重置地图"
-L["|cff33ffcc ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r"] = "|cff33ffcc ->|cffffffff 可用关系:  |cff33ffccchests|r - 宝箱, |cff33ffccherbs|r - 草药, |cff33ffccmines|r - 矿物"
+L["|cff33ffcc    ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r"] = "|cff33ffcc ->|cffffffff 可用关系:  |cff33ffccchests|r - 宝箱, |cff33ffccherbs|r - 草药, |cff33ffccmines|r - 矿物"
+L["|cff33ffcc/codexcfg|cffcccccc - Show options"] = "|cff33ffcc/codexcfg|cffcccccc - 列出选项"
+L["|cff33ffcc/codexcfg|cffffffff <optionName>|cffcccccc - Toggle option"] = "|cff33ffcc/codexcfg|cffffffff <optionName>|cffcccccc - 开关/触发选项"
+L["|cff33ffcc/codexcfg|cffffffff <optionName> <value>|cffcccccc - Set option"] = "|cff33ffcc/codexcfg|cffffffff <optionName> <value>|cffcccccc - 设置选项"
 
 -- config.lua
 L["CONFIG_TEXT_FONT"] = "Fonts/ARKai_T.ttf"

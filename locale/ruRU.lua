@@ -42,7 +42,7 @@ L["|cff33ffcc/codex|cffffffff quests |cffcccccc - Show all quests on the map"] =
 L["|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - Show related objects on the map"] = "|cff33ffcc/codex|cffffffff meta <relation> [min, [max]] |cffcccccc - Показать связанные объекты на карте"
 L["|cff33ffcc/codex|cffffffff clean |cffcccccc - Clean map"] = "|cff33ffcc/codex|cffffffff clean |cffcccccc - Очистить карту"
 L["|cff33ffcc/codex|cffffffff reset |cffcccccc - Reset map"] = "|cff33ffcc/codex|cffffffff reset |cffcccccc - Сбросить Карту"
-L["|cff33ffcc ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r"] = "|cff33ffcc ->|cffffffff Доступные связи:  |cff33ffccchests|r - Сундук с сокровищами, |cff33ffccherbs|r - Трава, |cff33ffccmines|r - Руда"
+L["|cff33ffcc    ->|cffffffff Available relations:  |cff33ffccchests|r, |cff33ffccherbs|r, |cff33ffccmines|r"] = "|cff33ffcc ->|cffffffff Доступные связи:  |cff33ffccchests|r - Сундук с сокровищами, |cff33ffccherbs|r - Трава, |cff33ffccmines|r - Руда"
 
 -- config.lua
 L["CONFIG_TEXT_FONT"] = "Fonts/FRIZQT__.ttf"

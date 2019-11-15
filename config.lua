@@ -1,6 +1,7 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("ClassicCodex")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+local AceConfigCmd = LibStub("AceConfigCmd-3.0")
 
 CodexConfig = {}
 CodexColors = {}
@@ -385,6 +386,7 @@ function CodexConfigFrame:LoadConfig()
 
     self.registeredOptionsTable = AceConfigRegistry:RegisterOptionsTable("ClassicCodex", self.configTable)
     self.blizOptions = AceConfigDialog:AddToBlizOptions("ClassicCodex", "ClassicCodex")
+    self.cmdOptions = AceConfigCmd:CreateChatCommand("codexcfg", "ClassicCodex")
 end
 
 function CodexConfigFrame:UpdateMinimapButton()
