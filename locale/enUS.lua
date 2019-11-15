@@ -78,11 +78,14 @@ L["Show ID in Codex Browser"] = true
 L["If selected, the item/object/unit/quest ID will be displayed when you searching something in Codex browser."] = true
 L["Show Minimap Button"] = true
 L["Show a button on the edge of the minimap, click to open Codex browser"] = true
-L["Show Markers on Continent"] = true
-L["Show markers at the top level of the world map"] = true
+L["Show Markers on Continent Maps"] = true
+L["Show markers on the top two levels of the world map"] = true
 L["Boss Marker Size"] = true
 L["Display a larger icon for the boss or a single target to help you find it"] = true
 L["Open Codex Browser"] = true
+L["Show Markers on Zone Maps"] = true
+L["Show markers on the third and subsequent levels of the world map"] = true
+L["Show Markers on the Minimap"] = true
 
 -- map.lua
 L["Buy"] = true
