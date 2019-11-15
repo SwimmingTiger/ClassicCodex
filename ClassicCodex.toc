@@ -105,6 +105,7 @@ lib\AceConfig-3.0\AceConfig-3.0.xml
 locale\enUS.lua
 locale\esES.lua
 locale\esMX.lua
+locale\ruRU.lua
 locale\zhCN.lua
 locale\zhTW.lua
 
