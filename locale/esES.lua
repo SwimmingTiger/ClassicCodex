@@ -1,4 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("ClassicCodex", "esES", true, nil)
+﻿local L = LibStub("AceLocale-3.0"):NewLocale("ClassicCodex", "esES")
 if not L then return end
 
 
@@ -60,14 +60,14 @@ L["Show Low-level Quests"] = "Mostrar misiones de bajo nivel"
 L["If selected, low-level quests will be hidden on the map"] = "Si está marcado, misiones de bajo nivel se oscura en el mapa"
 L["Show High-level Quests"] = "Mostrar misiones de alto nivel"
 L["If selected, quests with a level requirement of your level + 3 will be shown on the map"] = "Si está marcado, misiones que requieren 3+ niveles se muestran en el mapa"
-L["Show Festival Quests"] = "Mostrar misiones de festivales"
-L["If selected, quests related to WoW festive seasons will be displayed on the map"] = "Si está marcado, misiones de festivales se muestran en el mapa"
+L["Show Festival/PVP/Misc Quests"] = "Mostrar misiones de festivales"
+L["If selected, quests related to WoW festive seasons or PVP or not available at the current stage will be displayed on the map"] = "Si está marcado, misiones de festivales se muestran en el mapa"
 L["Color By Spawn"] = "Color por spawn"
 L["If selected, markers' colors will be set per spawn type or per quest if not selected"] = "Si está marcado, los colores de marcadores se asignan por el tipo de spawn o por la misión si no está seleccionada"
 L["Quest Marker Size"] = "Tamaño de marcador de misión"
 L["Spawn Marker Size"] = "Tamaño de marcador de spawn"
 L["Hide items with a drop probability less than (%)"] = "Ocultar objetos con probabilidad de conseguirse menos que (%)"
-L["Show All Quests You Manually Hide"] = "Mostrar todas las misiones que ocultas manualmente"
+L["Show All Quests You Manually Hide Again"] = "Mostrar todas las misiones que ocultas manualmente"
 L["Show all the quests you have hidden by shift + click."] = "Mostrar las misiones que ocultas por shift + clic."
 L["Hide a quest by holding the shift key and clicking on the quest icon on the minimap or world map."] = "Ocultar una misión por pulsar la tecla shift y haz clic en el icono de la misión en el minimapa o el mapa del mundo."
 L["ClassicCodex: You have no manually hidden quests. You can hold the shift key and click on the quest icon on the minimap or world map to hide it."] = "ClassicCodex: No tienes misiones ocultas manualmente. Puedes pulsar la tecla shift y haz clic en el icono de la misión en el minimapa o el mapa del mundo."
