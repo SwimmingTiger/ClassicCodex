@@ -7,6 +7,7 @@
 ## Version: @project-version@
 ## SavedVariablesPerCharacter: CodexConfig, CodexHiddenQuests, CodexBrowserFavorites, CodexColors
 ## X-Curse-Project-ID: 351302
+## X-WoWI-ID: 25442
 
 # database index
 db\init.lua
