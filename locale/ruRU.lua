@@ -81,7 +81,7 @@ L["Vendor"] = "Торговец"
 L["Level"] = "Уровень"
 
 -- quest.lua
-L["QUEST_STATE_SPLIT_REGEXP"] = "(.*)：%s*([%d]+)%s*/%s*([%d]+)"
+L["QUEST_STATE_SPLIT_REGEXP"] = "(.*):%s*([%d]+)%s*/%s*([%d]+)"
 L["Show"] = "Показать"
 L["Hide"] = "Скрыть"
 L["Reset"] = "Сброс"
