@@ -84,6 +84,7 @@ function str2rgb(text)
 end
 
 function showTooltip()
+	if not CodexConfig.showUnitTooltip then return end
 	local name = UnitName("mouseover")
 
 	if name and not UnitIsPlayer("mouseover") and CodexMap.tooltips[name] then
