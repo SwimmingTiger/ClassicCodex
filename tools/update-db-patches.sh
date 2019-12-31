@@ -11,5 +11,5 @@ mkdir -p ../db-patches
 
 {
     cat "$1"
-    echo 'print(CodexDatabasePatch)'
+    echo 'print(CodexDatabasePatch.quest)'
 } | lua > ../db-patches/quests-patch.lua
