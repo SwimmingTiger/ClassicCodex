@@ -3,3 +3,6 @@
 # release directory
 /ClassicCodex/
 .release
+
+# tmp files
+tmp
