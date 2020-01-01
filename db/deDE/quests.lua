@@ -15139,6 +15139,21 @@ CodexDB["quests"]["deDE"]={
 ["O"]="Wenn Ihr Sagorne Gratläufer im Tal der Weisheit von Orgrimmar helfen wollt, so bringt ihm einen azerothischen und einen makellosen schwarzen Diamanten.",
 ["T"]="Materielle Unterstützung",
 },
+[7668]={
+["D"]="Der Todesritter Schattensichel herrscht über das Große Ossuarium in Scholomance. Er droht die spirituelle Ebene zu seinen eigenen Zwecken zu missbrauchen... Er muss gestoppt werden! Dabei kommt das Orakel der Anrufung, bei dessen Herstellung Ihr behilflich wart, zum Einsatz.$B$BSetzt das Orakel inmitten des Kellergewölbes des Großen Ossuariums ein, um Schattensichels Geistergefolge herbeizurufen. Besiegt die Geister und der Todesritter selbst wird erscheinen. $N, bringt mir seinen Kopf! Lediglich seine Niederlage wird den Schaden, den er der spirituellen Ebene zugefügt hat, wieder umkehren können!",
+["O"]="Wendet das Orakel der Anrufung inmitten des Kellergewölbes des Großen Ossuariums in Scholomance an. Ihr werdet damit Geister herbeirufen, die es zu bekämpfen gilt. Nach Vernichtung dieser Geister wird der Todesritter Schattensichel auftauchen; besiegt ihn.$B$BBringt Schattensichels Kopf zu Sagorne Gratläufer im Tal der Weisheit in Orgrimmar.",
+["T"]="Die Bedrohung durch Schattensichel",
+},
+[7669]={
+["D"]="",
+["O"]="",
+["T"]="Erneut im Großen Ossuarium",
+},
+[7670]={
+["D"]="$N, der Zeitpunkt ist nun gekommen, an dem Ihr lernen werdet, was Ihr tun müsst, um etwas zu bekommen, auf das Ihr bestimmt schon lange gewartet habt... Euer eigenes Streitross. Sprecht mit Lord Grayson Schattenbruch, hier im Kathedralenviertel von Sturmwind. Er wird Euch nicht nur in die Geheimnisse des treuesten Begleiters eines Paladins einweihen, sondern er wird Euch auch durch die Prüfungen führen, die Ihr absolvieren werdet, um Euer eigenes Streitross zu erhalten.$B$BIch wünsche Euch viel Glück mit dieser Prüfung. Für das Licht, $G nobler Bruder:noble Schwester;!",
+["O"]="Sprecht mit Lord Grayson Schattenbruch im Kathedralenviertel von Sturmwind.",
+["T"]="Lord Grayson Schattenbruch",
+},
 [7671]={
 ["D"]="",
 ["O"]="",

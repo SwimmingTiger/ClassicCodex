@@ -15139,6 +15139,21 @@ CodexDB["quests"]["frFR"]={
 ["O"]="Si vous voulez aider Sagorne Rôdeur-des-crêtes de la Vallée de la Sagesse d\'Orgrimmar, apportez-lui un Diamant d\'Azeroth et un Diamant noir en parfait état.",
 ["T"]="Assistance matérielle",
 },
+[7668]={
+["D"]="Le chevalier de la mort Ravassombre règne sur le Grand ossuaire de la Scholomance. Il se prépare à altérer le monde des esprits pour accomplir ses ténébreuses volontés. Il faut l\'arrêter ! Ce sera le rôle du clairvoyant que vous m\'avez aidé à préparer.$B$BUtilisez-le au centre du sous-sol du Grand ossuaire pour appeler les esprits qui servent Ravassombre. Lorsque vous les aurez vaincus, le chevalier de la mort apparaîtra en personne. Ramenez-moi sa tête, $N ! Sa mort est la seule chose qui puisse annuler les ravages qu\'il a commis dans le monde des esprits !",
+["O"]="Servez-vous du Clairvoyant au centre du sous-sol du Grand ossuaire de la Scholomance. Cela attirera des esprits que vous devrez combattre. Les vaincre fera apparaître le Chevalier de la mort Ravassombre. Tuez-le.$B$BRapportez la Tête de Ravassombre à Sagorne Rôdeur-des-crêtes de la Vallée de la Sagesse, à Orgrimmar.",
+["T"]="La menace de Ravassombre",
+},
+[7669]={
+["D"]="",
+["O"]="",
+["T"]="Retour au Grand ossuaire",
+},
+[7670]={
+["D"]="$N, le temps est venu d\'apprendre ce que vous devrez faire pour vous procurer quelque chose que vous attendez sans doute depuis un moment… votre destrier !$B$BAllez parler au seigneur Grayson Brisombre, ici même, dans le quartier de la Cathédrale, à Hurlevent. Il vous apprendra à maîtriser la monture favorite des paladins. Et auparavant, il vous chargera de toutes les tâches que vous devrez accomplir pour vous en procurer un.$B$BJ\'espère que votre épreuve se passera bien. Pour la Lumière, noble $Gfrère:sœur; !",
+["O"]="Parler au seigneur Grayson Brisombre dans le Quartier de la Cathédrale de Hurlevent.",
+["T"]="Seigneur Grayson Brisombre",
+},
 [7671]={
 ["D"]="",
 ["O"]="",

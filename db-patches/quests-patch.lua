@@ -1,5 +1,5 @@
 -- A script to merge Questie questDB to ClassicCodex
--- ClassicCodex version: @project-version@, quest num: 4243
+-- ClassicCodex version: @project-version@, quest num: 4246
 -- Questie version: 5.4.1, quest num: 4246
 if select(4, GetAddOnInfo('MergeQuestieToCodexDB')) then return end
 local D = CodexDB.quests.data
@@ -1025,9 +1025,6 @@ D[7662].hide=true --old: nil
 D[7663].hide=true --old: nil
 D[7664].hide=true --old: nil
 D[7665].hide=true --old: nil
--- TODO: convert missing quest[7668] to lua table
--- TODO: convert missing quest[7669] to lua table
--- TODO: convert missing quest[7670] to lua table
 D[7671].hide=true --old: nil
 D[7672].hide=true --old: nil
 D[7673].hide=true --old: nil

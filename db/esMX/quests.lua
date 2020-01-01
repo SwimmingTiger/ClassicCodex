@@ -15139,6 +15139,21 @@
 ["O"]="Si te interesa ayudar a Sagorne Montacresta, llévale 1 diamante de Azeroth y 1 diamante negro prístino al Valle de la Sabiduría, en Orgrimmar.",
 ["T"]="Asistencia material",
 },
+[7668]={
+["D"]="Atracoscuro, el caballero de la Muerte, ejerce su poder en el Gran Osario de Scholomance. Él amenaza con retorcer el reino espiritual para que haga su voluntad, y es necesario que lo detengamos. Aquí es en donde entra en juego el cristal de adivinación.$B$BUtilízalo en el corazón del sótano del Gran Osario para llamar a los esbirros espirituales de Atracoscuro. Derrota a los espíritus y el caballero de la Muerte aparecerá ante ti, $N. Solo su muerte puede ser la solución al daño que ha sufrido el mundo espiritual.",
+["O"]="Usa el cristal de adivinación en el corazón del sótano de El Gran Osario en Scholomance. Al hacerlo se presentarán los espíritus a los que tienes que enfrentarte. La derrota de estos espíritus invoca al caballero de la Muerte Atracoscuro, derrótalo.$B$BLlévale la cabeza de Atracoscuro a Sagorne Zanca Cresta en el Valle de la Sabiduría, en Orgrimmar.",
+["T"]="La amenaza de Atracoscuro",
+},
+[7669]={
+["D"]="",
+["O"]="",
+["T"]="El regreso a El Gran Osario",
+},
+[7670]={
+["D"]="$N, ha llegado la hora de que sepas lo que necesitarás para adquirir algo que, sin duda, llevas un tiempo esperando... tu destrero.$B$BHabla con Lord Grisillo Quiebrasombras aquí, en el Distrito de la Catedral de Ventormenta. Te enseñará a cuidar de tu montura y te dirá qué tareas debes completar para conseguir una.$B$BTe deseo lo mejor. ¡Por la Luz, mi noble $Ghermano:hermana;!",
+["O"]="Habla con Lord Grisillo Quiebrasombras en el Distrito de la Catedral de Ventormenta.",
+["T"]="Lord Grisillo Quiebrasombras",
+},
 [7671]={
 ["D"]="",
 ["O"]="",
