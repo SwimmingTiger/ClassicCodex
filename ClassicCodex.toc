@@ -19,8 +19,9 @@ db\quests.lua
 db\meta.lua
 
 # database patches
-db-patches\quests-patch.lua
-db-patches\units-patch.lua
+db-patches\quests-questie.lua
+db-patches\units-questie.lua
+db-patches\units-wowhead.lua
 db-patches\manual-patch.lua
 
 # database enUS

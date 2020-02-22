@@ -12,7 +12,7 @@ mkdir -p ../db-patches/tmp
 {
     cat "$1"
     echo 'print(table.concat(CodexDatabasePatch.quest, "\n"))'
-} | lua > ../db-patches/quests-patch.lua
+} | lua > ../db-patches/quests-questie.lua
 
 {
     cat "$1"
@@ -24,7 +24,7 @@ mkdir -p ../db-patches/tmp
     echo 'print(table.concat(CodexDatabasePatch.unitAlliance, "\n"))'
 } | lua > ../db-patches/tmp/units-alliance.lua
 
-cp ../db-patches/tmp/units-horde.lua ../db-patches/units-patch.lua
+cp ../db-patches/tmp/units-horde.lua ../db-patches/units-questie.lua
 
 echo diff db-patches/tmp/units-horde.lua db-patches/tmp/units-alliance.lua
 diff ../db-patches/tmp/units-horde.lua ../db-patches/tmp/units-alliance.lua

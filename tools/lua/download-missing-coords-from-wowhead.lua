@@ -3,11 +3,24 @@ dofile('./utils/utils.lua')
 
 dofile('./load-db.lua')
 
+if arg[1] == "-h" or arg[1] == "--help" then
+    eprintf("Usage:")
+    eprintf("./download-missing-coords-from-wowhead.sh [last-unit-id]")
+    return
+end
+
+local minID = 0
+if arg[1] and tonumber(arg[1]) then
+    minID = tonumber(arg[1])
+end
+
 local ids = {}
 for i, v in pairs(CodexDB.units.data) do
-   if not v.coords or #v.coords == 0 then
-      table.insert(ids, i)
-   end
+    if not v.coords or #v.coords == 0 then
+        if i > minID then
+            table.insert(ids, i)
+        end
+    end
 end
 
 table.sort(ids)
@@ -38,7 +51,7 @@ for _, id in ipairs(ids) do
         for mapID, arr in pairs(coords) do
             for _, v in ipairs(arr) do
                 for _, coord in ipairs(v.coords) do
-                    printf('  {%0.1f,%0.1f,%d,0}', coord[1], coord[2], mapID)
+                    printf('{%0.1f,%0.1f,%d,0},', coord[1], coord[2], mapID)
                 end
             end
         end
