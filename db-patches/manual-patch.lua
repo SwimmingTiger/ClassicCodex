@@ -44,6 +44,15 @@ D[7670]={
   },
 }
 
+-- Add missing objects of quests
+D[1367].obj = {
+  U={4646,4647,4648,4649,4651,4652,4653,4661},
+}
+D[1368].obj = {
+  U={4638,4639,4640,4641,4642,4643,4644,4645},
+}
+
+-- Alliance-specific patches
 if select(4, GetAddOnInfo('MergeQuestieToCodexDB')) then return end
 local D = CodexDB.units.data
 
