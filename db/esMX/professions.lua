@@ -1,4 +1,4 @@
-﻿CodexDB["professions"]["esMX"]={
+CodexDB["professions"]["esMX"]={
 [6]="Escarcha",
 [8]="Fuego",
 [26]="Armas",

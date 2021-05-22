@@ -1,4 +1,4 @@
-﻿CodexDB["zones"]["esMX"]={
+CodexDB["zones"]["esMX"]={
 [1]="Dun Morogh",
 [2]="Playa Larga",
 [3]="Tierras Inhóspitas",
