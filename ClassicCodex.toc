@@ -172,12 +172,6 @@ db\ruRU\quests-tbc.lua
 db\ruRU\zones-tbc.lua
 db\ruRU\professions-tbc.lua
 
-# database patches
-db-patches\quests-questie.lua
-db-patches\units-questie.lua
-db-patches\units-wowhead.lua
-db-patches\manual-patch.lua
-
 # libs
 lib\LibStub\LibStub.lua
 lib\CallbackHandler-1.0\CallbackHandler-1.0.xml
@@ -205,3 +199,9 @@ map.lua
 quest.lua
 ui.lua
 browser.lua
+
+# database patches
+db-patches\quests-questie.lua
+db-patches\units-questie.lua
+db-patches\units-wowhead.lua
+db-patches\manual-patch.lua
