@@ -1,4 +1,4 @@
-## Interface: 11303
+## Interface: 20501
 ## X-Min-Interface: 11303
 
 ## Title: ClassicCodex
