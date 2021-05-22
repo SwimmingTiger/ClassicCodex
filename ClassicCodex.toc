@@ -9,8 +9,10 @@
 ## X-Curse-Project-ID: 351302
 ## X-WoWI-ID: 25442
 
-# database index
+# database init
 db\init.lua
+
+# database index
 db\items.lua
 db\units.lua
 db\objects.lua
@@ -95,6 +97,86 @@ db\ruRU\objects.lua
 db\ruRU\quests.lua
 db\ruRU\zones.lua
 db\ruRU\professions.lua
+
+# TBC database index
+db\items-tbc.lua
+db\units-tbc.lua
+db\objects-tbc.lua
+db\refloot-tbc.lua
+db\quests-tbc.lua
+db\meta-tbc.lua
+
+# TBC database enUS
+db\enUS\items-tbc.lua
+db\enUS\units-tbc.lua
+db\enUS\objects-tbc.lua
+db\enUS\quests-tbc.lua
+db\enUS\zones-tbc.lua
+db\enUS\professions-tbc.lua
+
+# TBC database koKR
+db\koKR\items-tbc.lua
+db\koKR\units-tbc.lua
+db\koKR\objects-tbc.lua
+db\koKR\quests-tbc.lua
+db\koKR\zones-tbc.lua
+db\koKR\professions-tbc.lua
+
+# TBC database frFR
+db\frFR\items-tbc.lua
+db\frFR\units-tbc.lua
+db\frFR\objects-tbc.lua
+db\frFR\quests-tbc.lua
+db\frFR\zones-tbc.lua
+db\frFR\professions-tbc.lua
+
+# TBC database deDE
+db\deDE\items-tbc.lua
+db\deDE\units-tbc.lua
+db\deDE\objects-tbc.lua
+db\deDE\quests-tbc.lua
+db\deDE\zones-tbc.lua
+db\deDE\professions-tbc.lua
+
+# TBC database zhCN
+db\zhCN\items-tbc.lua
+db\zhCN\units-tbc.lua
+db\zhCN\objects-tbc.lua
+db\zhCN\quests-tbc.lua
+db\zhCN\zones-tbc.lua
+db\zhCN\professions-tbc.lua
+
+# TBC database zhTW
+db\zhTW\items-tbc.lua
+db\zhTW\units-tbc.lua
+db\zhTW\objects-tbc.lua
+db\zhTW\quests-tbc.lua
+db\zhTW\zones-tbc.lua
+db\zhTW\professions-tbc.lua
+
+# TBC database esES
+db\esES\items-tbc.lua
+db\esES\units-tbc.lua
+db\esES\objects-tbc.lua
+db\esES\quests-tbc.lua
+db\esES\zones-tbc.lua
+db\esES\professions-tbc.lua
+
+# TBC database esMX
+db\esMX\items-tbc.lua
+db\esMX\units-tbc.lua
+db\esMX\objects-tbc.lua
+db\esMX\quests-tbc.lua
+db\esMX\zones-tbc.lua
+db\esMX\professions-tbc.lua
+
+# TBC database ruRU
+db\ruRU\items-tbc.lua
+db\ruRU\units-tbc.lua
+db\ruRU\objects-tbc.lua
+db\ruRU\quests-tbc.lua
+db\ruRU\zones-tbc.lua
+db\ruRU\professions-tbc.lua
 
 # libs
 lib\LibStub\LibStub.lua
