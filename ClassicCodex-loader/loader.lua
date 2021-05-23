@@ -23,7 +23,7 @@ end
 
 -- load database locales
 if not tryLoad('ClassicCodex-db-'..GetLocale()) then
-    if not tryLoad('db-enUS') then
+    if not tryLoad('ClassicCodex-db-enUS') then
         log(L['Failed to load database locales, ClassicCodex cannot be launched'])
         return
     end
