@@ -1,5 +1,6 @@
 package-as: ClassicCodex
-toc-path: ClassicCodex/ClassicCodex-BCC.toc
+toc-path-classic: ClassicCodex/ClassicCodex-Classic.toc
+toc-path-bcc: ClassicCodex/ClassicCodex-BCC.toc
 ignore:
     - documents
     - tools

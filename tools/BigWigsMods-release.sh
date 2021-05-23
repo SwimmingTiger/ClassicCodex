@@ -703,8 +703,10 @@ if [ -z "$pkgmeta_file" ]; then
 fi
 
 # Variables set via .pkgmeta.
+toc_path_mainline=
+toc_path_bcc=
+toc_path_classic=
 package=
-toc_path=
 manual_changelog=
 changelog=
 changelog_markup="text"
@@ -811,8 +813,14 @@ if [ -f "$pkgmeta_file" ]; then
 			package-as)
 				package=$yaml_value
 				;;
-			toc-path)
-				toc_path=$yaml_value
+			toc-path-mainline)
+				toc_path_mainline=$yaml_value
+				;;
+			toc-path-bcc)
+				toc_path_bcc=$yaml_value
+				;;
+			toc-path-classic)
+				toc_path_classic=$yaml_value
 				;;
 			wowi-create-changelog)
 				if [ "$yaml_value" = "no" ]; then
@@ -953,6 +961,16 @@ fi
 #fi
 
 #toc_path="$package.toc"
+
+if [ "$game_type" = "retail" ] && [ "$toc_path_mainline" != "" ]; then
+	toc_path="$toc_path_mainline"
+elif [ "$game_type" = "bc" ]&& [ "$toc_path_bcc" != "" ]; then
+	toc_path="$toc_path_bcc"
+elif [ "$game_type" = "classic" ]&& [ "$toc_path_classic" != "" ]; then
+	toc_path="$toc_path_classic"
+else
+	toc_path="$package.toc"
+fi
 
 # Handle having the main addon in a sub dir
 if [[ ! -f "$topdir/$toc_path" && -f "$topdir/$package/$toc_path" ]]; then
