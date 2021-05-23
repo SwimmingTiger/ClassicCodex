@@ -1,0 +1,23 @@
+## Interface: 11307
+
+## Notes: ClassicCodex-db-esES
+## Title: ClassicCodex esES data
+## Title-zhCN: ClassicCodex 西班牙语数据
+## Title-zhTW: ClassicCodex 西班牙語數據
+
+## Author: Pgarneau, Shagu, SwimmingTiger
+## Version: @project-version@
+
+## Dependencies: ClassicCodex-loader
+## LoadOnDemand: 1
+
+## X-Curse-Project-ID: 351302
+## X-WoWI-ID: 25442
+
+# database esES
+items.lua
+units.lua
+objects.lua
+quests.lua
+zones.lua
+professions.lua

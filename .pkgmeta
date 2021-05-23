@@ -1,6 +1,7 @@
-package-as: ClassicCodex
+package-as: ClassicCodex/ClassicCodex-BCC
 ignore:
     - documents
     - tools
     - .*
     - *.zip
+    - README.md

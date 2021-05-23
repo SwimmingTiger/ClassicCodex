@@ -7,24 +7,24 @@ if [ "x$1" = "x" ]; then
     exit 1
 fi
 
-mkdir -p ../db-patches/tmp
+mkdir -p ../ClassicCodex-patch/tmp
 
 {
     cat "$1"
     echo 'print(table.concat(CodexDatabasePatch.quest, "\n"))'
-} | lua > ../db-patches/quests-questie.lua
+} | lua > ../ClassicCodex-patch/quests-questie-tbc.lua
 
 {
     cat "$1"
     echo 'print(table.concat(CodexDatabasePatch.unitHorde, "\n"))'
-} | lua > ../db-patches/tmp/units-horde.lua
+} | lua > ../ClassicCodex-patch/tmp/units-horde-tbc.lua
 
 {
     cat "$1"
     echo 'print(table.concat(CodexDatabasePatch.unitAlliance, "\n"))'
-} | lua > ../db-patches/tmp/units-alliance.lua
+} | lua > ../ClassicCodex-patch/tmp/units-alliance-tbc.lua
 
-cp ../db-patches/tmp/units-horde.lua ../db-patches/units-questie.lua
+cp ../ClassicCodex-patch/tmp/units-horde-tbc.lua ../ClassicCodex-patch/units-questie-tbc.lua
 
-echo diff db-patches/tmp/units-horde.lua db-patches/tmp/units-alliance.lua
-diff ../db-patches/tmp/units-horde.lua ../db-patches/tmp/units-alliance.lua
+echo diff ClassicCodex-patch/tmp/units-horde-tbc.lua ClassicCodex-patch/tmp/units-alliance-tbc.lua
+diff ../ClassicCodex-patch/tmp/units-horde-tbc.lua ../ClassicCodex-patch/tmp/units-alliance-tbc.lua
