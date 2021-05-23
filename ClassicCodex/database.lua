@@ -14,6 +14,7 @@ CodexDB.locales = {
 
 local loc = GetLocale()
 local dbs = {"items", "quests", "objects", "units", "zones", "professions"}
+local devMode = select(4, GetAddOnInfo('MergeQuestieToCodexDB'))
 
 -- Patch databases to further expansions
 local function patchtable(base, diff)
@@ -31,7 +32,9 @@ end
 -- patch meta data for TBC
 if CodexDB['meta-tbc'] then
     patchtable(CodexDB["meta"], CodexDB["meta-tbc"])
-    CodexDB["meta-tbc"] = nil
+    if not devMode then
+        CodexDB["meta-tbc"] = nil
+    end
 end
 
 -- build & patch name databases
@@ -39,7 +42,9 @@ for _, db in pairs(dbs) do
     -- patch data for TBC
     if CodexDB[db]["data-tbc"] then
         patchtable(CodexDB[db]["data"], CodexDB[db]["data-tbc"])
-        CodexDB[db]["data-tbc"] = nil
+        if not devMode then
+            CodexDB[db]["data-tbc"] = nil
+        end
     end
 
     -- patch loc for TBC
@@ -52,9 +57,11 @@ for _, db in pairs(dbs) do
     CodexDB[db]["loc"] = CodexDB[db][loc] or CodexDB[db]["enUS"]
 
     -- clear unused loc
-    for loc in pairs(CodexDB.locales) do
-        CodexDB[db][loc] = nil
-        CodexDB[db][loc..'-tbc'] = nil
+    if not devMode then
+        for loc in pairs(CodexDB.locales) do
+            CodexDB[db][loc] = nil
+            CodexDB[db][loc..'-tbc'] = nil
+        end
     end
 end
 
