@@ -2,8 +2,8 @@
 
 ## Notes: ClassicCodex
 ## Title: ClassicCodex core
-## Title-zhCN: ClassicCodex 核心
-## Title-zhTW: ClassicCodex 核心
+## Title-zhCN: ClassicCodex 任务助手 (核心)
+## Title-zhTW: ClassicCodex 任務助手 (核心)
 
 ## Author: Pgarneau, Shagu, SwimmingTiger
 ## Version: @project-version@

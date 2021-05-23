@@ -11,4 +11,3 @@ L['Failed to load database, ClassicCodex cannot be launched'] = true
 L['Failed to load database locales, ClassicCodex cannot be launched'] = true
 L['Failed to load ClassicCodex core, ClassicCodex cannot be launched'] = true
 L['Unable to load database patch, quest data may be inaccurate'] = true
-L['Successfully launched'] = true
