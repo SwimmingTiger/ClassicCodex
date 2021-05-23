@@ -704,6 +704,7 @@ fi
 
 # Variables set via .pkgmeta.
 package=
+toc_path=
 manual_changelog=
 changelog=
 changelog_markup="text"
@@ -809,6 +810,9 @@ if [ -f "$pkgmeta_file" ]; then
 				;;
 			package-as)
 				package=$yaml_value
+				;;
+			toc-path)
+				toc_path=$yaml_value
 				;;
 			wowi-create-changelog)
 				if [ "$yaml_value" = "no" ]; then
@@ -936,19 +940,19 @@ fi
 ###
 
 # Set the package name from a TOC file name
-if [[ -z "$package" ]]; then
-	package=$( cd "$topdir" && find *.toc -maxdepth 0 2>/dev/null | head -n1 )
-	if [[ -z "$package" ]]; then
-		echo "Could not find an addon TOC file. In another directory? Set 'package-as' in .pkgmeta" >&2
-		exit 1
-	fi
-	package=${package%.toc}
-	if [[ $package =~ ^(.*)-(Mainline|Classic|BCC)$ ]]; then
-		package="${BASH_REMATCH[1]}"
-	fi
-fi
+#if [[ -z "$package" ]]; then
+#	package=$( cd "$topdir" && find *.toc -maxdepth 0 2>/dev/null | head -n1 )
+#	if [[ -z "$package" ]]; then
+#		echo "Could not find an addon TOC file. In another directory? Set 'package-as' in .pkgmeta" >&2
+#		exit 1
+#	fi
+#	package=${package%.toc}
+#	if [[ $package =~ ^(.*)-(Mainline|Classic|BCC)$ ]]; then
+#		package="${BASH_REMATCH[1]}"
+#	fi
+#fi
 
-toc_path="$package.toc"
+#toc_path="$package.toc"
 
 # Handle having the main addon in a sub dir
 if [[ ! -f "$topdir/$toc_path" && -f "$topdir/$package/$toc_path" ]]; then
@@ -1443,7 +1447,7 @@ copy_directory_tree() {
 					mkdir -p "$_cdt_destdir/$dir"
 				fi
 				# Check if the file matches a pattern for keyword replacement.
-				if [ -n "$unchanged" ] || ! match_pattern "$file" "*.lua:*.md:*.toc:*.txt:*.xml"; then
+				if [ -n "$unchanged" ] || ! match_pattern "$file" "*.md:*.toc:*.txt:*.xml"; then
 					echo "  Copying: $file (unchanged)"
 					cp "$_cdt_srcdir/$file" "$_cdt_destdir/$dir"
 				else
@@ -2187,7 +2191,7 @@ if [ -z "$skip_zipfile" ]; then
 	if [ -f "$archive" ]; then
 		rm -f "$archive"
 	fi
-	( cd "$releasedir" && zip -X -r "$archive" $contents )
+	( cd "$releasedir/$contents" && zip -X -r "$archive" * )
 
 	if [ ! -f "$archive" ]; then
 		exit 1
@@ -2213,7 +2217,7 @@ if [ -z "$skip_zipfile" ]; then
 			rm -f "$nolib_archive"
 		fi
 		# set noglob so each nolib_exclude path gets quoted instead of expanded
-		( set -f; cd "$releasedir" && zip -X -r -q "$nolib_archive" $contents -x $nolib_exclude )
+		( set -f; cd "$releasedir/$contents" && zip -X -r -q "$nolib_archive" * -x $nolib_exclude )
 
 		if [ ! -f "$nolib_archive" ]; then
 			exit_code=1
