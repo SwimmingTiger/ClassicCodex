@@ -2205,7 +2205,9 @@ if [ -z "$skip_zipfile" ]; then
 		nolib_archive=
 	fi
 
-	start_group "Coping toc files" "copy_toc"
+	start_group "Adjust the folder to meet the CurseForge requirements" "curseforge_workaround"
+
+	# workaround with the  "Archive is missing ToC files" error on CurseForge
 	toc_suffix=""
 	if [ "$game_type" = "retail" ]; then
 		toc_suffix="Mainline"
@@ -2219,7 +2221,12 @@ if [ -z "$skip_zipfile" ]; then
 		cd "$releasedir/$contents"
 		find . -name "ClassicCodex*-$toc_suffix.toc" | while read f; do cp "$f" "${f/-$toc_suffix/}"; done
 	fi
-	end_group "copy_toc"
+
+	# workaround with the  "Archive contains root-level files" error on CurseForge
+	cd "$releasedir/$contents"
+	find . -type f -maxdepth 1 | while read f; do mv "$f" "$releasedir/$contents/$contents"; done
+
+	end_group "curseforge_workaround"
 
 	start_group "Creating archive: $archive_name" "archive"
 	if [ -f "$archive" ]; then
