@@ -11,4 +11,4 @@ script: bash ./tools/release.sh
 
 branches:
   only:
-  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+  - /^v\d+\.\d+/

@@ -1988,7 +1988,7 @@ else
 		fi
 		changelog_date=$( TZ='' printf "%(%Y-%m-%d)T" "$project_timestamp" )
 
-		cat <<- EOF | line_ending_filter > "$pkgdir/$changelog"
+		cat <<- EOF | line_ending_filter > "$pkgdir/$contents/$changelog"
 		# $project
 
 		## $changelog_version ($changelog_date)
@@ -2001,7 +2001,7 @@ else
 			      -e 's/\[ci skip\]//g' -e 's/\[skip ci\]//g' \
 			      -e '/git-svn-id:/d' -e '/^[[:space:]]*This reverts commit [0-9a-f]\{40\}\.[[:space:]]*$/d' \
 			      -e '/^[[:space:]]*$/d' \
-			| line_ending_filter >> "$pkgdir/$changelog"
+			| line_ending_filter >> "$pkgdir/$contents/$changelog"
 
 		# WoWI uses BBCode, generate something usable to post to the site
 		# the file is deleted on successful upload
@@ -2030,7 +2030,7 @@ else
 		fi
 		changelog_date=$( TZ='' printf "%(%Y-%m-%d)T" "$project_timestamp" )
 
-		cat <<- EOF | line_ending_filter > "$pkgdir/$changelog"
+		cat <<- EOF | line_ending_filter > "$pkgdir/$contents/$changelog"
 		# $project
 
 		## $project_version ($changelog_date)
@@ -2043,7 +2043,7 @@ else
 			      -e 's/\([a-zA-Z0-9]\)_\([a-zA-Z0-9]\)/\1\\_\2/g' \
 			      -e 's/\[ci skip\]//g' -e 's/\[skip ci\]//g' \
 			      -e '/^[[:space:]]*$/d' \
-			| line_ending_filter >> "$pkgdir/$changelog"
+			| line_ending_filter >> "$pkgdir/$contents/$changelog"
 
 		# WoWI uses BBCode, generate something usable to post to the site
 		# the file is deleted on successful upload
@@ -2073,13 +2073,13 @@ else
 		fi
 		changelog_date=$( TZ='' printf "%(%Y-%m-%d)T" "$project_timestamp" )
 
-		cat <<- EOF | line_ending_filter > "$pkgdir/$changelog"
+		cat <<- EOF | line_ending_filter > "$pkgdir/$contents/$changelog"
 		# $project
 
 		## $project_version ($changelog_date)
 
 		EOF
-		hg --cwd "$topdir" log -r "$_changelog_range" --template '- {fill(desc|strip, 76, "", "  ")}\n' | line_ending_filter >> "$pkgdir/$changelog"
+		hg --cwd "$topdir" log -r "$_changelog_range" --template '- {fill(desc|strip, 76, "", "  ")}\n' | line_ending_filter >> "$pkgdir/$contents/$changelog"
 
 		# WoWI uses BBCode, generate something usable to post to the site
 		# the file is deleted on successful upload
@@ -2096,7 +2096,7 @@ else
 		fi
 	fi
 
-	echo "$(<"$pkgdir/$changelog")"
+	echo "$(<"$pkgdir/$contents/$changelog")"
 	end_group "changelog"
 fi
 
@@ -2323,7 +2323,7 @@ if [ -z "$skip_zipfile" ]; then
 		  "displayName": "$archive_label",
 		  "gameVersions": $_cf_game_version_id,
 		  "releaseType": "$file_type",
-		  "changelog": $( jq --slurp --raw-input '.' < "$pkgdir/$changelog" ),
+		  "changelog": $( jq --slurp --raw-input '.' < "$pkgdir/$contents/$changelog" ),
 		  "changelogType": "$changelog_markup"
 		}
 		EOF
@@ -2412,7 +2412,7 @@ if [ -z "$skip_zipfile" ]; then
 		if [ -f "$wowi_changelog" ]; then
 			_wowi_args+=("-F changelog=<$wowi_changelog")
 		elif [ -n "$manual_changelog" ] || [ "$wowi_markup" = "markdown" ]; then
-			_wowi_args+=("-F changelog=<$pkgdir/$changelog")
+			_wowi_args+=("-F changelog=<$pkgdir/$contents/$changelog")
 		fi
 		if [ -z "$wowi_archive" ]; then
 			_wowi_args+=("-F archive=No")
@@ -2478,7 +2478,7 @@ if [ -z "$skip_zipfile" ]; then
 		  "label": "$archive_label",
 		  $_wago_support_property
 		  "stability": "$_wago_stability",
-		  "changelog": $( jq --slurp --raw-input '.' < "$pkgdir/$changelog" )
+		  "changelog": $( jq --slurp --raw-input '.' < "$pkgdir/$contents/$changelog" )
 		}
 		EOF
 		)
@@ -2590,7 +2590,7 @@ if [ -z "$skip_zipfile" ]; then
 		{
 		  "tag_name": "$tag",
 		  "name": "$tag",
-		  "body": $( jq --slurp --raw-input '.' < "$pkgdir/$changelog" ),
+		  "body": $( jq --slurp --raw-input '.' < "$pkgdir/$contents/$changelog" ),
 		  "draft": false,
 		  "prerelease": $( [[ "$file_type" != "release" ]] && echo true || echo false )
 		}
