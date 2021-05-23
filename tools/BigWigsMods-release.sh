@@ -2205,6 +2205,22 @@ if [ -z "$skip_zipfile" ]; then
 		nolib_archive=
 	fi
 
+	start_group "Coping toc files" "copy_toc"
+	toc_suffix=""
+	if [ "$game_type" = "retail" ]; then
+		toc_suffix="Mainline"
+	elif [ "$game_type" = "bc" ]; then
+		toc_suffix="BCC"
+	elif [ "$game_type" = "classic" ]; then
+		toc_suffix="Classic"
+	fi
+
+	if [ "toc_suffix" != "" ]; then
+		cd "$releasedir/$contents"
+		find . -name "ClassicCodex*-$toc_suffix.toc" | while read f; do cp "$f" "${f/-$toc_suffix/}"; done
+	fi
+	end_group "copy_toc"
+
 	start_group "Creating archive: $archive_name" "archive"
 	if [ -f "$archive" ]; then
 		rm -f "$archive"
