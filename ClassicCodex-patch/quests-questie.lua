@@ -1,6 +1,6 @@
 -- A script to merge Questie questDB to ClassicCodex
--- ClassicCodex version: v1.3.9-14-g8fe17b0, quest num: 4258
--- Questie version: 6.3.11, quest num: 4246
+-- ClassicCodex version: @project-version@, quest num: 4258
+-- Questie version: 6.3.12, quest num: 4246
 if select(4, GetAddOnInfo('MergeQuestieToCodexDB')) then return end
 local D = CodexDB.quests.data
 D[2].start.U={12676} --old: nil
@@ -246,6 +246,7 @@ D[282].obj.I={2619} --old: nil
 D[282].race=77 --old: nil
 D[286].obj={}
 D[286].obj.I={2625} --old: nil
+D[287].pre=nil --old: 420
 D[288].race=77 --old: nil
 D[289].race=77 --old: nil
 D[290].race=77 --old: nil
@@ -383,6 +384,7 @@ D[415].excl={413} --old: nil
 D[417].obj.I={3117,3183} --old: {3183}
 D[420].obj={}
 D[420].obj.I={2619} --old: nil
+D[420].next=287 --old: nil
 D[421].race=178 --old: nil
 D[422].race=178 --old: nil
 D[423].race=178 --old: nil
@@ -2846,12 +2848,12 @@ D[5089].obj={}
 D[5089].obj.I={12780} --old: nil
 D[5090].excl={5066,5091} --old: nil
 D[5091].excl={5066,5090} --old: nil
-D[5092].pre={5066,5090,5091} --old: nil
+D[5092].pre=nil --old: nil
 D[5093].excl={5094,5095} --old: nil
 D[5094].excl={5093,5095} --old: nil
 D[5095].excl={5093,5094} --old: nil
 D[5096].obj.I={12807,12814} --old: {12814}
-D[5096].pre={5093,5094,5095} --old: nil
+D[5096].pre=nil --old: nil
 D[5097].obj.I={12815} --old: nil
 D[5098].obj.I={12815} --old: nil
 D[5103].min=60 --old: 55
@@ -2968,12 +2970,8 @@ D[5234].race=178 --old: nil
 D[5235].obj.I={13189,13196} --old: {13196}
 D[5236].obj={}
 D[5236].obj.I={13193} --old: nil
-D[5237].start.U={10837} --old: {10838}
-D[5237]['end'].U={10837} --old: {10838}
 D[5237].pre=5236 --old: 5226
 D[5237].excl=nil --old: nil
-D[5238].start.U={10838} --old: {10837}
-D[5238]['end'].U={10838} --old: {10837}
 D[5238].pre=5226 --old: 5236
 D[5238].excl=nil --old: nil
 D[5241].race=255 --old: nil
@@ -3030,17 +3028,27 @@ D[5385].race=255 --old: nil
 D[5401].excl={5405,5503} --old: nil
 D[5402].start.U={10840} --old: {10839}
 D[5402]['end'].U={10840} --old: {10839}
-D[5402].race=77 --old: 178
+D[5402].pre={5401,5405,5503} --old: nil
+D[5402].race=255 --old: 178
 D[5403].start.U={10840} --old: {10839}
 D[5403]['end'].U={10840} --old: {10839}
-D[5403].race=77 --old: 178
+D[5403].pre={5401,5405,5503} --old: nil
+D[5403].race=255 --old: 178
+D[5404].pre={5401,5405,5503} --old: nil
+D[5404].race=255 --old: 77
+D[5405].start.U={11039} --old: {10839}
 D[5405].excl={5401,5503} --old: nil
+D[5405].race=255 --old: 178
+D[5406].pre={5401,5405,5503} --old: nil
+D[5406].race=255 --old: 178
 D[5407].start.U={10839} --old: {10840}
 D[5407]['end'].U={10839} --old: {10840}
-D[5407].race=178 --old: 77
+D[5407].pre={5401,5405,5503} --old: nil
+D[5407].race=255 --old: 77
 D[5408].start.U={10839} --old: {10840}
 D[5408]['end'].U={10839} --old: {10840}
-D[5408].race=178 --old: 77
+D[5408].pre={5401,5405,5503} --old: nil
+D[5408].race=255 --old: 77
 D[5441].obj.I={16114} --old: nil
 D[5441].race=178 --old: nil
 D[5461].race=255 --old: nil
@@ -3063,6 +3071,7 @@ D[5482].race=178 --old: nil
 D[5501].race=255 --old: nil
 D[5502].preg={915,925} --old: nil
 D[5502].hide=true --old: nil
+D[5503].start.U={10839} --old: {11039}
 D[5503].excl={5401,5405} --old: nil
 D[5503].race=255 --old: nil
 D[5504].excl={5507,5513} --old: nil
@@ -3072,8 +3081,11 @@ D[5505].race=77 --old: nil
 D[5507].excl={5504,5513} --old: nil
 D[5507].race=77 --old: nil
 D[5507].repu={id=529,min=21000} --old: id=nil
+D[5508].pre={5401,5405,5503} --old: nil
 D[5508].race=255 --old: nil
+D[5509].pre={5401,5405,5503} --old: nil
 D[5509].race=255 --old: nil
+D[5510].pre={5401,5405,5503} --old: nil
 D[5510].race=255 --old: nil
 D[5511].start.U={10837} --old: {11057}
 D[5511]['end'].U={10837} --old: {11057}
@@ -5751,16 +5763,22 @@ D[9123].excl={9121,9122} --old: nil
 D[9123].race=255 --old: nil
 D[9123].repu={id=529,min=42000} --old: id=nil
 D[9124].race=255 --old: nil
+D[9124].repu={id=529,min=3000} --old: id=nil
 D[9125].race=255 --old: nil
 D[9126].race=255 --old: nil
+D[9126].repu={id=529,min=3000} --old: id=nil
 D[9127].race=255 --old: nil
 D[9128].race=255 --old: nil
+D[9128].repu={id=529,min=3000} --old: id=nil
 D[9129].race=255 --old: nil
 D[9131].race=255 --old: nil
+D[9131].repu={id=529,min=3000} --old: id=nil
 D[9132].race=255 --old: nil
 D[9136].race=255 --old: nil
+D[9136].repu={id=529,min=3000} --old: id=nil
 D[9137].race=255 --old: nil
 D[9141].race=255 --old: nil
+D[9141].repu={id=529,min=3000} --old: id=nil
 D[9142].race=255 --old: nil
 D[9153].min=58 --old: 50
 D[9153].hide=true --old: nil
@@ -5826,7 +5844,9 @@ D[9209].repu={id=270,min=9000} --old: id=nil
 D[9210].race=255 --old: nil
 D[9210].repu={id=270,min=9000} --old: id=nil
 D[9211].race=255 --old: nil
+D[9211].repu={id=529,min=3000} --old: id=nil
 D[9213].race=255 --old: nil
+D[9213].repu={id=529,min=3000} --old: id=nil
 D[9221].race=255 --old: nil
 D[9221].repu={id=529,min=3000} --old: id=nil
 D[9222].race=255 --old: nil
@@ -6071,4 +6091,4 @@ D[9422].pre=nil --old: nil
 D[9422].min=55 --old: 1
 D[9422].race=178 --old: nil
 CodexDB.questiePatchVersion = CodexDB.questiePatchVersion or {}
-CodexDB.questiePatchVersion.quest = '6.3.11'
+CodexDB.questiePatchVersion.quest = '6.3.12'

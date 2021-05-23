@@ -1,6 +1,6 @@
 -- A script to merge Questie questDB to ClassicCodex
--- ClassicCodex version: v1.3.9-14-g8fe17b0, unit num: 9171
--- Questie version: 6.3.11, unit num: 10499
+-- ClassicCodex version: @project-version@, unit num: 9171
+-- Questie version: 6.3.12, unit num: 10499
 if select(4, GetAddOnInfo('MergeQuestieToCodexDB')) then return end
 local D = CodexDB.units.data
 D[1].lvl="1" --old: "63"
@@ -50223,4 +50223,4 @@ D[18199].lvl="1" --old: nil
 -- Questie missing unit 988005
 -- Questie missing unit 988006
 CodexDB.questiePatchVersion = CodexDB.questiePatchVersion or {}
-CodexDB.questiePatchVersion.unit = '6.3.11'
+CodexDB.questiePatchVersion.unit = '6.3.12'
