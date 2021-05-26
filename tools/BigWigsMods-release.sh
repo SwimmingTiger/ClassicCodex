@@ -2224,7 +2224,7 @@ if [ -z "$skip_zipfile" ]; then
 
 	# workaround with the  "Archive contains root-level files" error on CurseForge
 	cd "$releasedir/$contents"
-	find . -type f -maxdepth 1 | while read f; do mv "$f" "$releasedir/$contents/$contents"; done
+	find . -maxdepth 1 -type f | while read f; do mv "$f" "$releasedir/$contents/$contents"; done
 
 	end_group "curseforge_workaround"
 
