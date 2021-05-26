@@ -22900,4 +22900,89 @@ CodexDB["quests"]["deDE-tbc"]={
 ["O"]="Don Carlos hat Euch versehentlich dazu herausgefordert, sein jüngeres Ich im Alten Hügelland zu besiegen. Bringt ihm anschließend seinen Hut als Beweis. Er befindet sich in Tanaris.",
 ["T"]="Netter Hut...",
 },
+[63866]={
+["D"]="",
+["O"]="Füllt das schimmernde Gefäß bei M'uru und kehrt anschließend zu Ritterfürst Heldenblut in Silbermond zurück.",
+["T"]="Die Beherrschung des Lichts",
+},
+[64028]={
+["D"]="",
+["O"]="Besucht einen Trainer in Sturmwind, der Euch als <Klasse> ausbilden kann.",
+["T"]="Ein Neuanfang",
+},
+[64031]={
+["D"]="",
+["O"]="Öffnet das Überlebenspaket und legt eine Waffe an.",
+["T"]="Das Zeug zum Überleben",
+},
+[64034]={
+["D"]="",
+["O"]="Erlernt eine Fähigkeit, indem Ihr mit einem Trainer sprecht, der Euch als <Klasse> ausbilden kann.",
+["T"]="Kampftraining",
+},
+[64035]={
+["D"]="",
+["O"]="Öffnet das Talentfenster und verteilt 5 Talentpunkte.",
+["T"]="Talentiert",
+},
+[64038]={
+["D"]="",
+["O"]="Macht Wachkommandant Reldorn Netherschwund in den Verwüsteten Landen ausfindig. Er erwartet Eure Ankunft vor dem Dunklen Portal.",
+["T"]="Das Dunkle Portal",
+},
+[64046]={
+["D"]="",
+["O"]="Besucht einen Trainer in Orgrimmar, der Euch als <Klasse> ausbilden kann.",
+["T"]="Ein Neuanfang",
+},
+[64047]={
+["D"]="",
+["O"]="Besucht einen Trainer in Donnerfels, der Euch als <Klasse> ausbilden kann.",
+["T"]="Ein Neuanfang",
+},
+[64048]={
+["D"]="",
+["O"]="Öffnet das Überlebenspaket und legt eine Waffe an.",
+["T"]="Das Zeug zum Überleben",
+},
+[64049]={
+["D"]="",
+["O"]="Öffnet das Überlebenspaket und legt eine Waffe an.",
+["T"]="Das Zeug zum Überleben",
+},
+[64050]={
+["D"]="",
+["O"]="Erlernt eine Fähigkeit, indem Ihr mit einem Trainer sprecht, der Euch als <Klasse> ausbilden kann.",
+["T"]="Kampftraining",
+},
+[64051]={
+["D"]="",
+["O"]="Erlernt eine Fähigkeit, indem Ihr mit einem Trainer sprecht, der Euch als <Klasse> ausbilden kann.",
+["T"]="Kampftraining",
+},
+[64052]={
+["D"]="",
+["O"]="Öffnet das Talentfenster und verteilt 5 Talentpunkte.",
+["T"]="Talentiert",
+},
+[64053]={
+["D"]="",
+["O"]="Öffnet das Talentfenster und verteilt 5 Talentpunkte.",
+["T"]="Talentiert",
+},
+[64063]={
+["D"]="",
+["O"]="Macht Kriegsherr Dar'toon ausfindig. Er erwartet Eure Ankunft vor dem Dunklen Portal.",
+["T"]="Das Dunkle Portal",
+},
+[64064]={
+["D"]="",
+["O"]="Reist in die Östlichen Pestländer und macht Leonidas Bartholomäus ausfindig. Er erwartet Eure Ankunft in der Kapelle des Hoffnungsvollen Lichts.",
+["T"]="Östliche Pestländer",
+},
+[64217]={
+["D"]="",
+["O"]="Macht Kriegsherr Dar'toon ausfindig. Er erwartet Eure Ankunft vor dem Dunklen Portal.",
+["T"]="Das Dunkle Portal",
+},
 }

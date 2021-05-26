@@ -23040,4 +23040,39 @@ CodexDB["quests"]["esES-tbc"]={
 ["O"]="Don Carlos te ha retado involuntariamente a que derrotes a su yo joven en la Antigua Trabalomas. Después, llévale el sombrero de Don Carlos a Tanaris como prueba.",
 ["T"]="Bonito sombrero...",
 },
+[64028]={
+["D"]="",
+["O"]="Reúnete con un instructor de la clase <clase> en Ventormenta.",
+["T"]="Un nuevo comienzo",
+},
+[64046]={
+["D"]="",
+["O"]="Reúnete con un instructor de la clase <clase> en Orgrimmar.",
+["T"]="Un nuevo comienzo",
+},
+[64048]={
+["D"]="",
+["O"]="Abre el material de supervivencia y equípate con un arma.",
+["T"]="Herramientas de supervivencia",
+},
+[64050]={
+["D"]="",
+["O"]="Practica un hechizo hablando con un instructor de la clase <clase>.",
+["T"]="Entrenamiento de combate",
+},
+[64051]={
+["D"]="",
+["O"]="Practica un hechizo hablando con un instructor de la clase <clase>.",
+["T"]="Entrenamiento de combate",
+},
+[64052]={
+["D"]="",
+["O"]="Activa la interfaz de talentos y asigna 5 puntos de talento.",
+["T"]="Tienes talento",
+},
+[64063]={
+["D"]="",
+["O"]="Busca al Señor de la Guerra Dar'toon en Las Tierras Devastadas. Espera tu llegada frente al Portal Oscuro.",
+["T"]="El Portal Oscuro",
+},
 }

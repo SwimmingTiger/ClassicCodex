@@ -26575,4 +26575,79 @@ CodexDB["quests"]["frFR-tbc"]={
 ["O"]="Don Carlos vous a, par inadvertance, chargé de défier et vaincre son jeune alter ego de la Hautebrande d\'antan. Lorsque ce sera fait, apportez le Chapeau de don Carlos à Don Carlos, à Tanaris, comme preuve de votre victoire.",
 ["T"]="Un joli chapeau…",
 },
+[64028]={
+["D"]="",
+["O"]="Trouvez un Maître pour <classe> à Hurlevent.",
+["T"]="Un nouveau départ",
+},
+[64031]={
+["D"]="",
+["O"]="Ouvrez le Kit de survie et équipez-vous d’une Arme.",
+["T"]="Les outils de la survie",
+},
+[64034]={
+["D"]="",
+["O"]="Parlez à un Maître pour <classe> pour vous entraîner à lancer un Sort.",
+["T"]="Entraînement au combat",
+},
+[64035]={
+["D"]="",
+["O"]="Activez l’interface des Talents et dépensez 5 Points de talent.",
+["T"]="Quel talent !",
+},
+[64037]={
+["D"]="",
+["O"]="Rendez-vous dans les Maleterres de l’Est et trouvez Leonid Barthalomew. Il vous attend à la Chapelle de l’Espoir de Lumière.",
+["T"]="Maleterres de l’est",
+},
+[64038]={
+["D"]="",
+["O"]="Trouvez le Commandant de la garde Vroncier Déclin-du-Néant dans les Terres Foudroyées. Il attend votre arrivée devant la Porte des ténèbres.",
+["T"]="La Porte des ténèbres",
+},
+[64046]={
+["D"]="",
+["O"]="Allez voir un Maître pour <classe> à Orgrimmar.",
+["T"]="Un nouveau départ",
+},
+[64047]={
+["D"]="",
+["O"]="Allez voir un Maître pour <classe> aux Pitons-du-Tonnerre.",
+["T"]="Un nouveau départ",
+},
+[64048]={
+["D"]="",
+["O"]="Ouvrez le Kit de survie et équipez-vous d’une Arme.",
+["T"]="Les outils de la survie",
+},
+[64049]={
+["D"]="",
+["O"]="Ouvrez le Kit de survie et équipez-vous d’une Arme.",
+["T"]="Les outils de la survie",
+},
+[64050]={
+["D"]="",
+["O"]="Parlez à un Maître pour <classe> pour vous entraîner à lancer un Sort.",
+["T"]="Entraînement au combat",
+},
+[64051]={
+["D"]="",
+["O"]="Parlez à un Maître pour <classe> pour vous entraîner à lancer un Sort.",
+["T"]="Entraînement au combat",
+},
+[64052]={
+["D"]="",
+["O"]="Activez l’interface des Talents et dépensez 5 Points de talent.",
+["T"]="Quel talent !",
+},
+[64063]={
+["D"]="",
+["O"]="Trouvez le Seigneur de guerre Dar’toon dans les terres Foudroyées. Il attend votre arrivée près de la Porte des ténèbres.",
+["T"]="La Porte des ténèbres",
+},
+[64064]={
+["D"]="",
+["O"]="Rendez-vous dans les Maleterres de l’Est et trouvez Leonid Barthalomew. Il vous attend à la Chapelle de l’Espoir de Lumière.",
+["T"]="Maleterres de l’Est",
+},
 }
