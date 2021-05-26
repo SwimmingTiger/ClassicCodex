@@ -1,3 +1,4 @@
+local L = LibStub("AceLocale-3.0"):GetLocale("ClassicCodex")
 CodexDatabase = {}
 
 CodexDB.locales = {
@@ -64,6 +65,55 @@ for _, db in pairs(dbs) do
         end
     end
 end
+
+-- add meta table for database
+setmetatable(CodexDB['quests']["loc"], {
+	__index = function(self, key)
+        local notice = L["The {locale} locale text of the quest #{id} is missing."]
+            :gsub("{locale}", GetLocale()):gsub("{id}", key)
+            .."\n"..L["Please send a report to the developer."]
+		return {
+            ["D"] = notice,
+            ["O"] = notice,
+            ["T"] = notice
+        }
+	end
+})
+setmetatable(CodexDB['items']["loc"], {
+	__index = function(self, key)
+		return L["The {locale} locale text of the item #{id} is missing."]
+            :gsub("{locale}", GetLocale()):gsub("{id}", key)
+            .."\n"..L["Please send a report to the developer."]
+	end
+})
+setmetatable(CodexDB['objects']["loc"], {
+	__index = function(self, key)
+		return L["The {locale} locale text of the object #{id} is missing."]
+            :gsub("{locale}", GetLocale()):gsub("{id}", key)
+            .."\n"..L["Please send a report to the developer."]
+	end
+})
+setmetatable(CodexDB['professions']["loc"], {
+	__index = function(self, key)
+		return L["The {locale} locale text of the profession #{id} is missing."]
+            :gsub("{locale}", GetLocale()):gsub("{id}", key)
+            .."\n"..L["Please send a report to the developer."]
+	end
+})
+setmetatable(CodexDB['units']["loc"], {
+	__index = function(self, key)
+		return L["The {locale} locale text of the unit #{id} is missing."]
+            :gsub("{locale}", GetLocale()):gsub("{id}", key)
+            .."\n"..L["Please send a report to the developer."]
+	end
+})
+setmetatable(CodexDB['zones']["loc"], {
+	__index = function(self, key)
+		return L["The {locale} locale text of the zone #{id} is missing."]
+            :gsub("{locale}", GetLocale()):gsub("{id}", key)
+            .."\n"..L["Please send a report to the developer."]
+	end
+})
 
 -- Create DB Shortcuts
 local items = CodexDB["items"]["data"]
@@ -544,6 +594,12 @@ function CodexDatabase:SearchVendorByItemName(item, meta)
 end
 
 function CodexDatabase:SearchQuestById(id, meta, maps)
+    if not quests[id] then
+        print(L['[ClassicCodex] The quest #%s is missing.']:format(id)
+            .."\n"..L["Please send a report to the developer."])
+        return
+    end
+
     local maps = maps or {}
     local meta = meta or {}
 
