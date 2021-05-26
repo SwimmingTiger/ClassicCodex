@@ -594,6 +594,9 @@ function CodexDatabase:SearchVendorByItemName(item, meta)
 end
 
 function CodexDatabase:SearchQuestById(id, meta, maps)
+    if not id or id == 0 then
+        return
+    end
     if not quests[id] then
         print(L['[ClassicCodex] The quest #%s is missing.']:format(id)
             .."\n"..L["Please send a report to the developer."])
