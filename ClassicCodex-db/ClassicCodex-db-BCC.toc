@@ -24,6 +24,7 @@ objects.lua
 refloot.lua
 quests.lua
 meta.lua
+exclude.lua
 
 # TBC database index
 items-tbc.lua
