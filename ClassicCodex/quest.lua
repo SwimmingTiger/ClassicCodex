@@ -110,9 +110,10 @@ CodexQuest:SetScript("OnEvent", function(self, event, ...)
         then
             return
         end
-
-        if (GetNumQuestChoices() <= 1) then
-            GetQuestReward(1)
+        -- Avoid automatic selection of any reward items even if only one is available.
+        -- Because auto turnin chose the wrong ring for some players in Karazhan.
+        if (GetNumQuestChoices() == 0) then
+            GetQuestReward(0)
         end
 
     elseif (event == "QUEST_GREETING") then
