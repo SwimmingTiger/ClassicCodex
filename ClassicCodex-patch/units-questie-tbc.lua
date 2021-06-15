@@ -59683,18 +59683,21 @@ D[28227].coords={
 D[28267].fac="AH" --old: nil
 D[29089].fac="AH" --old: nil
 D[29093].fac="AH" --old: nil
+D[40000]={}
 D[40000].coords={
 {47.11,50.6,3524,0}, --add
 }
 D[40000].fac="A" --old: nil
 D[40000].lvl="14" --old: nil
 D[40000].rnk="nil" --old: nil
+D[40001]={}
 D[40001].coords={
 {47.04,70.21,3524,0}, --add
 }
 D[40001].fac="A" --old: nil
 D[40001].lvl="60" --old: nil
 D[40001].rnk="nil" --old: nil
+D[40002]={}
 D[40002].coords={
 {68,81,3525,0}, --add
 {64.9,81.6,3525,0}, --add
@@ -59703,6 +59706,7 @@ D[40002].coords={
 D[40002].fac="" --old: nil
 D[40002].lvl="10-12" --old: nil
 D[40002].rnk="nil" --old: nil
+D[178420]={}
 D[178420].coords={
 {92.3,36.5,3487,0}, --add
 }
