@@ -34,6 +34,11 @@ mkdir -p ../ClassicCodex-patch/tmp
     echo 'print(table.concat(CodexDatabasePatch.objectAlliance, "\n"))'
 } | lua > ../ClassicCodex-patch/tmp/objects-alliance-tbc.lua
 
+{
+    cat "$1"
+    echo 'print(table.concat(CodexDatabasePatch.objectLoc, "\n"))'
+} | lua > ../ClassicCodex-patch/objects-loc-tbc.lua
+
 cp ../ClassicCodex-patch/tmp/units-horde-tbc.lua ../ClassicCodex-patch/units-questie-tbc.lua
 
 echo diff ClassicCodex-patch/tmp/units-horde-tbc.lua ClassicCodex-patch/tmp/units-alliance-tbc.lua

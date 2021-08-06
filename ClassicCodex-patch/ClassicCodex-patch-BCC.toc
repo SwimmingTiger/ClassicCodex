@@ -19,4 +19,5 @@ quests-questie-tbc.lua
 units-questie-tbc.lua
 units-wowhead-tbc.lua
 objects-questie-tbc.lua
+objects-loc-tbc.lua
 manual-patch-tbc.lua
