@@ -1691,7 +1691,7 @@ copy_directory_tree() {
 					mkdir -p "$_cdt_destdir/$dir"
 				fi
 				# Check if the file matches a pattern for keyword replacement.
-				if [ -n "$_cdt_only_copy" ] || ! match_pattern "$file" "*.lua:*.md:*.toc:*.txt:*.xml"; then
+				if [ -n "$_cdt_only_copy" ] || ! match_pattern "$file" "*.md:*.toc:*.txt:*.xml"; then
 					echo "  Copying: $file (unchanged)"
 					cp "$_cdt_source_file" "$_cdt_destdir/$dir"
 				else
