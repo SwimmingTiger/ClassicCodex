@@ -1,9 +1,9 @@
-## Interface: 20504
+## Interface: 30400
 
-## Notes: ClassicCodex-db-enUS
-## Title: ClassicCodex enUS data
-## Title-zhCN: ClassicCodex 英语数据
-## Title-zhTW: ClassicCodex 英語數據
+## Notes: ClassicCodex-db-koKR
+## Title: ClassicCodex koKR data
+## Title-zhCN: ClassicCodex 韩语数据
+## Title-zhTW: ClassicCodex 韓語數據
 
 ## Author: Pgarneau, Shagu, SwimmingTiger
 ## Version: @project-version@
@@ -14,7 +14,7 @@
 ## X-Curse-Project-ID: 351302
 ## X-WoWI-ID: 25442
 
-# database enUS
+# database koKR
 items.lua
 units.lua
 objects.lua
@@ -22,7 +22,7 @@ quests.lua
 zones.lua
 professions.lua
 
-# database enUS for TBC
+# database koKR for TBC
 items-tbc.lua
 units-tbc.lua
 objects-tbc.lua

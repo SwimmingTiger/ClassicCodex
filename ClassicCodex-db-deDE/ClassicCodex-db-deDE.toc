@@ -1,0 +1,15 @@
+## Interface: 30400
+
+## Notes: ClassicCodex-db-deDE
+## Title: ClassicCodex deDE data (Incompatible)
+## Title-zhCN: ClassicCodex 德语数据 (不兼容)
+## Title-zhTW: ClassicCodex 德語數據 (不兼容)
+
+## Author: Pgarneau, Shagu, SwimmingTiger
+## Version: @project-version@
+
+## Dependencies: ClassicCodex-loader
+## LoadOnDemand: 1
+
+## X-Curse-Project-ID: 351302
+## X-WoWI-ID: 25442

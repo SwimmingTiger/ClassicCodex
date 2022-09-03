@@ -1,9 +1,9 @@
-## Interface: 20504
+## Interface: 30400
 
-## Notes: ClassicCodex-db-enUS
-## Title: ClassicCodex enUS data
-## Title-zhCN: ClassicCodex 英语数据
-## Title-zhTW: ClassicCodex 英語數據
+## Notes: ClassicCodex-db
+## Title: ClassicCodex database
+## Title-zhCN: ClassicCodex 数据库
+## Title-zhTW: ClassicCodex 數據庫
 
 ## Author: Pgarneau, Shagu, SwimmingTiger
 ## Version: @project-version@
@@ -14,18 +14,22 @@
 ## X-Curse-Project-ID: 351302
 ## X-WoWI-ID: 25442
 
-# database enUS
+# database init
+init.lua
+
+# database index
 items.lua
 units.lua
 objects.lua
+refloot.lua
 quests.lua
-zones.lua
-professions.lua
+meta.lua
+exclude.lua
 
-# database enUS for TBC
+# TBC database index
 items-tbc.lua
 units-tbc.lua
 objects-tbc.lua
+refloot-tbc.lua
 quests-tbc.lua
-zones-tbc.lua
-professions-tbc.lua
+meta-tbc.lua

@@ -1,0 +1,15 @@
+## Interface: 30400
+
+## Notes: ClassicCodex-db-zhTW
+## Title: ClassicCodex zhTW data (Incompatible)
+## Title-zhCN: ClassicCodex 繁体中文数据 (不兼容)
+## Title-zhTW: ClassicCodex 繁體中文數據 (不兼容)
+
+## Author: Pgarneau, Shagu, SwimmingTiger
+## Version: @project-version@
+
+## Dependencies: ClassicCodex-loader
+## LoadOnDemand: 1
+
+## X-Curse-Project-ID: 351302
+## X-WoWI-ID: 25442

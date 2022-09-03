@@ -1,7 +1,7 @@
-## Interface: 11403
+## Interface: 30400
 
 ## Notes: ClassicCodex-patch
-## Title: ClassicCodex data patch for Classic
+## Title: ClassicCodex data patch for TBC
 ## Title-zhCN: ClassicCodex 数据补丁
 ## Title-zhTW: ClassicCodex 數據補丁
 
@@ -15,7 +15,9 @@
 ## X-WoWI-ID: 25442
 
 # database patches for Classic
-quests-questie.lua
-units-questie.lua
-units-wowhead.lua
-manual-patch.lua
+quests-questie-tbc.lua
+units-questie-tbc.lua
+units-wowhead-tbc.lua
+objects-questie-tbc.lua
+objects-loc-tbc.lua
+manual-patch-tbc.lua
