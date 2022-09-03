@@ -2409,6 +2409,12 @@ if [ -f "$pkgmeta_file" ]; then
 							move-folders)
 								srcdir="$releasedir/$yaml_key"
 								destdir="$releasedir/$yaml_value"
+								if [ "$yaml_key" = "$yaml_value" ]; then
+									# SwimmingTiger: adjust the directory structure and move the top-level file to a subfolder with the same name
+									find "$srcdir" -maxdepth 1 -type f -exec mv -t "$destdir/$yaml_value" {} +
+									# SwimmingTiger: prevent the following rm -fr from deleting the folder
+									continue
+								fi
 								if [[ -d "$destdir" && -z "$overwrite" && "$srcdir" != "$destdir/"* ]]; then
 									rm -fr "$destdir"
 								fi

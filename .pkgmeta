@@ -1,6 +1,20 @@
 package-as: ClassicCodex
-toc-path-classic: ClassicCodex/ClassicCodex-Classic.toc
-toc-path-bcc: ClassicCodex/ClassicCodex-BCC.toc
+
+move-folders:
+    ClassicCodex: ClassicCodex
+    ClassicCodex-db: ClassicCodex-db
+    ClassicCodex-db-deDE: ClassicCodex-db-deDE
+    ClassicCodex-db-enUS: ClassicCodex-db-enUS
+    ClassicCodex-db-esES: ClassicCodex-db-esES
+    ClassicCodex-db-esMX: ClassicCodex-db-esMX
+    ClassicCodex-db-frFR: ClassicCodex-db-frFR
+    ClassicCodex-db-koKR: ClassicCodex-db-koKR
+    ClassicCodex-db-ruRU: ClassicCodex-db-ruRU
+    ClassicCodex-db-zhCN: ClassicCodex-db-zhCN
+    ClassicCodex-db-zhTW: ClassicCodex-db-zhTW
+    ClassicCodex-loader: ClassicCodex-loader
+    ClassicCodex-patch: ClassicCodex-patch
+
 ignore:
     - documents
     - tools
