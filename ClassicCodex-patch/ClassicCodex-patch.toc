@@ -1,7 +1,7 @@
 ## Interface: 30400
 
 ## Notes: ClassicCodex-patch
-## Title: ClassicCodex data patch for TBC (Incompatible)
+## Title: ClassicCodex data patch (Incompatible)
 ## Title-zhCN: ClassicCodex 数据补丁 (不兼容)
 ## Title-zhTW: ClassicCodex 數據補丁 (不兼容)
 

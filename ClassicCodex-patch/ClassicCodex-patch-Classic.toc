@@ -1,7 +1,7 @@
 ## Interface: 11403
 
 ## Notes: ClassicCodex-patch
-## Title: ClassicCodex data patch for Classic
+## Title: ClassicCodex data patch
 ## Title-zhCN: ClassicCodex 数据补丁
 ## Title-zhTW: ClassicCodex 數據補丁
 
