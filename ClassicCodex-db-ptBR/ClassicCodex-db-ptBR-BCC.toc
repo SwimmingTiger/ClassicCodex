@@ -1,0 +1,31 @@
+## Interface: 20504
+
+## Notes: ClassicCodex-db-ptBR
+## Title: ClassicCodex ptBR data
+## Title-zhCN: ClassicCodex 巴西葡萄牙语数据
+## Title-zhTW: ClassicCodex 巴西葡萄牙語數據
+
+## Author: Pgarneau, Shagu, SwimmingTiger
+## Version: @project-version@
+
+## Dependencies: ClassicCodex-loader
+## LoadOnDemand: 1
+
+## X-Curse-Project-ID: 351302
+## X-WoWI-ID: 25442
+
+# database ptBR
+items.lua
+units.lua
+objects.lua
+quests.lua
+zones.lua
+professions.lua
+
+# database ptBR for TBC
+items-tbc.lua
+units-tbc.lua
+objects-tbc.lua
+quests-tbc.lua
+zones-tbc.lua
+professions-tbc.lua
