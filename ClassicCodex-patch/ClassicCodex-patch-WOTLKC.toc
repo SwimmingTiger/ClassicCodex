@@ -18,4 +18,3 @@
 quests-questie-wotlk.lua
 units-questie-wotlk.lua
 objects-questie-wotlk.lua
-objects-loc-wotlk.lua
