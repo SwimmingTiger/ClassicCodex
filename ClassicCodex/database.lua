@@ -51,8 +51,9 @@ for _, db in pairs(dbs) do
 
     -- patch loc for TBC
     if CodexDB[db][loc] and CodexDB[db][loc.."-tbc"] then
-        local loc_update = CodexDB[db][loc.."-tbc"] or CodexDB[db]["enUS-tbc"]
-        patchtable(CodexDB[db][loc], loc_update)
+        patchtable(CodexDB[db][loc], CodexDB[db][loc.."-tbc"])
+    elseif CodexDB[db]["enUS"] and CodexDB[db]["enUS-tbc"] then
+        patchtable(CodexDB[db]["enUS"], CodexDB[db]["enUS-tbc"])
     end
 
     -- select loc
