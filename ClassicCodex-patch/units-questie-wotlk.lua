@@ -1,6 +1,6 @@
 -- A script to merge Questie questDB to ClassicCodex
 -- ClassicCodex version: @project-version@, unit num: 18799
--- Questie version: 7.2.2, unit num: 29607
+-- Questie version: 7.2.3, unit num: 29607
 if select(4, GetAddOnInfo('MergeQuestieToCodexDB')) then return end
 local D = CodexDB.units.data
 D[1].lvl="1" --old: "1-70"
@@ -83357,6 +83357,12 @@ D[24058].lvl="70" --old: nil
 D[24059].coords={
 {-1,-1,3805,0}, --add
 }
+D[24060]={}
+D[24060].coords={
+{45.2,27.3,495,0}, --add
+}
+D[24060].fac="AH" --old: nil
+D[24060].lvl="71" --old: nil
 D[24061]={}
 D[24061].coords={
 {60.06,16.11,495,0}, --add
@@ -83805,6 +83811,12 @@ D[24117].coords={
 }
 D[24117].fac="AH" --old: nil
 D[24117].lvl="70" --old: nil
+D[24120]={}
+D[24120].coords={
+{86.7,59.2,495,0}, --add
+}
+D[24120].fac="A" --old: nil
+D[24120].lvl="68-69" --old: nil
 D[24122]={}
 D[24122].coords={
 {59.19,54.57,495,0}, --add
@@ -83854,6 +83866,12 @@ D[24129].coords={
 }
 D[24129].fac="AH" --old: nil
 D[24129].lvl="72" --old: nil
+D[24130]={}
+D[24130].coords={
+{45.2,27.3,495,0}, --add
+}
+D[24130].fac="AH" --old: nil
+D[24130].lvl="71" --old: nil
 D[24131]={}
 D[24131].coords={
 {62.66,16.8,495,0}, --add
@@ -83988,6 +84006,12 @@ D[24169].coords={
 {57.68,52.97,495,0}, --add
 }
 D[24169].lvl="69" --old: nil
+D[24170]={}
+D[24170].coords={
+{39.2,50.2,495,0}, --add
+}
+D[24170].fac="AH" --old: nil
+D[24170].lvl="1" --old: nil
 D[24172]={}
 D[24172].coords={
 {59.24,54.63,495,0}, --add
@@ -147437,4 +147461,4 @@ D[185334].coords={
 D[185334].lvl="22" --old: nil
 D[185334].rnk="nil" --old: nil
 CodexDB.questiePatchVersion = CodexDB.questiePatchVersion or {}
-CodexDB.questiePatchVersion.unit = '7.2.2'
+CodexDB.questiePatchVersion.unit = '7.2.3'

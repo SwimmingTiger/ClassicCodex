@@ -1,6 +1,6 @@
 -- A script to merge Questie questDB to ClassicCodex
 -- ClassicCodex version: @project-version@, object num: 14159
--- Questie version: 7.2.2, object num: 12982
+-- Questie version: 7.2.3, object num: 12982
 if select(4, GetAddOnInfo('MergeQuestieToCodexDB')) then return end
 local D = CodexDB.objects.data
 -- Questie missing object 4
@@ -101656,4 +101656,4 @@ D[500006].coords={
 {36.3,86,1637,0}, --add
 }
 CodexDB.questiePatchVersion = CodexDB.questiePatchVersion or {}
-CodexDB.questiePatchVersion.object = '7.2.2'
+CodexDB.questiePatchVersion.object = '7.2.3'
