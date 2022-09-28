@@ -11,6 +11,7 @@ CodexDB.locales = {
     ["esES"] = "Spanish",
     ["esMX"] = "Spanish",
     ["ruRU"] = "Russian",
+    ["ptBR"] = "Portuguese",
 }
 
 local loc = GetLocale()
