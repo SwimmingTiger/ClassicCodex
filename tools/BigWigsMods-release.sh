@@ -2485,7 +2485,7 @@ if [ -z "$skip_zipfile" ]; then
 	if [ -f "$archive" ]; then
 		rm -f "$archive"
 	fi
-	( cd "$releasedir" && zip -X -r "$archive" "${zip_root_dirs[@]}" )
+	( cd "$releasedir/${zip_root_dirs[0]}" && zip -X -r "$archive" *)
 
 	if [ ! -f "$archive" ]; then
 		exit 1
