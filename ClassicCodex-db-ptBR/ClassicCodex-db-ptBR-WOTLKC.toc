@@ -15,10 +15,6 @@
 ## X-WoWI-ID: 25442
 
 # database ptBR
-items.lua
-units.lua
-objects.lua
-quests.lua
 zones.lua
 professions.lua
 
