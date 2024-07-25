@@ -484,7 +484,7 @@ function CodexMap:CreateMapMarker(node)
 	marker:SetHeight(10)
 	marker:SetParent(WorldMapFrame)
 	
-	local texture = marker:CreateTexture(nil, "HIGH")
+	local texture = marker:CreateTexture(nil, "OVERLAY")
 	texture:SetAllPoints(marker)
 	marker.tex = texture
 	marker:SetPoint("CENTER", 0, 0)
@@ -514,7 +514,7 @@ function CodexMap:CreateMinimapMarker(node)
 	marker:SetWidth(10)
 	marker:SetHeight(10)
 	
-	local texture = marker:CreateTexture(nil, "HIGH")
+	local texture = marker:CreateTexture(nil, "OVERLAY")
 	texture:SetAllPoints(marker)
 	marker.tex = texture
 	marker:SetPoint("CENTER", 0, 0)

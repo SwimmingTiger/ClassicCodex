@@ -96,8 +96,8 @@ if not CodexUI then
     -- use legacy backdrop handling
     if legacy then
       f:SetBackdrop(CodexUI.backdrop)
-      f:SetBackdropColor(br, bg, bb, ba)
-      f:SetBackdropBorderColor(er, eg, eb , ea)
+      f:SetBackdropColor(br, bg, bb, ba * 1.0)
+      f:SetBackdropBorderColor(er, eg, eb, ea * 1.0)
       return
     end
   
@@ -144,10 +144,10 @@ if not CodexUI then
       cr, cg, cb = color.r , color.g, color.b
     end
     CodexUI.api.CreateBackdrop(b, nil, true)
-    b:SetNormalTexture(nil)
-    b:SetHighlightTexture(nil)
-    b:SetPushedTexture(nil)
-    b:SetDisabledTexture(nil)
+    --b:SetNormalTexture(nil)
+    --b:SetHighlightTexture(nil)
+    --b:SetPushedTexture(nil)
+    --b:SetDisabledTexture(nil)
     local funce = b:GetScript("OnEnter")
     local funcl = b:GetScript("OnLeave")
     b:SetScript("OnEnter", function()

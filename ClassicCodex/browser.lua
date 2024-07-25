@@ -480,11 +480,11 @@ local function ResultButtonCreate(i, resultType)
     -- f.tex:SetVertexColor(1, 1, 1, 0.02)
 
     -- text properties
-    f.text = f:CreateFontString("Caption", "LOW", "GameFontWhite")
+    f.text = f:CreateFontString("Caption", "BACKGROUND", "GameFontWhite")
     f.text:SetFont(CodexUI.defaultFont, CodexUIConfig.global.fontSize, "OUTLINE")
     f.text:SetAllPoints(f)
     f.text:SetJustifyH("CENTER")
-    f.idText = f:CreateFontString("ID", "LOW", "GameFontDisable")
+    f.idText = f:CreateFontString("ID", "BACKGROUND", "GameFontDisable")
     f.idText:SetPoint("LEFT", f, "LEFT", 30, 0)
 
     -- favorite button
@@ -576,7 +576,7 @@ local function RefreshView(i, key, caption)
     CodexBrowser.tabs[key].list:GetParent():UpdateScrollState()
   
     if not CodexBrowser.tabs[key].list.warn then
-      CodexBrowser.tabs[key].list.warn = CodexBrowser.tabs[key].list:CreateFontString("Caption", "LOW", "GameFontWhite")
+      CodexBrowser.tabs[key].list.warn = CodexBrowser.tabs[key].list:CreateFontString("Caption", "BACKGROUND", "GameFontWhite")
       CodexBrowser.tabs[key].list.warn:SetTextColor(1,.2,.2,1)
       CodexBrowser.tabs[key].list.warn:SetJustifyH("CENTER")
       CodexBrowser.tabs[key].list.warn:SetPoint("TOP", 5, -5)
@@ -749,7 +749,7 @@ end
 CodexUI.api.CreateBackdrop(CodexBrowser, nil, true, 0.75)
 table.insert(UISpecialFrames, "CodexBrowser")
 
-CodexBrowser.title = CodexBrowser:CreateFontString("Status", "LOW", "GameFontNormal")
+CodexBrowser.title = CodexBrowser:CreateFontString("Status", "BACKGROUND", "GameFontNormal")
 CodexBrowser.title:SetFontObject(GameFontWhite)
 CodexBrowser.title:SetPoint("TOP", CodexBrowser, "TOP", 0, -8)
 CodexBrowser.title:SetJustifyH("LEFT")
@@ -780,7 +780,7 @@ CodexBrowser.clean:SetScript("OnClick", function()
     -- CodexMap:UpdateNodes()
     CodexQuest:ResetAll()
 end)
-CodexBrowser.clean.text = CodexBrowser.clean:CreateFontString("Caption", "LOW", "GameFontWhite")
+CodexBrowser.clean.text = CodexBrowser.clean:CreateFontString("Caption", "BACKGROUND", "GameFontWhite")
 CodexBrowser.clean.text:SetAllPoints(CodexBrowser.clean)
 CodexBrowser.clean.text:SetFont(CodexUI.defaultFont, CodexUIConfig.global.fontSize, "OUTLINE")
 CodexBrowser.clean.text:SetText(L["Clean Map"])

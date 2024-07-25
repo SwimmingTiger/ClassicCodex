@@ -457,7 +457,7 @@ function CodexQuest:UpdateNameplate(unitID)
         icon:SetHeight(25)
         icon:SetPoint("BOTTOM", frame, "TOP", 0, 0)
 
-        local texture = icon:CreateTexture(nil, "HIGH")
+        local texture = icon:CreateTexture(nil, "OVERLAY")
         texture:SetTexture("Interface\\Addons\\ClassicCodex\\img\\pickup.tga")
         texture:SetAllPoints(icon)
 
